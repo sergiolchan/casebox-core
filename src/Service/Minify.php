@@ -244,8 +244,7 @@ class Minify
             ],
 
             'jsoverrides' => [
-                'js/overrides/Ajax.js',
-                'js/overrides/Patches.js',
+                'js/overrides/Component.js',
                 'js/overrides/calendar/dd/DayDropZone.js',
                 'js/overrides/calendar/form/field/DateRange.js',
                 'js/overrides/calendar/template/BoxLayout.js',
@@ -253,11 +252,10 @@ class Minify
                 'js/overrides/calendar/view/DayBody.js',
                 'js/overrides/calendar/view/Month.js',
                 'js/overrides/calendar/CalendarPanel.js',
-                // ,'js/overrides/direct/JsonProvider.js',
                 'js/overrides/data/Store.js',
                 'js/overrides/form/field/Text.js',
-                'js/overrides/grid/plugin/CellEditing.js',
-                'js/overrides/grid/CellEditor.js',
+                // 'js/overrides/grid/plugin/CellEditing.js',
+                // 'js/overrides/grid/CellEditor.js',
                 'js/overrides/grid/GridPanel.js',
                 'js/overrides/tree/ViewDragZone.js',
                 'js/overrides/toolbar/Toolbar.js',

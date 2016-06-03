@@ -56,9 +56,9 @@ Ext.define('CB.widget.block.Chart', {
             ,style: 'background: #FFF; overflow: visible'
             ,height: 20
             ,width: 200
-            ,renderer: function(storeItem, item) {
-                this.setTitle(storeItem.get('name') + ': ' + storeItem.get('count'));
-            }
+            // ,renderer: function(storeItem, item) {
+            //     this.setTitle(storeItem.get('name') + ': ' + storeItem.get('count'));
+            // }
         };
 
         this.chartConfigs = {
@@ -242,6 +242,7 @@ Ext.define('CB.widget.block.Chart', {
         }
 
         this.chartData = rez;
+        clog('rez',rez);
 
         this.changeCharts(rez.charts);
 

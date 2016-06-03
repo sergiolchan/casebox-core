@@ -95,6 +95,7 @@ Ext.define('CB.SecurityWindow', {
                 ,reader: {
                     type: 'json'
                     ,rootProperty: 'data'
+                    ,keepRawData: true
                 }
                 ,writer: new Ext.data.JsonWriter({
                     encode: false

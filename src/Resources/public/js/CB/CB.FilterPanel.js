@@ -222,7 +222,7 @@ Ext.define('CB.FacetActiveFilters', {
 
     ,loadData: function(data){
         this.store.loadData(data, false);
-        this.doLayout();
+        this.updateLayout();
     }
 }
 );

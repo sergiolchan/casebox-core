@@ -18,6 +18,7 @@ Ext.define('CB.widget.block.Grid', {
                 type: 'memory'
                 ,reader: {
                     type: 'json'
+                    ,keepRawData: true
                 }
             }
         });

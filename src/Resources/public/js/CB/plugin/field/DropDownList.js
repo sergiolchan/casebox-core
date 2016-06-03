@@ -123,7 +123,7 @@ Ext.define('CB.plugin.field.DropDownList', {
             ,setSelection: Ext.emptyFn
 
             ,onCollapse: function() {
-                if(this.preventEditComplete !== Ext.EventObject.time) {
+                if(this.preventEditComplete !== Ext.event.Event.time) {
                     delete this.preventEditComplete;
                 }
             }
@@ -374,8 +374,8 @@ Ext.define('CB.plugin.field.DropDownList', {
             ,newCaretPosition = newValue.length;
 
         newValue += value.substring(cmd.queryStartIndex + cmd.query.length);
-        if(Ext.EventObject.type != "click") {
-            ed.preventEditComplete = Ext.EventObject.time;
+        if(Ext.event.Event.type != "click") {
+            ed.preventEditComplete = Ext.event.Event.time;
         }
 
         ed.collapse();

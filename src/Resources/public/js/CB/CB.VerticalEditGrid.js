@@ -673,7 +673,7 @@ Ext.define('CB.VerticalEditGrid', {
 
         // destroy previous editor if changed
         var currentEditor = col.getEditor();
-        if(previousEditor && (previousEditor != currentEditor)) {
+        if (previousEditor && (previousEditor != currentEditor)) {
             Ext.destroy(previousEditor);
         }
     }

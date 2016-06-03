@@ -149,7 +149,7 @@ Ext.define('CB.plugin.Panel', {
                 this.insert(0, titleView);
             }
 
-            this.doLayout(true, true);
+            this.updateLayout(true, true);
         }
 
         this.fireEvent('loaded', this, params);

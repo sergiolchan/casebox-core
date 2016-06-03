@@ -138,6 +138,7 @@ Ext.define('CB.notifications.View', {
                     ,idProperty: 'ids'
                     ,rootProperty: 'data'
                     ,messageProperty: 'msg'
+                    ,keepRawData: true
                 }
             })
 

@@ -263,8 +263,8 @@ Ext.define('CB.object.edit.Form', {
         }
         this._isDirty = false;
 
-        if(!this.hasLayout && this.doLayout) {
-            this.doLayout();
+        if(!this.hasLayout && this.updateLayout) {
+            this.updateLayout();
             // this.syncSize();
         }
 

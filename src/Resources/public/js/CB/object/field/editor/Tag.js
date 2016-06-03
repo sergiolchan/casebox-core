@@ -149,7 +149,7 @@ Ext.define('CB.object.field.editor.Tag', {
     }
 
     ,collapse: function() {
-        var ev = Ext.EventObject
+        var ev = Ext.event.Event
             ,eventTime = ev.getTime();
 
         switch(ev.type) {

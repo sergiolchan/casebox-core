@@ -177,8 +177,7 @@ class TemplateField extends Object
 
         DM\TemplatesStructure::copy(
             $this->id,
-            $targetId,
-            $this->detectParentTemplate($this->data['pid'])
+            $targetId
         );
     }
 

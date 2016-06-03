@@ -434,7 +434,7 @@ Ext.define('CB.object.edit.Window', {
                         ,scope: this
                         ,fn: this.onSaveObjectEvent
                     },{
-                        key: Ext.EventObject.ESC
+                        key: Ext.event.Event.ESC
                         ,ctrl: false
                         ,shift: false
                         ,scope: this

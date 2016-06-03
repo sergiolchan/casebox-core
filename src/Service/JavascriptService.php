@@ -65,13 +65,13 @@ class JavascriptService
                     'inline' => "setProgress('{{ 'Loading_ExtJS_Core'|trans }}', '30%')",
                 ],
                 'ext-all-debug' => [
-                    'src' => '/js/ext/ext-all.js',
+                    'src' => '/js/ext/ext-all-debug.js',
                 ],
                 'ext-charts-debug' => [
-                    'src' => '/js/ext/packages/ext-charts/build/ext-charts.js',
+                    'src' => '/js/ext/packages/charts/classic/charts.js',
                 ],
-                'ext-theme-classic-debug' => [
-                    'src' => '/js/ext/packages/ext-theme-classic/build/ext-theme-classic.js',
+                'ext-theme-triton-debug' => [
+                    'src' => '/js/ext/classic/theme-triton/theme-triton.js',
                 ],
                 'extjs-ace-init-path' => [
                     'inline' => "bravojs = {url: window.location.protocol + '//' + window.location.host + '/js/extjs-ace/Component.js'};",
@@ -83,7 +83,7 @@ class JavascriptService
                     'inline' => "if (typeof(L) !== 'undefined') { LL = L; }",
                 ],
                 'ext-locale' => [
-                    'src' => '/js/ext/packages/ext-locale/build/ext-locale-{{ app.request.locale }}.js',
+                    'src' => '/js/ext/classic/locale/locale-{{ app.request.locale }}.js',
                 ],
                 'highlight' => [
                     'src' => '/js/highlight/highlight.pack.js',

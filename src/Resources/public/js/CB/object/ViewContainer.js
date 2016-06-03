@@ -499,7 +499,7 @@ Ext.define('CB.object.ViewContainer', {
         switch(activeItem.getXType()) {
             case 'CBObjectPreview':
                 this.topToolbar.setVisible(!Ext.isEmpty(id));
-                this.doLayout();
+                this.updateLayout();
 
                 //used params by preview component to detect wich buttons to display when asked
                 activeItem.params = params;

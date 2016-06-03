@@ -47,10 +47,10 @@ class StylesService
     public function getDefault()
     {
         $styles = [
-            'ext-theme-classic-all' => [
+            'ext-theme-triton-all' => [
                 'rel' => 'stylesheet',
                 'type' => 'text/css',
-                'href' => '/js/ext/packages/ext-theme-classic/build/resources/ext-theme-classic-all.css',
+                'href' => '/js/ext/classic/theme-triton/resources/theme-triton-all.css',
             ],
             'extjs-ace-styles' => [
                 'rel' => 'stylesheet',
@@ -131,7 +131,7 @@ class StylesService
                     $style['weight'] = $i;
                 }
 
-                $ords[(string)$style['weight']] = $this->getTwig()->render(
+                $ords[(string) $style['weight']] = $this->getTwig()->render(
                     'CaseboxCoreBundle:render:style_render.html.twig',
                     $style
                 );

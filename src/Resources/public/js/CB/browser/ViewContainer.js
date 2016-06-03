@@ -384,6 +384,7 @@ Ext.define('CB.browser.ViewContainer', {
                 ,directFn: CB_BrowserView.getChildren
                 ,reader: {
                     type: 'json'
+                    ,keepRawData: true
                     ,successProperty: 'success'
                     ,idProperty: 'nid'
                     ,rootProperty: 'data'
@@ -432,17 +433,17 @@ Ext.define('CB.browser.ViewContainer', {
                     ,showObjectPropertiesPanel: true
                     ,getProperty: getPropertyHandler
                 })
-                ,new CB.browser.view.Calendar({
-                    border: false
-                    ,refOwner: this
-                    ,store: this.store
-                    ,showFilterPanel: true
-                    ,getProperty: getPropertyHandler
-                    ,listeners: {
-                        scope: this
-                        ,openobject: this.onObjectsOpenEvent
-                    }
-                })
+                // ,new CB.browser.view.Calendar({
+                //     border: false
+                //     ,refOwner: this
+                //     ,store: this.store
+                //     ,showFilterPanel: true
+                //     ,getProperty: getPropertyHandler
+                //     ,listeners: {
+                //         scope: this
+                //         ,openobject: this.onObjectsOpenEvent
+                //     }
+                // })
                 ,new CB.browser.view.Charts({
                     border: false
                     ,refOwner: this
@@ -682,7 +683,7 @@ Ext.define('CB.browser.ViewContainer', {
         //resume toolbar layout
         this.viewToolbar.suspendLayout = false;
 
-        this.viewToolbar.doLayout();
+        this.viewToolbar.updateLayout();
     }
 
     ,onCardItemChangeClick: function(b, e) {

@@ -96,7 +96,7 @@ Ext.onReady(function(){
             });
         }
 
-        App.mainViewPort.doLayout();
+        App.mainViewPort.updateLayout();
         App.mainViewPort.initCB(r, e);
     });
 
@@ -760,11 +760,6 @@ function initApp() {
     };
 
     App.getTypeEditor = function(type, e){
-        var editorCfg = {
-            //enable key events by default
-            enableKeyEvents: true
-        };
-
         var objData = {
             ownerCt: e.ownerCt
             ,record: e.record
@@ -1266,6 +1261,7 @@ function initApp() {
             default:
                 rez = new Ext.form.TextField({
                     enableKeyEvents: true
+                    ,preventRefocus: true
                 });
         }
 
