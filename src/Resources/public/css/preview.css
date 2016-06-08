@@ -79,12 +79,6 @@ table.obj-preview p.prop-info {margin-top: 3px; color: #777; font-size: 11px}
     border-bottom: 2px solid #CCC;
 }
 
-.obj-preview ol{list-style: decimal outside }
-.obj-preview ol li{margin-left:20px; }
-.obj-preview ul{list-style: square outside }
-.obj-preview ul li{margin-left:20px; }
-
-
 .obj-header {
     padding: 10px;
     font-size: 14px;

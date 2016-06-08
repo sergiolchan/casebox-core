@@ -113,6 +113,7 @@ class Template extends Object
         if (!empty($r)) {
             //dont override name from tree with name from templates table
             unset($r['name']);
+            unset($r['pid']);
 
             $this->data = array_merge($this->data, $r);
 
@@ -406,7 +407,7 @@ class Template extends Object
                                             ? 'icon-none'
                                             : $r['iconCls'];
 
-                                        $label = '<li class="icon-padding '.$icon.'">'.$label.'</li>';
+                                        $label = '<li><i class="' . $icon . ' fa-fw"></i> ' . $label . '</li>';
                                         break;
                                 }
                             }
@@ -452,7 +453,7 @@ class Template extends Object
                                     }
 
                                     $value[] = $html
-                                        ? '<li class="icon-padding '.$icon.'">'.$label.'</li>'
+                                        ? '<li><i class="'.$icon.' fa-fw"></i>'.$label.'</li>'
                                         : $label;
                                     break;
                             }
@@ -538,6 +539,13 @@ class Template extends Object
                         $value = nl2br(Object::processAndFormatMessage($value), $renderers);
                     }
 
+                    break;
+
+                case 'iconcombo':
+                    if ($html) {
+                        $value = '<span class="' . $value . '"></span> ' . $value;
+
+                    }
                     break;
 
                 default:

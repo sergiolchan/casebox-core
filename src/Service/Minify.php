@@ -73,32 +73,17 @@ class Minify
         $files = [
             'css' => [
                 'css/CB.css',
-                'css/template_icons.css',
-                'css/tasks.css',
-                'css/taskbar.css',
-                'css/casebox.css',
-                'css/preview.css',
                 'css/common.css',
+                'css/breadcrumb.css',
+                'css/ribbon.css',
                 'css/facets.css',
                 'css/obj_plugins.css',
-                'css/activity-stream-view.css',
-                'css/extensible-all.css',
-                'css/calendar.css',
-                'css/calendar-colors.css',
-                'js/highlight/default.css',
-                'css/fix.css',
+                'css/preview.css',
             ],
 
             'csspreview' => [
                 'css/preview.css',
-                'css/tasks.css',
-                'css/template_icons.css',
                 'css/common.css',
-            ],
-
-            'csstheme' => [
-                'css/default/ribbon.css',
-                'css/default/theme.css',
             ],
 
             'js' => [
@@ -137,7 +122,6 @@ class Minify
                 'js/CB/calendar/view/Day.js',
                 'js/CB/calendar/view/Week.js',
                 'js/CB/calendar/CalendarPanel.js',
-                // 'js/CB/calendar/extensible-all-debug.js',
                 'js/CB/CB.Login.js',
                 'js/CB/CB.GenericForm.js',
                 'js/CB/CB.ObjectsField.js',
@@ -163,7 +147,6 @@ class Minify
                 'js/CB/plugin/field/RemainingCharsHint.js',
                 'js/ux/Ext.ux.htmlEditor.js',
                 'js/ux/Ext.ux.plugins.defaultButton.js',
-                // 'js/ux/Ext.ux.plugins.IconCombo.js',
                 'js/CB/CB.TextEditWindow.js',
                 'js/CB/CB.HtmlEditWindow.js',
                 'js/CB/facet/Base.js',
@@ -174,7 +157,6 @@ class Minify
                 'js/CB/CB.Clipboard.js',
                 'js/CB/CB.FilterPanel.js',
                 'js/CB/favorites/Panel.js',
-                // 'js/CB/favorites/Button.js',
                 'js/CB/plugin/dd/FilesDropZone.js',
                 'js/CB/CB.Uploader.js',
                 'js/CB/CB.Security.js',

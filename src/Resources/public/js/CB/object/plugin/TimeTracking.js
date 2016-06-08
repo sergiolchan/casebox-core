@@ -12,18 +12,18 @@ Ext.define('CB.object.plugin.TimeTracking', {
 
         this.actions = {
            add: new Ext.Action({
-                iconCls: 'i-plus'
+                glyph: 0xf067
                 ,scope: this
                 ,handler: this.onAddClick
             })
 
            ,start: new Ext.Action({
-                iconCls: 'i-start'
+                glyph: 0xf04b
                 ,scope: this
                 ,handler: this.onStartClick
             })
            ,stop: new Ext.Action({
-                iconCls: 'i-stop'
+                glyph: 0xf04d
                 ,scope: this
                 ,handler: this.onStopClick
             })
@@ -114,7 +114,7 @@ Ext.define('CB.object.plugin.TimeTracking', {
                         ,handler: this.onOpenClick
                     },'-',{
                         text: L.Delete
-                        ,iconCls: 'i-trash'
+                        ,glyph: 0xf1f8
                         ,scope: this
                         ,handler: this.onDeleteItemClick
                     }

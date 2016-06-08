@@ -32,6 +32,8 @@ Ext.onReady(function(){
 
     initApp();
 
+    Ext.setGlyphFontFamily('FontAwesome');
+
     Ext.Date.use24HourTime = true;
 
     Ext.direct.Manager.addProvider(Ext.app.REMOTING_API);
@@ -63,8 +65,7 @@ Ext.onReady(function(){
         App.config = r.config;
         App.loginData = r.user;
 
-        // App.loginData.iconCls = 'icon-user-' + Ext.valueFrom(r.user.sex, '');
-        App.loginData.iconCls = 'icon-user-account';
+        App.loginData.glyph = 0xf007;
 
         if(App.loginData.cfg.short_date_format) {
             App.dateFormat = App.loginData.cfg.short_date_format;
@@ -553,7 +554,7 @@ function initApp() {
             if(Ext.isEmpty(v)) {
                 return '';
             }
-            return '<img src="/css/i/s.gif" class="icon '+v+'" /> '+v;
+            return '<span class="'+v+'" /></span> '+v;
         }
     };
 
@@ -1471,7 +1472,9 @@ function initApp() {
 
 window.onbeforeunload = function() {
     if (App.confirmLeave === false) {
-        delete App.confirmLeave;
+        if(!App.popOutEdit) {
+            delete App.confirmLeave;
+        }
     } else {
         return "You work will be lost.";
     }

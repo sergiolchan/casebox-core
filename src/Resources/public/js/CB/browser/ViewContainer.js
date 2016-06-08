@@ -6,10 +6,11 @@ Ext.define('CB.browser.ViewContainer', {
     ,xtype: 'CBBrowserViewContainer'
 
     ,title: 'Browser'
-    ,iconCls: 'icon-folder'
+    ,glyph: 0xf07b
     ,closable: true
     ,border: false
-    ,layout:'fit'
+    ,layout:'card'
+    ,activeItem: 0
     ,params: {
         descendants: false
     }
@@ -29,13 +30,14 @@ Ext.define('CB.browser.ViewContainer', {
         this.actions = {
             edit: new Ext.Action({
                 text: L.Edit
+                ,tooltip: L.Edit
                 ,itemId: 'edit'
                 ,scope: this
                 ,handler: this.onEditClick
             })
 
             ,reload: new Ext.Action({
-                iconCls: 'im-refresh'
+                glyph: 0xf021
                 ,itemId: 'reload'
                 ,scale: 'medium'
                 ,tooltip: L.Reload
@@ -44,7 +46,7 @@ Ext.define('CB.browser.ViewContainer', {
             })
 
             ,contextReload: new Ext.Action({
-                iconCls: 'icon-refresh'
+                glyph: 0xf021
                 ,text: L.Reload
                 ,scope: this
                 ,handler: this.onReloadClick
@@ -52,29 +54,23 @@ Ext.define('CB.browser.ViewContainer', {
 
             ,upload: new Ext.Action({
                 text: L.Upload
+                ,tooltip: L.Upload
                 ,itemId: 'upload'
                 ,scale: 'medium'
-                ,iconCls: 'im-upload'
+                ,glyph: 0xf093
                 ,scope: this
                 ,handler: this.onUploadClick
             })
 
             ,download: new Ext.Action({
                 text: L.Download
+                ,tooltip: L.Download
                 ,itemId: 'download'
                 ,scale: 'medium'
-                ,iconCls: 'im-download'
+                ,glyph: 0xf019
                 ,hidden: true
                 ,disabled: true
                 ,hideParent: false
-                ,scope: this
-                ,handler: this.onDownloadClick
-            })
-
-            ,contextDownload: new Ext.Action({
-                text: L.Download
-                ,iconCls: 'i-download'
-                ,hidden: true
                 ,scope: this
                 ,handler: this.onDownloadClick
             })
@@ -119,10 +115,10 @@ Ext.define('CB.browser.ViewContainer', {
             })
 
             ,'delete': new Ext.Action({
-                qtip: L.Delete
-                ,text: L.Delete
+                text: L.Delete
+                ,tooltip: L.Delete
                 ,itemId: 'delete'
-                ,iconCls: 'im-trash'
+                ,glyph: 0xf1f8
                 ,scale: 'medium'
                 ,hidden: true
                 ,disabled: true
@@ -131,38 +127,29 @@ Ext.define('CB.browser.ViewContainer', {
                 ,handler: this.onDeleteClick
             })
 
-            ,contextDelete: new Ext.Action({
-                text: L.Delete
-                ,iconCls: 'i-trash'
-                ,disabled: true
-                ,hideParent: false
-                ,scope: this
-                ,handler: this.onDeleteClick
-            })
-
             ,contextRename: new Ext.Action({
                 text: L.Rename
-                ,iconCls: 'i-rename'
+                ,glyph: 0xf246
                 ,scope: this
                 ,handler: this.onRenameClick
             })
 
             ,contextExport: new Ext.Action({
-                iconCls: 'i-table-export'
+                glyph: 0xf0ce
                 ,text: L.Export
                 ,scope: this
                 ,handler: this.onExportClick
             })
 
             ,star: new Ext.Action({
-                iconCls: 'i-star'
+                glyph: 0xf005
                 ,text: L.Star
                 ,scope: this
                 ,handler: this.onStarClick
             })
 
             ,unstar: new Ext.Action({
-                iconCls: 'i-unstar'
+                glyph: 0xf006
                 ,text: L.Unstar
                 ,scope: this
                 ,handler: this.onUnstarClick
@@ -171,7 +158,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,restore: new Ext.Action({
                 text: L.Restore
                 ,itemId: 'restore'
-                ,iconCls: 'im-restore'
+                ,glyph: 0xf112
                 ,scale: 'medium'
                 ,hidden: true
                 ,disabled: true
@@ -183,7 +170,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,permissions: new Ext.Action({
                 text: L.Permissions
                 ,itemId: 'permissions'
-                ,iconCls: 'icon-key'
+                ,glyph: 0xf084
                 ,scope: this
                 ,disabled: true
                 ,handler: this.onPermissionsClick
@@ -192,7 +179,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,preview: new Ext.Action({
                 itemId: 'preview'
                 ,scale: 'medium'
-                ,iconCls: 'im-preview'
+                ,glyph: 0xf06e
                 ,scope: this
                 ,hidden: true
                 ,disabled: true
@@ -272,7 +259,7 @@ Ext.define('CB.browser.ViewContainer', {
                 qtip: L.Views
                 ,itemId: 'apps'
                 ,arrowVisible: false
-                ,iconCls: 'im-apps'
+                ,glyph: 0xf00a
                 ,scale: 'medium'
                 ,menu: []
             })
@@ -280,7 +267,7 @@ Ext.define('CB.browser.ViewContainer', {
                 qtip: L.New
                 ,text: L.New
                 ,itemId: 'create'
-                ,iconCls: 'im-create'
+                ,glyph: 0xf055
                 ,disabled: true
                 ,scale: 'medium'
                 ,menu: [
@@ -292,7 +279,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,new Ext.Button({
                 text: L.Clipboard
                 ,itemId: 'edit'
-                ,iconCls: 'im-assignment'
+                ,glyph: 0xf0ea
                 ,scale: 'medium'
                 ,menu: [
                     this.actions.cut
@@ -308,7 +295,7 @@ Ext.define('CB.browser.ViewContainer', {
                 qtip: L.More
                 ,itemId: 'more'
                 ,arrowVisible: false
-                ,iconCls: 'im-points'
+                ,glyph: 0xf142
                 ,scale: 'medium'
                 ,menu: this.tbarMoreMenu
             })
@@ -479,7 +466,6 @@ Ext.define('CB.browser.ViewContainer', {
                     ,getProperty: getPropertyHandler
                 })
             ]
-            ,getViewInfo: this.getCardContainerViewInfo.bind(this)
             ,listeners: {
                 scope: this
                 ,add: function(o, c, idx) {
@@ -491,6 +477,7 @@ Ext.define('CB.browser.ViewContainer', {
                         b.menu.add({
                             text: c.title
                             ,iconCls: c.iconCls
+                            ,glyph: c.glyph
                             ,scope: this
                             ,viewIndex: idx
                             ,handler: this.onCardItemChangeClick
@@ -499,8 +486,6 @@ Ext.define('CB.browser.ViewContainer', {
                 }
                 ,selectionchange: this.onObjectsSelectionChange
                 ,objectopen: this.onObjectsOpenEvent
-                ,beforeactivate: this.onBeforeContainersPanelItemChange
-                ,activate: this.onContainersPanelItemChange
             }
         });
 
@@ -517,7 +502,8 @@ Ext.define('CB.browser.ViewContainer', {
                 scope: this
                 ,beforeactivate: this.onBeforeContainersPanelItemChange
                 ,activate: this.onContainersPanelItemChange
-                ,actionconfirmed: this.onObjectEditActionConfirmed
+                ,cancelclick: this.onObjectViewCancelOrSaveEvent
+                ,objectsaved: this.onObjectViewCancelOrSaveEvent
             }
         });
 
@@ -530,26 +516,34 @@ Ext.define('CB.browser.ViewContainer', {
 
         Ext.apply(this, {
             cls: 'x-panel-white'
-            ,items: [{
-                layout: 'border'
-                ,border: false
-                ,tbarCssClass: 'x-panel-gray'
-                ,items: [
-                    {
-                        layout: 'card'
-                        ,activeItem: 0
-                        ,itemId: 'containersPanel'
-                        ,border: false
-                        ,region: 'center'
-                        ,items: [
-                            this.cardContainer
-                            ,this.notificationsView
-                            ,this.objectEditView
-                        ]
+            ,items: [
+                {
+                    layout: 'border'
+                    ,border: false
+                    ,tbarCssClass: 'x-panel-gray'
+                    ,items: [
+                        {
+                            layout: 'card'
+                            ,activeItem: 0
+                            ,itemId: 'containersPanel'
+                            ,border: false
+                            ,region: 'center'
+                            ,items: [
+                                this.cardContainer
+                            ]
+                        }
+                        ,this.objectPanel
+                    ]
+                    ,getViewInfo: this.getCardContainerViewInfo.bind(this)
+                    ,listeners: {
+                        scope: this
+                        ,beforeactivate: this.onBeforeContainersPanelItemChange
+                        ,activate: this.onContainersPanelItemChange
                     }
-                    ,this.objectPanel
-                ]
-            }]
+                }
+                ,this.notificationsView
+                ,this.objectEditView
+            ]
 
             ,listeners: {
                 scope: this
@@ -572,6 +566,7 @@ Ext.define('CB.browser.ViewContainer', {
 
         this.callParent(arguments);
 
+        this.gridView = this.items.getAt(0);
         this.containersPanel = this.items.getAt(0).items.getAt(0);
 
         this.enableBubble([
@@ -722,8 +717,8 @@ Ext.define('CB.browser.ViewContainer', {
             path = '/' + App.config.rootNode.nid;
         } else if(!Ext.isEmpty(options.query)) {
             pathtext = L.SearchResultsTitleTemplate;
-            pathtext = bvalue.replace('{name}', options.query);
-            pathtext = bvalue.replace('{count}', total);
+            pathtext = pathtext.replace('{name}', options.query);
+            pathtext = pathtext.replace('{count}', total);
         }
 
         return {
@@ -733,35 +728,25 @@ Ext.define('CB.browser.ViewContainer', {
         };
     }
 
-    ,onBeforeContainersPanelItemChange: function(activeView, eOpts) {
-        if ((activeView == this.cardContainer) && this.objectEditView.isDirty()) {
-            this.containersPanel.getLayout().setActiveItem(this.objectEditView);
-            this.requestedActiveView = activeView;
-            this.objectEditView.confirmDiscardingChanges(this.switchViewAfterConfirming.bind(this));
-
-            return false;
+    ,onBeforeContainersPanelItemChange: function(activeView, previousView, eOpts) {
+        this.requestedView = activeView;
+        if ((previousView == this.objectEditView)) {
+            if (previousView.confirmDiscardChanges()) {
+                return false;
+            }
         }
-
-        this.requestedActiveView = activeView;
     }
 
     ,onContainersPanelItemChange: function(activeView, eOpts) {
-        if (arguments.length > 2) {
-            this.previousActiveView = arguments[1];
-        }
-
+        delete this.requestedView;
         this.fireEvent('activeviewchange', this, activeView);
-        if (activeView == this.cardContainer) {
+        if (activeView == this.gridView) {
             this.reloadView();
         }
     }
 
-    ,switchViewAfterConfirming: function() {
-        this.containersPanel.getLayout().setActiveItem(this.requestedActiveView);
-    }
-
-    ,onObjectEditActionConfirmed: function(view) {
-        this.containersPanel.getLayout().setActiveItem(this.previousActiveView);
+    ,onObjectViewCancelOrSaveEvent: function(cmp) {
+        this.getLayout().setActiveItem(Ext.valueFrom(this.requestedView, this.gridView));
     }
 
     ,onReloadClick: function(){
@@ -903,7 +888,7 @@ Ext.define('CB.browser.ViewContainer', {
         }
 
         /* end of change view if set in loaded params */
-        this.fireEvent('viewloaded', this, this.cardContainer);
+        this.fireEvent('viewloaded', this, this.gridView);
 
         this.updateCreateMenuItems(this.buttonCollection.get('create'));
 
@@ -1136,7 +1121,7 @@ Ext.define('CB.browser.ViewContainer', {
     }
 
     ,loadParams: function(){
-        this.containersPanel.setActiveItem(this.cardContainer);
+        this.setActiveItem(this.gridView);
 
         //check if not same params as previous request
         if(Ext.isEmpty(this.requestParams.forceLoad) && this.sameParams(this.params, this.requestParams)) {
@@ -1212,12 +1197,9 @@ Ext.define('CB.browser.ViewContainer', {
             this.actions.download.hide();
             this.actions.contextPreview.setDisabled(true);
             this.actions.contextPreview.hide();
-            this.actions.contextDownload.setDisabled(true);
-            this.actions.contextDownload.hide();
 
             this.actions['delete'].setDisabled(true);
             this.actions['delete'].hide();
-            this.actions.contextDelete.setDisabled(true);
 
             this.actions.webdavlink.setDisabled(true);
             this.actions.webdavlink.hide();
@@ -1255,18 +1237,14 @@ Ext.define('CB.browser.ViewContainer', {
             }
 
             this.actions.download.setDisabled(!canDownload);
-            this.actions.contextDownload.setDisabled(!canDownload);
 
             if(canDownload) {
                 this.actions.download.show();
-                this.actions.contextDownload.show();
             } else {
                 this.actions.download.hide();
-                this.actions.contextDownload.hide();
             }
 
             this.actions['delete'].setDisabled(inRecycleBin);
-            this.actions.contextDelete.setDisabled(inRecycleBin);
 
             this.actions.webdavlink.setDisabled(firstObjType !== 'file');
             this.actions.webdavlink.setHidden(firstObjType !== 'file' || (firstFileEditor !== 'webdav'));
@@ -1549,6 +1527,7 @@ Ext.define('CB.browser.ViewContainer', {
                 ,system: selection[i].system
                 ,type: selection[i].type
                 ,iconCls: selection[i].iconCls
+                ,glyph: selection[i].glyph
             });
         }
 
@@ -1679,7 +1658,7 @@ Ext.define('CB.browser.ViewContainer', {
                 items: [
                     this.actions.edit
                     ,this.actions.contextPreview
-                    ,this.actions.contextDownload
+                    ,this.actions.download
                     ,'-'
                     ,this.actions.cut
                     ,this.actions.copy
@@ -1687,7 +1666,7 @@ Ext.define('CB.browser.ViewContainer', {
                     ,this.actions.pasteShortcut
                     ,'-'
                     ,this.actions.contextReload
-                    ,this.actions.contextDelete
+                    ,this.actions['delete']
                     ,this.actions.contextRename
                     ,this.actions.star
                     ,this.actions.unstar
@@ -1734,7 +1713,7 @@ Ext.define('CB.browser.ViewContainer', {
     }
 
     ,onInfoUpdated: function(form) {
-        this.fireEvent('infoupdated', this, this.containersPanel.getLayout().activeItem);
+        this.fireEvent('infoupdated', this, this.getLayout().activeItem);
     }
 
     ,onExportClick: function(b, e) {
@@ -1799,6 +1778,7 @@ Ext.define('CB.browser.ViewContainer', {
                 id: d.nid
                 ,name: d.name
                 ,iconCls: d.iconCls
+                ,glyph: d.glyph
                 ,pathText: this.folderProperties.pathtext
                 ,path: this.folderProperties.path + '/' + d.nid
             };

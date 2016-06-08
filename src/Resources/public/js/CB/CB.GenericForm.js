@@ -122,15 +122,12 @@ Ext.define('CB.GenericForm', {
 
         this.setTitle(App.shortenString(t, 35));
 
-        var i = Ext.valueFrom(this.data.iconCls, Ext.valueFrom(this.iconCls, ''));
-        if(i === 'icon-loading') {
-            i = '';
-        }
-        if(Ext.isEmpty(i) && this.getIconClass ) {
-            i = this.getIconClass();
+        var i = Ext.valueFrom(this.data.glyph, Ext.valueFrom(this.glyph, ''));
+        if(Ext.isEmpty(i) && this.getGlyph ) {
+            i = this.getGlyph();
         }
 
-        this.setIconCls(i);
+        this.setGlyph(i);
     }
 
     ,getIconClass: Ext.emptyFn // this function should be redefined for child classes to return a corresponding icon for the window

@@ -3,7 +3,7 @@ Ext.namespace('CB.plugin.Search');
 Ext.define('CB.plugin.Search.ResultForm', {
     extend: 'CB.browser.ViewContainer'
     ,title: L.SearchResults
-    ,iconCls: 'icon-search'
+    ,glyph: 0xf002
     ,closable: true
 
     ,initComponent: function(){

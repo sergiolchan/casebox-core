@@ -77,7 +77,7 @@ Ext.define('CB.browser.Tree', {
             })
 
             ,reload: new Ext.Action({
-                iconCls: 'icon-refresh'
+                glyph: 0xf021
                 ,text: L.Reload
                 ,disabled: true
                 ,scope: this
@@ -86,7 +86,7 @@ Ext.define('CB.browser.Tree', {
 
             ,'delete': new Ext.Action({
                 text: L.Delete
-                ,iconCls: 'i-trash'
+                ,glyph: 0xf1f8
                 ,disabled: true
                 ,scope: this
                 ,handler: this.onDeleteClick
@@ -100,14 +100,14 @@ Ext.define('CB.browser.Tree', {
             })
 
             ,star: new Ext.Action({
-                iconCls: 'i-star'
+                glyph: 0xf005
                 ,text: L.Star
                 ,scope: this
                 ,handler: this.onStarClick
             })
 
             ,unstar: new Ext.Action({
-                iconCls: 'i-unstar'
+                glyph: 0xf006
                 ,text: L.Unstar
                 ,scope: this
                 ,handler: this.onUnstarClick
@@ -115,7 +115,7 @@ Ext.define('CB.browser.Tree', {
 
             ,permissions: new Ext.Action({
                 text: L.Permissions
-                ,iconCls: 'icon-key'
+                ,glyph: 0xf084
                 ,scope: this
                 ,disabled: true
                 ,handler: this.onPermissionsClick
@@ -147,7 +147,7 @@ Ext.define('CB.browser.Tree', {
                 ,expanded: true
                 ,editable: false
                 ,leaf: false
-                ,iconCls:'icon-folder'
+                ,glyph: 0xf07b
             }
             ,rootConfig
         );
@@ -202,7 +202,7 @@ Ext.define('CB.browser.Tree', {
                         ,dataIndex: 'text'
 
                         ,renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-                            metaData.tdCls = record.get('cls') + ' x-grid-item-gray';
+                            // metaData.tdCls = record.get('cls') + ' x-grid-item-gray';
                             return value;
                         }
                     }
@@ -307,19 +307,25 @@ Ext.define('CB.browser.Tree', {
     }
 
     ,onBeforeNodeAppend: function(parent, node){
-        // node.setId(Ext.id());
-
         // node id could be literal, so we cannot eval it to int
         // node.data.nid = Ext.Number.from(node.data.nid, null);
 
         node.data.system = Ext.Number.from(node.data.system, 0);
         node.set('text', node.data.name);
 
+        // node.data.glyph = Ext.valueFrom(node.data.glyph, 0xf07b);
+        var icon = '';
         if(Ext.isEmpty(node.data.iconCls)) {
             if(node.data.cfg && node.data.cfg.iconCls){
-                node.set('iconCls', node.data.cfg.iconCls );
+                icon = node.data.cfg.iconCls;
             } else {
-                node.set('iconCls', getItemIcon(node.data) );
+                icon = getItemIcon(node.data);
+            }
+
+            //assign only custom icons because folder icon shows shiftet
+            //
+            if(icon !== 'fa fa-folder fa-fl') {
+                node.set('iconCls', icon);
             }
         }
 
@@ -756,7 +762,7 @@ Ext.define('CB.browser.Tree', {
                 ,name: n.data.name
                 ,system: n.data.system
                 ,type: n.data.type
-                ,iconCls: n.data.iconCls
+                ,glyph: n.data.glyph
             }
             ,'copy'
         );
@@ -916,6 +922,7 @@ Ext.define('CB.browser.Tree', {
                 id: d.nid
                 ,name: d.name
                 ,iconCls: d.iconCls
+                ,glyph: d.glyph
                 ,pathText: d.path
                 ,path: n.getPath('nid', '/')
             };

@@ -51,29 +51,6 @@ Ext.define('CB.browser.view.grid.toolbar.Paging', {
 
     ,setCustomItems: function() {
         var me = this;
-
-        // me.items = [{
-        //     xtype: 'combo'
-        //     ,disabled: true
-        //     ,fieldLabel: L.Group
-        //     ,labelWidth: 'auto'
-        //     ,store: {
-        //         type: 'json'
-        //         ,model: 'Generic2'
-        //     }
-        //     ,queryMode: 'local'
-        //     ,displayField: 'name'
-        //     ,valueField: 'id'
-        // },{
-        //     iconCls: 'i-table-export'
-        //     ,qtip: L.Export
-        //     ,scope: this
-        //     ,handler: this.onExportClick
-        // },{
-        //     iconCls: 'i-points'
-        //     ,disabled: true
-
-        // }];
     }
 
     ,onGridReconfigure: function(grid, store, columns, oldStore, oldColumns, eOpts) {

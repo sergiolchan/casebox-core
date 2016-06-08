@@ -20,7 +20,7 @@ Ext.define('CB.plugin.Search.Button', {
             ,itemId: 'pluginsearchbutton'
             ,arrowVisible: false
             // ,arrowAlign: 'bottom'
-            ,iconCls: 'ib-search-negative'
+            ,glyph: 0xf002
             ,scale: 'large'
             ,allowDepress: false
             ,hidden: true
@@ -81,6 +81,7 @@ Ext.define('CB.plugin.Search.Button', {
                 if(t.data.dstatus == '0') {
                     menu.add({
                         iconCls: t.data.iconCls
+                        ,glyph: t.data.glyph
                         ,data: {template_id: t.data.id}
                         ,text: t.data.title
                         ,scope: this

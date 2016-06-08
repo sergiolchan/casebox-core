@@ -46,8 +46,9 @@ Ext.define('CB.plugin.DisplayColumns', {
             return;
         }
 
-        var rez = store.proxy.reader.rawData
+        var rez = Ext.valueFrom(store.proxy.reader.rawData, {})
             ,view = Ext.valueFrom(rez.view, {});
+
 
         //set flag to avoid saving grid state while restoring remote config
         this.grid.disableStateSave = true;

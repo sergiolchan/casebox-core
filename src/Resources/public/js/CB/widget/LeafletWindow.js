@@ -16,7 +16,7 @@ Ext.define('CB.widget.LeafletWindow', {
         this.actions = {
             save: new Ext.Action({
                 text: L.Save
-                ,iconCls: 'icon-save'
+                ,glyph: 0xf0c7
                 ,disabled: true
                 ,scope: this
                 ,handler: this.onSaveClick
@@ -24,7 +24,7 @@ Ext.define('CB.widget.LeafletWindow', {
 
             ,cancel: new Ext.Action({
                 text: L.Cancel
-                ,iconCls: 'i-cancel'
+                ,glyph: 0xf00d
                 ,scope: this
                 ,handler: this.close
             })

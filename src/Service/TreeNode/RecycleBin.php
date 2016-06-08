@@ -67,7 +67,8 @@ class RecycleBin extends Base
                 array(
                     'name' => $this->getName('recycleBin')
                     ,'id' => $this->getId('recycleBin')
-                    ,'iconCls' => 'icon-trash'
+                    ,'glyph' => 0xf1f8
+                    ,'iconCls' => 'fa fa-trash fa-lg'
                     ,'has_childs' => true
                 )
             )

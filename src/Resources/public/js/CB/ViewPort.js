@@ -130,7 +130,7 @@ Ext.define('CB.ViewPort', {
                 xtype: 'panel'
                 ,height: 51
                 ,border: false
-                ,style: 'background: #f4f4f4; text-align: center; border-bottom: 1px solid #99bce8 !important'
+                ,style: 'background: #f4f4f4; text-align: center; border-bottom: 1px solid #5f5f5f !important'
                 ,bodyStyle: 'background: #f4f4f4'
                 ,html: '<img src="/logo.png" style="padding: 9px" />'
             })
@@ -192,6 +192,7 @@ Ext.define('CB.ViewPort', {
             ,region: 'center'
             ,plain: true
             ,bodyStyle: 'background-color: #FFF'
+            ,style: 'border-top: 1px solid #5f5f5f'
             ,componentCls: 'mainTabPanel'
             ,border: false
             ,defaults: {
@@ -222,7 +223,7 @@ Ext.define('CB.ViewPort', {
                 ,itemId: 'togglelr'
                 ,pressed: true
                 ,enableToggle: true
-                ,iconCls: 'im-menu-negative'
+                ,glyph: 0xf0c9
                 ,scale: 'large'
                 ,scope: this
                 ,handler: this.toggleLeftRegion
@@ -232,7 +233,7 @@ Ext.define('CB.ViewPort', {
                 tooltip: L.Filter
                 ,itemId: 'togglefp'
                 ,enableToggle: true
-                ,iconCls: 'im-filter-negative'
+                ,glyph: 0xf0b0
                 ,scale: 'large'
                 ,scope: this
                 ,handler: this.onToggleFilterPanelClick
@@ -242,7 +243,7 @@ Ext.define('CB.ViewPort', {
                 tooltip: L.Notifications
                 ,itemId: 'toggleNotifications'
                 // ,enableToggle: true
-                ,iconCls: 'im-notifications'
+                ,glyph: 0xf0f3
                 ,cls: 'numbersButton'
                 ,text: ''
                 ,scale: 'large'
@@ -269,7 +270,7 @@ Ext.define('CB.ViewPort', {
                 qtip: L.New
                 ,itemId: 'create'
                 ,arrowVisible: false
-                ,iconCls: 'im-create-negative'
+                ,glyph: 0xf067
                 ,disabled: true
                 ,scale: 'large'
                 ,menuAlign: 'tl-tr'
@@ -332,7 +333,7 @@ Ext.define('CB.ViewPort', {
     }
 
     ,onToggleNotificationsViewClick: function(b, e) {
-        var cpl = App.explorer.containersPanel.getLayout()
+        var cpl = App.explorer.getLayout()
             ,hideNotifications = cpl.activeItem.isXType('CBNotificationsView');
 
         cpl.setActiveItem(
@@ -388,8 +389,7 @@ Ext.define('CB.ViewPort', {
         um.menu.add(
             {
                 text: L.Account
-                // ,iconCls: 'icon-user-' + App.loginData.sex
-                ,iconCls: 'icon-user-account'
+                ,glyph: 0xf007
                 ,handler: function(){
                     App.windowManager.openWindow({
                         xtype: 'CBAccount'
@@ -400,8 +400,6 @@ Ext.define('CB.ViewPort', {
             ,'-'
             ,{
                 text: L.NotifySettings
-                // ,iconCls: 'i-settings'
-                // ,itemId: 'notify-settings'
                 ,scope: this
                 ,handler: this.onNotifySettingsClick
             },{
@@ -409,14 +407,13 @@ Ext.define('CB.ViewPort', {
                 ,menu: themes
             },{
                 text: L.Language
-                // ,iconCls: 'icon-language'
                 ,hideOnClick: false
                 ,menu: langs
             }
             ,'-'
             ,{
                 text: L.Exit
-                ,iconCls: 'icon-exit'
+                ,glyph: 0xf08b
                 ,handler: this.logout, scope: this
             }
         );
@@ -426,7 +423,7 @@ Ext.define('CB.ViewPort', {
             managementItems.push(
                 {
                     text: L.Users
-                    ,iconCls: 'icon-users'
+                    ,glyph: 0xf0c0
                     ,handler: function(){
                         var w = new CB.VerifyPassword({
                             listeners:{
@@ -454,7 +451,6 @@ Ext.define('CB.ViewPort', {
             managementItems.push(
                 {
                     text: L.ReloadTemplates
-                    ,iconCls: 'icon-templates'
                     ,handler: function(){
                         reloadTemplates();
                     }
@@ -497,19 +493,12 @@ Ext.define('CB.ViewPort', {
                 );
 
             if(path[3] == 'edit') {
-                var w = App.windowManager.openObjectWindow({
+                var w = Ext.create('CBObjectEditView', {});
+                App.mainViewPort.add(w);
+                w.load({
                     template_id: path[4]
                     ,id: path[5]
-                    ,mode: 'window'
                     ,view: 'edit'
-                    ,maximized: true
-                    ,maximizable: false
-                    ,minimizable: false
-                    ,resizable: false
-                    ,closable: false
-                    ,plain: true
-                    ,border: false
-                    // ,bodyBorder: false
                 });
             }
 
@@ -607,7 +596,7 @@ Ext.define('CB.ViewPort', {
             ,tbar: [
                 '->'
                 ,{
-                    iconCls: 'im-cancel'
+                    glyph: 0xf00d
                     ,itemId: 'close'
                     ,scale: 'medium'
                     ,scope: this

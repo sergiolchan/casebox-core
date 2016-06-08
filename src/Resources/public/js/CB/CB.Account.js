@@ -73,7 +73,7 @@ Ext.define('CB.Account', {
         Ext.apply(
             this
             ,{
-                iconCls: 'icon-user-' + App.loginData.sex
+                glyph: 0xf007
                 ,layout: 'border'
                 ,items:[
                     this.menu
@@ -161,7 +161,7 @@ Ext.define('CB.ProfileForm', {
 
         this.photoView = new Ext.DataView({
             tpl: ['<tpl for="."><div>'
-                ,'<img width="70" height="70" class="user-photo-field2 click icon-user70-{sex}" src="' + App.config.photoPath + '{id}.png?{[ Ext.Date.format(new Date(), "His") ]}">'
+                ,'<img width="70" height="70" class="user-photo-field2 click fa fa-user" src="' + App.config.photoPath + '{id}.png?{[ Ext.Date.format(new Date(), "His") ]}">'
                 ,'</div>'
                 ,'<div><a name="change" class="click">'+L.Change+'</a> &nbsp; <a name="remove" class="click">'+L.Delete+'</a></div>'
                 ,'</tpl>'
@@ -939,7 +939,7 @@ Ext.define('CB.TSVWindow', {
     ,autoWidth: true
     ,autoHeight: true
     ,border: false
-    ,iconCls: 'icon-key'
+    ,glyph: 0xf084
     ,layout: 'card'
 
     ,initComponent: function() {

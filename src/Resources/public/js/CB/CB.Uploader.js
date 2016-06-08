@@ -501,35 +501,34 @@ Ext.define('CB.UploadWindow', {
         this.actions = {
             start: new Ext.Action({
                 text: L.Start
-                ,iconCls: 'i-start'
+                ,glyph: 0xf04b
                 ,handler: this.onStartClick
                 ,scope: this
                 ,disabled: true
             })
             ,stop: new Ext.Action({
                 text: L.Stop
-                ,iconCls: 'i-stop'
+                ,glyph: 0xf04d
                 ,handler: this.onStopClick
                 ,scope: this
                 ,hidden: true
             })
             ,cancel: new Ext.Action({
                 text: L.Cancel
-                ,iconCls: 'i-cancel'
+                ,glyph: 0xf00d
                 ,handler: this.onCancelClick
                 ,scope: this
                 ,disabled: true
             })
             ,cancelAll: new Ext.Action({
                 text: L.CancelAll
-                ,iconCls: 'i-cancel'
+                ,glyph: 0xf00d
                 ,handler: this.onCancelAllClick
                 ,scope: this
                 ,disabled: true
             })
             ,clear: new Ext.Action({
                 text: L.Clear
-                // ,iconCls: 'icon-eraser'
                 ,handler: this.onClearClick
                 ,scope: this
                 ,hidden: true
@@ -557,7 +556,7 @@ Ext.define('CB.UploadWindow', {
 
         this.cancelSplitButton = new Ext.SplitButton({
             xtype: 'splitbutton'
-            ,iconCls: 'i-cancel'
+            ,glyph: 0xf00d
             ,text: L.Cancel
             ,handler: this.onCancelClick
             ,scope: this
@@ -567,7 +566,7 @@ Ext.define('CB.UploadWindow', {
 
         this.viewButton = new Ext.Button({
             text: L.Pending
-            ,iconCls: 'i-list'
+            ,glyph: 0xf03a
             ,menu: [{
                     enableToggle: true
                     ,allowDepress: false
@@ -604,7 +603,7 @@ Ext.define('CB.UploadWindow', {
 
         this.optionsButton = new Ext.Button({
             text: L.Options
-            ,iconCls: 'i-settings'
+            ,glyph: 0xf013
             ,menu: [{
                     checked: true
                     ,text: L.AutoshowUpload
@@ -830,7 +829,6 @@ Ext.define('CB.UploadWindow', {
     }
 
     ,onChangeViewClick: function(b, e){
-        // this.viewButton.setIconCls(b.iconCls)
         this.viewButton.setText(b.text);
         this.filterView(b.filterIndex);
         this.actions.clear.setHidden(b.filterIndex == 0);

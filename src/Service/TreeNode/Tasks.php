@@ -109,7 +109,7 @@ class Tasks extends Base
                 array(
                     'name' => $this->trans('MyTasks') . $count
                     ,'id' => $this->getId('tasks')
-                    ,'iconCls' => 'icon-task'
+                    ,'iconCls' => 'fa fa-tasks fa-lg'
                     ,'cls' => 'tree-header'
                     ,'has_childs' => true
                 )

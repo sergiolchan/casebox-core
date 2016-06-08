@@ -6,7 +6,7 @@ Ext.define('CB.WindowManager', {
     ,xtype: 'CBWindowManager'
 
     ,defaultConfig: {
-        defaultMode: 'view' // window || popout
+        defaultMode: 'window' // view || window || popout
     }
 
     ,constructor: function(config){
@@ -200,8 +200,8 @@ Ext.define('CB.WindowManager', {
     ,openObjectEditView: function(config) {
         var ev = App.explorer.objectEditView;
 
-        ev.editForm.load(config);
-        App.explorer.containersPanel.getLayout().setActiveItem(ev);
+        ev.load(config);
+        App.explorer.getLayout().setActiveItem(ev);
 
     }
 });

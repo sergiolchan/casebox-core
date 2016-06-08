@@ -84,7 +84,7 @@ Ext.define('CB.facet.List', {
                 },{
                     xtype: 'button'
                     ,width: 20
-                    ,iconCls: 'i-cancel'
+                    ,glyph: 0xf00d
                     ,scope: this
                     ,handler: function() {
                         this.addPeriodPanel.hide();

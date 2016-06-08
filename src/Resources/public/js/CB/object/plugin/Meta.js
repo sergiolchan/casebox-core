@@ -10,7 +10,7 @@ Ext.define('CB.object.plugin.Meta', {
         this.actions = {
             edit: new Ext.Action({
                 text: L.Edit
-                ,iconCls: 'i-edit'
+                ,glyph: 0xf040
                 ,scope: this
                 ,handler: this.onEditClick
             })
@@ -37,7 +37,7 @@ Ext.define('CB.object.plugin.Meta', {
     ,getToolbarItems: function () {
 
         return [{
-            iconCls: 'i-points'
+            glyph: 0xf142
             ,scope: this
             ,handler: this.showMenu
         }];

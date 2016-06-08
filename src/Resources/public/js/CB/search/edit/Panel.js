@@ -12,7 +12,7 @@ Ext.define('CB.search.edit.Panel', {
         this.actions = {
             search: new Ext.Action({
                 text: L.Search
-                ,iconCls: 'im-search'
+                ,glyph: 0xf002
                 ,itemId: 'search'
                 ,scale: 'medium'
                 ,tooltip: L.Search
@@ -20,7 +20,7 @@ Ext.define('CB.search.edit.Panel', {
                 ,handler: this.onSearchClick
             })
             ,tune: new Ext.Action({
-                iconCls: 'im-tune'
+                glyph: 0xf1de
                 ,itemId: 'tune'
                 ,scale: 'medium'
                 ,qtip: L.Tune
@@ -29,7 +29,7 @@ Ext.define('CB.search.edit.Panel', {
                 ,handler: this.onTuneClick
             })
             ,clear: new Ext.Action({
-                iconCls: 'im-refresh'
+                glyph: 0xf021
                 ,itemId: 'clear'
                 ,scale: 'medium'
                 ,qtip: L.Clear
@@ -38,7 +38,7 @@ Ext.define('CB.search.edit.Panel', {
             })
 
             ,save: new Ext.Action({
-                iconCls: 'is-tick'
+                glyph: 0xf00c
                 ,itemId: 'save'
                 ,scale: 'medium'
                 ,text: L.Save
@@ -59,7 +59,7 @@ Ext.define('CB.search.edit.Panel', {
                 ,this.actions.tune
                 ,this.actions.clear
                 ,{
-                    iconCls: 'im-points'
+                    glyph: 0xf142
                     ,itemId: 'more'
                     ,scale: 'medium'
                     ,scope: this

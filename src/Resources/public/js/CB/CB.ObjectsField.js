@@ -748,8 +748,8 @@ Ext.define('CB.ObjectsSelectionForm', {
             }
             ,buttons:[
                 '->'
-                ,{text: Ext.MessageBox.buttonText.ok, iconCls: 'icon-tick', scope: this, handler: this.onOkClick}
-                ,{text: L.Cancel, iconCls: 'icon-cancel', scope: this, handler: this.destroy}]
+                ,{text: Ext.MessageBox.buttonText.ok, glyph: 0xf00c, scope: this, handler: this.onOkClick}
+                ,{text: L.Cancel, glyph: 0xf00d, scope: this, handler: this.destroy}]
         });
 
         this.callParent(arguments);

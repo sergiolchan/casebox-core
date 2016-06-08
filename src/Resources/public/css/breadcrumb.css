@@ -1,0 +1,36 @@
+@charset "utf-8";
+div.breadcrumb {
+    list-style: none;
+    display: inline-block;
+    margin-left: -6px;
+    overflow: hidden;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 100%;
+    padding: 1px 6px;
+}
+div.breadcrumb div.item {
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #555;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 30px;
+  overflow: hidden;
+  padding: 1px;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
+}
+div.breadcrumb > div.item > span{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 8px 2px 0 8px;
+}
+
+div.breadcrumb div.item:hover{
+  text-decoration: underline;
+}

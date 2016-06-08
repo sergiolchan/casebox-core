@@ -15,7 +15,7 @@ Ext.define('CB.object.plugin.Files', {
         this.actions = {
            add: new Ext.Action({
                 // ,text: L.Add
-                iconCls: 'i-plus'
+                glyph: 0xf067
                 ,scope: this
                 ,handler: this.onAddClick
             })
@@ -216,7 +216,7 @@ Ext.define('CB.object.plugin.Files', {
                         ,handler: this.onCopyItemClick
                     },{
                         text: L.Delete
-                        ,iconCls: 'i-trash'
+                        ,glyph: 0xf1f8
                         ,scope: this
                         ,handler: this.onDeleteItemClick
                     }

@@ -8,7 +8,7 @@ Ext.define('CB.object.plugin.ContentItems', {
 
         this.actions = {
            add: new Ext.Action({
-                iconCls: 'i-plus'
+                glyph: 0xf067
                 // ,text: L.Add
                 ,scope: this
                 ,handler: this.onAddClick
@@ -156,7 +156,7 @@ Ext.define('CB.object.plugin.ContentItems', {
                         ,handler: this.onOpenClick
                     },'-',{
                         text: L.Delete
-                        ,iconCls: 'i-trash'
+                        ,glyph: 0xf1f8
                         ,scope: this
                         ,handler: this.onDeleteItemClick
                     }

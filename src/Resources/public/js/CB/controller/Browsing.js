@@ -71,7 +71,7 @@ Ext.define('CB.controller.Browsing', {
         //add listeners for notifications view
         var nv = vc.notificationsView;
 
-        nv.on('selectionchange', this.onNVSelectionChange, this);
+        // nv.on('selectionchange', this.onNVSelectionChange, this);
 
 
         //add filter panel listeners
@@ -109,7 +109,7 @@ Ext.define('CB.controller.Browsing', {
             ,from: 'tree'
         };
 
-        App.openPath(node.getPath('nid'), params);
+        this.openPath(node.getPath('nid'), params);
 
         this.updatePreview(node.data);
     }
@@ -223,24 +223,6 @@ Ext.define('CB.controller.Browsing', {
 
     ,onVCActiveViewChange: function(viewContainer, view) {
         this.onVCActiveViewInfoUpdated(viewContainer, view);
-
-        var opPlugin = this.OP.down('CBObjectPluginObjectProperties');
-
-        switch(view.xtype) {
-            case 'CBObjectEditView':
-                //hide object properties plugin from right
-                if (opPlugin) {
-                    opPlugin.hide();
-                }
-                break;
-
-            default:
-                //show object properties plugin from right
-                if (opPlugin) {
-                    opPlugin.show();
-                }
-
-        }
     }
 
     ,onVCActiveViewInfoUpdated: function(viewContainer, view) {
@@ -403,7 +385,7 @@ Ext.define('CB.controller.Browsing', {
         //if custom params are empty then try to load current view selection
         //or the currently opened object
         if(Ext.isEmpty(data)) {
-            var ai = vc.containersPanel.getLayout().activeItem
+            var ai = vc.getLayout().activeItem
                 ,s = ai.getSelection
                     ? ai.getSelection
                     : vc.getSelection();

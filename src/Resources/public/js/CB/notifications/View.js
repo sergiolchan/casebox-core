@@ -6,14 +6,13 @@ Ext.define('CB.notifications.View', {
     ,alias: 'widget.CBNotificationsView'
 
     ,border: false
-    ,layout: 'fit'
+    ,layout: 'border'
 
     ,initComponent: function(){
 
         //define actions
         this.actions = {
             markAsUnread: new Ext.Action({
-                // iconCls: 'im-assignment'
                 itemId: 'markAsUnread'
                 ,scale: 'medium'
                 ,text: L.MarkAsUnread
@@ -22,7 +21,6 @@ Ext.define('CB.notifications.View', {
                 ,handler: this.onMarkAsUnreadClick
             })
             ,showUnread: new Ext.Action({
-                // iconCls: 'im-assignment'
                 itemId: 'showUnread'
                 ,scale: 'medium'
                 ,enableToggle: true
@@ -31,7 +29,7 @@ Ext.define('CB.notifications.View', {
                 ,handler: this.onShowUnreadClick
             })
             ,markAllAsRead: new Ext.Action({
-                iconCls: 'im-assignment'
+                glyph: 0xf0ea
                 ,itemId: 'markAllAsRead'
                 ,scale: 'medium'
                 ,text: L.MarkAllAsRead
@@ -39,7 +37,7 @@ Ext.define('CB.notifications.View', {
                 ,handler: this.onMarkAllAsReadClick
             })
             ,reload: new Ext.Action({
-                iconCls: 'im-refresh'
+                glyph: 0xf021
                 ,itemId: 'reload'
                 ,scale: 'medium'
                 ,tooltip: L.Refresh
@@ -47,17 +45,17 @@ Ext.define('CB.notifications.View', {
                 ,handler: this.onReloadClick
             })
 
-            ,preview: new Ext.Action({
-                itemId: 'preview'
-                ,scale: 'medium'
-                ,iconCls: 'im-preview'
-                ,scope: this
-                ,hidden: true
-                ,handler: this.onPreviewClick
-            })
+            // ,preview: new Ext.Action({
+            //     itemId: 'preview'
+            //     ,scale: 'medium'
+            //     ,glyph: 0xf06e
+            //     ,scope: this
+            //     ,hidden: true
+            //     ,handler: this.onPreviewClick
+            // })
 
             ,close: new Ext.Action({
-                iconCls: 'im-cancel'
+                glyph: 0xf00d
                 ,itemId: 'close'
                 ,scale: 'medium'
                 ,scope: this
@@ -67,8 +65,7 @@ Ext.define('CB.notifications.View', {
 
         this.defineStore();
 
-        //define toolbar
-        this.tbar = new Ext.Toolbar({
+        this.mainToolbar = new Ext.Toolbar({
             border: false
             ,style: 'background: #ffffff'
             ,defaults: {
@@ -80,22 +77,46 @@ Ext.define('CB.notifications.View', {
                 ,'->'
                 ,this.actions.markAllAsRead
                 ,this.actions.reload
-                ,this.actions.preview
-                ,this.actions.close
+                // ,this.actions.preview
+                // ,this.actions.close
             ]
         });
 
+        this.objectPanel = new CB.object.ViewContainer({
+            region: 'east'
+            ,header: false
+            ,width: 250
+
+            ,split: {
+                size: 3
+                ,collapsible: false
+                ,style: 'background-color: #dfe8f6'
+            }
+            ,collapsible: true
+            ,collapseMode: 'mini'
+
+            ,stateful: true
+            ,stateId: 'nvpp' //notifications view properties panel
+
+            ,onCloseClick: Ext.Function.bind(this.onCloseClick, this)
+        });
+
         Ext.apply(this, {
-            items: [{
-                xtype: 'panel'
-                ,cls: 'taC'
-                ,bodyStyle: 'background-color: #e9eaed'
-                ,border: false
-                ,scrollable: 'y'
-                ,items: [
-                    this.getGridConfig()
-                ]
-            }]
+            items: [
+                {
+                    xtype: 'panel'
+                    ,region: 'center'
+                    ,tbar: this.mainToolbar
+                    ,cls: 'taC'
+                    ,bodyStyle: 'background-color: #e9eaed'
+                    ,border: false
+                    ,scrollable: 'y'
+                    ,items: [
+                        this.getGridConfig()
+                    ]
+                }
+                ,this.objectPanel
+            ]
             ,listeners: {
                 scope: this
                 ,activate: this.onActivateEvent
@@ -259,6 +280,7 @@ Ext.define('CB.notifications.View', {
             ,pathtext: L.Notifications
         };
     }
+
     ,actionRenderer: function(v, m, r, ri, ci, s){
         var uid = r.get('user_id')
             ,rez = ''; //<span class="i-preview action-btn" title="' + L.Preview + '">&nbsp;</span> ';
@@ -272,7 +294,7 @@ Ext.define('CB.notifications.View', {
         }
 
         rez += '<table cellpadding="0" cellspacing="0" border="0">' +
-                '<tr><td style="padding: 3px" class="vaT"><img class="i32" src="/' +
+                '<tr><td style="padding: 3px" class="vaT"><img class="i32" src="/c/' +
             App.config.coreName +
             '/photo/' + uid + '.jpg?32=' +
             CB.DB.usersStore.getPhotoParam(uid) +
@@ -305,18 +327,12 @@ Ext.define('CB.notifications.View', {
 
     ,onRowClick: function(grid, record, tr, rowIndex, e, eOpts) {
         var el = e.getTarget('.obj-ref')
-            ,selectionData = null;
-        if(el) {
-            App.windowManager.openObjectWindow({
-                id: el.getAttribute('itemid')
-                ,template_id: el.getAttribute('templateid')
-                ,name: el.getAttribute('title')
-            });
+            ,selectionData = {force: true};
 
-            selectionData = {
-                id: el.getAttribute('itemid')
-                ,read: d.read
-            };
+        if(el) {
+            selectionData.id = el.getAttribute('itemid');
+        } else {
+            selectionData.id = record.get('object_id');
         }
 
         el = e.getTarget('.action-btn');
@@ -342,25 +358,9 @@ Ext.define('CB.notifications.View', {
                     el.classList.remove('i-bullet-arrow-up');
                     el.title = L.Expand;
                     break;
-
-                // case L.Preview:
-                //     selectionData = {
-                //         id: record.get('object_id')
-                //         ,read: record.get('read')
-
-                //     };
-                //     break;
-
             }
-        }
-
-        if(selectionData) {
-            //set cuttentSelection so that browser controller gets data that data
-            //to show on preview expand
-            this.currentSelection = [selectionData];
-            this.onPreviewClick();
-
-            this.fireEvent('selectionchange', selectionData);
+        } else {
+            this.objectPanel.load(selectionData);
         }
     }
 
@@ -492,27 +492,6 @@ Ext.define('CB.notifications.View', {
         this.store.load();
 
         this.checkNotificationsTask.delay(1000 * 60 * 1); //1 minute
-
-        //add listeners for object panel to toggle preview action
-        var op = App.explorer.objectPanel;
-
-        this.actions.preview.setHidden(op.getCollapsed() === false);
-
-        op.on(
-            'expand'
-            ,function() {
-                this.actions.preview.setHidden(true);
-            }
-            ,this
-        );
-
-        op.on(
-            'collapse'
-            ,function() {
-                this.actions.preview.setHidden(false);
-            }
-            ,this
-        );
     }
 
     ,onCheckNotificationsTask: function() {
@@ -590,10 +569,10 @@ Ext.define('CB.notifications.View', {
      * @param  evente
      * @return void
      */
-    ,onPreviewClick: function(b, e) {
-        App.explorer.objectPanel.expand();
-        this.actions.preview.hide();
-    }
+    // ,onPreviewClick: function(b, e) {
+    //     this.objectPanel.expand();
+    //     this.actions.preview.hide();
+    // }
 
     ,onCloseClick: function(b, e) {
         App.mainViewPort.onToggleNotificationsViewClick(b, e);

@@ -28,19 +28,11 @@ Ext.define('CB.browser.view.Grid', {
                 ,width: 300
                 ,dataIndex: 'name'
                 ,renderer: function(v, m, r, ri, ci, s){
-                    m.css = 'icon-grid-column-top '+ r.get('iconCls');
-
-                    if(r.get('acl_count') > 0) {
-                        m.css += ' node-has-acl';
-                    }
-
-                    m.attr = Ext.isEmpty(v) ? '' : "title=\"" + v + "\"";
-
-                    var rez = '<span class="n">' + Ext.valueFrom(r.get('hl'), v) + '</span>';
+                    var rez = '<i class="fa ' + r.get('iconCls') + ' fa-fw"></i> ' +
+                        '<span class="n">' + Ext.valueFrom(r.get('hl'), v) + '</span>';
 
                     if( (this.hideArrows !== true) && r.get('has_childs')) {
                         rez += ' <span class="fs9">&hellip;</span>';
-                        // rez += '<img class="click icon-arrow3" src="'+Ext.BLANK_IMAGE_URL+'" />';
                     }
 
                     return rez;

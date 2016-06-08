@@ -8,7 +8,7 @@ Ext.define('CB.object.plugin.Tasks', {
 
         this.actions = {
            add: new Ext.Action({
-                iconCls: 'i-plus'
+                glyph: 0xf067
                 ,scope: this
                 ,handler: this.onAddClick
             })
@@ -89,7 +89,7 @@ Ext.define('CB.object.plugin.Tasks', {
                         text: L.Close
                     },{
                         text: L.Delete
-                        ,iconCls: 'i-trash'
+                        ,glyph: 0xf1f8
                     }
                 ]
             });

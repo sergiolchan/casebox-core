@@ -42,7 +42,7 @@ Ext.define('CB.browser.view.Charts', {
         this.sortButton = new Ext.Button({
             itemId: 'chartsSortButton'
             ,scale: 'medium'
-            ,iconCls: 'im-sort'
+            ,glyph: 0xf160
             ,style: 'margin-left: 10px'
             ,text: ''
             ,menu: [
@@ -91,7 +91,6 @@ Ext.define('CB.browser.view.Charts', {
                 ,scale: 'medium'
                 ,enableToggle: true
                 ,allowDepress: false
-                // ,iconCls: 'ib-chart-bar'
                 ,toggleGroup: 'cv' + this.instanceId
                 ,scope: this
                 ,handler: this.onChangeChartClick
@@ -102,7 +101,6 @@ Ext.define('CB.browser.view.Charts', {
                 ,scale: 'medium'
                 ,enableToggle: true
                 ,allowDepress: false
-                // ,iconCls: 'ib-chart-column'
                 // ,iconAlign:'top'
                 ,toggleGroup: 'cv' + this.instanceId
                 ,scope: this
@@ -114,7 +112,6 @@ Ext.define('CB.browser.view.Charts', {
                 ,itemId: 'piechart'
                 ,enableToggle: true
                 ,allowDepress: false
-                // ,iconCls: 'ib-chart-pie'
                 // ,iconAlign:'top'
                 ,toggleGroup: 'cv' + this.instanceId
                 ,scope: this

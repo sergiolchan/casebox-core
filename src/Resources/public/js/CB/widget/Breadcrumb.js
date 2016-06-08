@@ -21,12 +21,15 @@ Ext.define('CB.widget.Breadcrumb', {
                 ,fields: ['id', 'name', 'iconCls']
             });
 
-        var dir = (App.config.rtl === true) ? 'l' : 'r';
+        var cssClass = 'fr fa fa-chevron-right';
+        if (App.config.rtl === true) {
+            cssClass = 'fl fa fa-chevron-left';
+        }
 
         var tpl = new Ext.XTemplate(
                 '<div class="breadcrumb" role="navigation" style="right: auto">'
                     ,'<tpl for=".">'
-                        ,'<div class="item" role="listitem">{[ (xindex < xcount) ? \'<span class="im-arr-' + dir + ' f' + dir + '"></span>\': \'\']}{name}</div>'
+                        ,'<div class="item" role="listitem">{[ (xindex < xcount) ? \'<span class="' + cssClass + '"></span>\': \'\']}{name}</div>'
                     ,'</tpl>'
                 ,'</div>'
             );

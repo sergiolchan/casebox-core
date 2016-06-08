@@ -7,7 +7,7 @@ Ext.define('CB.AddUserForm', {
     ,layout: 'fit'
     ,autoWidth: true
     ,title: L.AddUser
-    ,iconCls: 'icon-user-gray'
+    ,glyph: 0xf007
     ,data: {}
 
     ,initComponent: function(){
@@ -144,13 +144,13 @@ Ext.define('CB.AddUserForm', {
         Ext.apply(this, {
             buttons:[
                 {   text: L.Save
-                    ,iconCls: 'icon-save'
+                    ,glyph: 0xf0c7
                     ,disabled: true
                     ,handler: this.saveData
                     ,scope: this
                 },{
                     text: L.Cancel
-                    ,iconCls: 'icon-cancel'
+                    ,glyph: 0xf00d
                     ,handler: function(b, e){
                         this.destroy();
                     }
@@ -256,19 +256,19 @@ Ext.define('CB.UsersGroupsTree', {
         this.actions = {
             addUser: new Ext.Action({
                 text: L.User
-                ,iconCls: 'icon-user'
+                ,glyph: 0xf007
                 ,handler: this.onAddUserClick
                 ,scope: this
             })
             ,addGroup: new Ext.Action({
                 text: L.AddGroup
-                ,iconCls: 'icon-users'
+                ,glyph: 0xf0c0
                 ,handler: this.onAddGroupClick
                 ,scope: this
             })
             ,del: new Ext.Action({
                 text: L.Delete
-                ,iconCls: 'im-trash'
+                ,glyph: 0xf1f8
                 ,scale: 'medium'
                 ,disabled: true
                 ,handler: this.delNode
@@ -276,14 +276,14 @@ Ext.define('CB.UsersGroupsTree', {
             })
             ,remove: new Ext.Action({
                 text: L.Remove
-                ,iconCls: 'im-cancel'
+                ,glyph: 0xf00d
                 ,scale: 'medium'
                 ,disabled: true
                 ,handler: this.deassociateNode
                 ,scope: this
             })
             ,reload: new Ext.Action({
-                iconCls: 'im-refresh'
+                glyph: 0xf021
                 ,scale: 'medium'
                 ,qtip: L.Reload
                 ,scope:this
@@ -320,7 +320,7 @@ Ext.define('CB.UsersGroupsTree', {
                 root:  {
                     expanded: false
                     ,expandable: true
-                    ,iconCls: 'icon-home'
+                    ,glyph: 0xf015
                     ,leaf: false
                     ,nid: 'root'
                     ,text: 'root'
@@ -349,7 +349,7 @@ Ext.define('CB.UsersGroupsTree', {
             ,tbar: [
                 {
                     text: L.Add
-                    ,iconCls: 'im-create'
+                    ,glyph: 0xf055
                     ,scale: 'medium'
                     ,menu: [
                         this.actions.addUser
@@ -396,7 +396,7 @@ Ext.define('CB.UsersGroupsTree', {
                         if(n.data.enabled != 1){
                             text += ' <span class="cG">' + L.Disabled + '</span>';
                         }
-                        n.data.iconCls = 'icon-user-' + Ext.valueFrom(n.data.sex, '');
+                        n.data.glyph = 0xf007;
                     }
                     if(n.data.type == 1){
                         n.data.cls = n.data.cls + ' fwB';
@@ -627,7 +627,7 @@ Ext.define('CB.UsersGroupsTree', {
         var n = this.getSelectionModel().getSelection()[0];
         var attr = n.data;
 
-        attr.iconCls = 'icon-user-gray';
+        attr.glyph = 0xf007;;
         this.store.remove(n);
 
         if(r.outOfGroup){
@@ -804,7 +804,7 @@ Ext.define('CB.UsersGroupsTree', {
 Ext.define('CB.UserEditWindow', {
     extend: 'Ext.Window'
 
-    ,iconCls: 'icon-user'
+    ,glyph: 0xf007
     ,title: L.User
     ,modal: true
     ,closeAction: 'destroy'
@@ -883,7 +883,7 @@ Ext.define('CB.UsersGroupsForm', {
         var bulletRenderer = function(v, m){
             m.css = 'taC';
             return (v == 1)
-                ? '<span class="icon-padding icon-tick"></span>'
+                ? '<span class="icon-padding fa fa-check"></span>'
                 : '';
         };
 
@@ -930,14 +930,14 @@ Ext.define('CB.UsersGroupsForm', {
             ,tbar:[
                 {
                     text: L.Save
-                    ,iconCls: 'im-save'
+                    ,glyph: 0xf0c7
                     ,scale: 'medium'
                     ,disabled: true
                     ,handler: this.saveData
                     ,scope: this
                 },{
                     text: L.Cancel
-                    ,iconCls: 'im-cancel'
+                    ,glyph: 0xf00d
                     ,scale: 'medium'
                     ,disabled: true
                     ,handler: function(b, e){
@@ -948,7 +948,8 @@ Ext.define('CB.UsersGroupsForm', {
                 },{xtype: 'tbseparator', hidden: true}
                 ,{
                     text: L.Edit
-                    ,iconCls: 'im-edit-obj'
+                    ,glyph: 0xf040
+                    ,itemId: 'btnEditObj'
                     ,scale: 'medium'
                     ,handler: this.onEditUserDataClick
                     ,scope: this
@@ -956,14 +957,14 @@ Ext.define('CB.UsersGroupsForm', {
                 },{xtype: 'tbseparator', hidden: true}
                 ,{
                     text: L.Options
-                    ,iconCls:'im-apps'
+                    ,glyph: 0xf00a
                     ,scale: 'medium'
                     ,hidden: true
                     ,menu: [
-                        {text: L.SendResetPassMail, iconCls: 'icon-key', handler: this.onSendResetPassMailClick, scope: this}
-                        ,{text: L.ChangePassword, iconCls: 'icon-key', handler: this.onEditUserPasswordClick, scope: this}
+                        {text: L.SendResetPassMail, glyph: 0xf084, handler: this.onSendResetPassMailClick, scope: this}
+                        ,{text: L.ChangePassword, glyph: 0xf084, handler: this.onEditUserPasswordClick, scope: this}
                         ,'-'
-                        ,{text: L.ChangeUsername, iconCls: 'icon-pencil', handler: this.onEditUsernameClick, scope: this}
+                        ,{text: L.ChangeUsername, glyph: 0xf040, handler: this.onEditUsernameClick, scope: this}
                         ,'-'
                         ,this.actions.disableTSV
                         ,'-'
@@ -1132,7 +1133,7 @@ Ext.define('CB.UsersGroupsForm', {
             );
 
             var ttb = this.dockedItems.getAt(0)
-                ,eb = ttb.down('[iconCls="im-edit-obj"]')
+                ,eb = ttb.down('[itemId="btnEditObj"]')
                 ,idx = ttb.items.indexOf(eb)
                 ,enabled = (response.data.enabled == 1);
 
@@ -1358,7 +1359,7 @@ Ext.define('CB.UsersGroups', {
     ,closable: true
     ,minimizable: true
 
-    ,iconCls: 'icon-users'
+    ,glyph: 0xf0c0
     ,title: L.UserManagement
     ,width: 850
     ,height: 600
@@ -1537,10 +1538,10 @@ Ext.define('CB.UsersGroups', {
         var data = Ext.apply({}, this.form.data);
         data.id = data.id.split('-').pop();
         var n = this.tree.getSelectionModel().getSelection()[0]
-            ,iconCls = n ? n.data.iconCls : 'icon-user'
+            ,glyph = n ? n.data.glyph : 0xf007
             ,w = new CB.UserEditWindow({
                 title: data.title
-                ,iconCls: iconCls
+                ,glyph: glyph
                 ,data: data
                 ,listeners: {
                     scope: this
@@ -1567,7 +1568,7 @@ Ext.define('CB.ChangePasswordWindow', {
     ,autoWidth: true
     ,autoHeight: true
     ,border: false
-    ,iconCls: 'icon-key'
+    ,glyph: 0xf084
 
     ,initComponent: function() {
         var items = [];
@@ -1659,7 +1660,7 @@ Ext.define('CB.ChangePasswordWindow', {
                 ,buttons: [
                     {
                         text: Ext.MessageBox.buttonText.ok
-                        ,iconCls:'icon-tick'
+                        ,glyph: 0xf00c
                         ,formBind: true
                         ,type: 'submit'
                         ,scope: this
@@ -1675,7 +1676,7 @@ Ext.define('CB.ChangePasswordWindow', {
                         }
                     },{
                         text: L.Cancel
-                        ,iconCls:'icon-cancel'
+                        ,glyph: 0xf00d
                         ,handler: this.destroy
                         ,scope: this
                     }

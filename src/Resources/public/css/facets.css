@@ -2,8 +2,8 @@
 	margin: 10px 0 20px 0;
 }
 .facet .x-panel-header, .activeFilters .x-panel-header{
-	background: none;
-	border-bottom: 1px solid #AAA !important; /* #99bce8 */
+	/*background: none;*/
+	border-bottom: 1px solid #AAA; /* #99bce8 */
 	padding: 0 5px 4px 4px;
 	margin: 0;
 	/*font: 11px "lucida grande",tahoma,verdana,arial,sans-serif;*/
@@ -16,13 +16,14 @@
 	text-transform: uppercase;
 }
 
-.facet .x-panel-body {
+/*.facet .x-panel-body {
 	border: none;
 }
-
+*/
 /*x-panel-body-default*/
 .facet .x-tool-chain, .facet .x-tool-unchain{display: none}
 .multivalued .x-tool-chain, .multivalued .x-tool-unchain{display: inline-block}
+.facet .x-tool-points {background-image: url(i/s/points-gray.png);}
 
 .filter_list {
 	margin: 0;
@@ -107,33 +108,3 @@
 	margin-bottom:5px;
 	border-bottom: 1px solid #ddd
 }
-.icon_basic_filter { background-position: -16px -32px }
-a:hover .icon_basic_filter, span:hover .icon_basic_filter, .stactive .icon_basic_filter, .midactive .icon_basic_filter, .endactive .icon_basic_filter { background-position: -16px -48px }
-a:hover .icon_close_red, span:hover .icon_close_red, .stactive .icon_close_red, .midactive .icon_close_red, .endactive .icon_close_red { background-position: 0 -16px }
-.ico {
-	height: 16px;
-	width: 16px;
-	float: left;
-}
-.icobu  {
-	padding-left:22px;
-	position: relative;
-	display: block;
-}
-.icobu i {
-	position: absolute;
-	background-image: url(i/ico/icons.png);
-	background-repeat: no-repeat;
-	display: block;
-	height: 16px;
-	width: 16px;
-	left: 0;
-}
-.icon_close_red {background-position: 0 0 }
-.icon_close_white { background-position: -16px 0}
-a:hover .icon_close_white, span:hover .icon_close_white, .stactive .icon_close_white, .midactive .icon_close_white, .endactive .icon_close_white { background-position: -16px -16px }
-.icon_drop_white { background-position: -32px 0 }
-a:hover .icon_drop_white, span:hover .icon_drop_white, .stactive .icon_drop_white, .midactive .icon_drop_white, .endactive .icon_drop_white { background-position: -32px -16px }
-.icon_drop_white_up { background-position: -32px -32px }
-a:hover .icon_drop_white_up, span:hover .icon_drop_white_up, .stactive .icon_drop_white_up, .midactive .icon_drop_white_up, .endactive .icon_drop_white_up { background-position: -32px -48px }
-

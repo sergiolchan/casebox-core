@@ -34,7 +34,7 @@ Ext.define('CB.field.Comment', {
         this.attachFileButton = new Ext.button.Button({
             qtip: L.AttachFile
             ,text: ''
-            ,iconCls: 'i-attach'
+            ,glyph: 0xf0c6
             ,hidden: (Ext.isEmpty(this.params) || Ext.isEmpty(this.params.id))
             ,width: 24
             ,scope: this

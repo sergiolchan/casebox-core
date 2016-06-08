@@ -73,15 +73,12 @@ class StylesService
         if (!empty($container) && $container->hasParameter('devel')) {
 
             $groups = $container->get('casebox_core.service.minify')->getDefaultAssests();
-            $addGroups = ['css', 'csstheme'];
-            foreach ($addGroups as $group) {
-                foreach ($groups[$group] as $script) {
-                    $styles[$script] = [
-                        'rel' => 'stylesheet',
-                        'type' => 'text/css',
-                        'href' => '/' . $script
-                    ];
-                }
+            foreach ($groups['css'] as $script) {
+                $styles[$script] = [
+                    'rel' => 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => '/' . $script
+                ];
             }
 
         } else {

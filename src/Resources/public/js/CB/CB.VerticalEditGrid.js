@@ -194,7 +194,7 @@ Ext.define('CB.VerticalEditGrid', {
                     //show duplicate index
                     // if last (and not exsceeded) then show + icon
                     if(this.helperTree.canDuplicate(id) && this.helperTree.isLastDuplicate(id)) {
-                        v = '<img name="add_duplicate" title="'+L.addDuplicateField+'" class="fr duplicate-plus" src="'+Ext.BLANK_IMAGE_URL + '" / >' + v;
+                        v = '<img name="add_duplicate" title="'+L.addDuplicateField+'" class="fr fa fa-plus" src="'+Ext.BLANK_IMAGE_URL + '" / >' + v;
                     } else {
                         var idx = this.helperTree.getDuplicateIndex(id) +1;
                         v = '<img title="' + L.duplicate + ' ' + idx +

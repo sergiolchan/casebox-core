@@ -101,7 +101,7 @@ Ext.define('CB.object.ViewContainer', {
         this.actions = {
 
             edit: new Ext.Action({
-                iconCls: 'im-edit-obj'
+                glyph: 0xf040
                 ,itemId: 'edit'
                 ,text: L.Edit
                 ,disabled: true
@@ -113,7 +113,7 @@ Ext.define('CB.object.ViewContainer', {
             ,download: new Ext.Action({
                 text: L.Download
                 ,itemId: 'download'
-                ,iconCls: 'im-download'
+                ,glyph: 0xf019
                 ,hidden: true
                 ,scale: 'medium'
                 ,scope: this
@@ -121,7 +121,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,fitImage: new Ext.Action({
-                iconCls: 'im-fit'
+                glyph: 0xf0b2
                 ,itemId: 'fitImage'
                 ,hidden: true
                 ,enableToggle: true
@@ -132,7 +132,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,completeTask: new Ext.Action({
-                iconCls: 'im-task-complete'
+                glyph: 0xf00c
                 ,itemId: 'completetask'
                 ,text: L.Done
                 ,hidden: true
@@ -142,7 +142,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,preview: new Ext.Action({
-                iconCls: 'im-preview'
+                glyph: 0xf06e
                 ,itemId: 'preview'
                 ,enableToggle: true
                 ,qtip: L.Preview
@@ -153,7 +153,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,openExternal: new Ext.Action({
-                iconCls: 'im-external'
+                glyph: 0xf08e
                 ,itemId: 'openExternal'
                 ,scale: 'medium'
                 ,hidden: true
@@ -162,7 +162,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,close: new Ext.Action({
-                iconCls: 'im-cancel'
+                glyph: 0xf00d
                 ,itemId: 'close'
                 ,scale: 'medium'
                 ,scope: this
@@ -170,7 +170,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,star: new Ext.Action({
-                iconCls: 'i-star'
+                glyph: 0xf005
                 ,qtip: L.Star
                 ,itemId: 'star'
                 ,scale: 'medium'
@@ -180,7 +180,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,unstar: new Ext.Action({
-                iconCls: 'i-unstar'
+                glyph: 0xf006
                 ,qtip: L.Unstar
                 ,itemId: 'unstar'
                 ,scale: 'medium'
@@ -191,7 +191,7 @@ Ext.define('CB.object.ViewContainer', {
 
             ,notifyOn: new Ext.Action({
                 text: L.NotifyOn
-                ,iconCls: 'im-watch'
+                ,glyph: 0xf0f3
                 ,itemId: 'notifyOn'
                 ,scope: this
                 ,handler: this.onSubscriptionButtonClick
@@ -199,7 +199,7 @@ Ext.define('CB.object.ViewContainer', {
 
             ,notifyOff: new Ext.Action({
                 text: L.NotifyOff
-                ,iconCls: 'im-ignore'
+                ,glyph: 0xf1f6
                 ,itemId: 'notifyOff'
                 ,scope: this
                 ,handler: this.onSubscriptionButtonClick
@@ -217,7 +217,7 @@ Ext.define('CB.object.ViewContainer', {
         //define button configs
         this.menuItemConfigs = {
             reload: {
-                iconCls: 'i-refresh'
+                glyph: 0xf021
                 ,itemId: 'reload'
                 ,text: L.Refresh
                 ,scope: this
@@ -225,7 +225,7 @@ Ext.define('CB.object.ViewContainer', {
             }
 
             ,completetask: {
-                iconCls: 'im-task-complete'
+                glyph: 0xf00c
                 ,itemId: 'completetask'
                 ,scale: 'medium'
                 ,text: L.Done
@@ -309,7 +309,7 @@ Ext.define('CB.object.ViewContainer', {
             ,new Ext.Button({
                 itemId: 'more'
                 ,arrowVisible: false
-                ,iconCls: 'im-points'
+                ,glyph: 0xf142
                 ,scale: 'medium'
                 ,menu: []
             })
@@ -1114,7 +1114,7 @@ Ext.define('CB.object.ViewContainer', {
             ,d = {
                 id: ld.id
                 ,name: ld.name
-                ,iconCls: ld.iconCls
+                ,glyph: ld.glyph
                 ,path: '/' + ld.pids + '/' + ld.id
                 ,pathText: ld.path
             };
