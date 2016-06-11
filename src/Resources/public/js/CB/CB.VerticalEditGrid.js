@@ -125,7 +125,7 @@ Ext.define('CB.VerticalEditGrid', {
                         editable: true
                         ,name: 'iconCls'
                         ,hiddenName: 'iconCls'
-                        ,tpl: '<tpl for="."><div class="x-boundlist-item icon-padding16 {name}">{name}</div></tpl>'
+                        ,tpl: '<tpl for="."><div class="x-boundlist-item"><i class="{[values["name"]]}"></i> {[values["name"]]}<tpl if="xindex < xcount">, </tpl></div></tpl>'
                         ,store: CB.DB.templatesIconSet
                         ,valueField: 'name'
                         ,displayField: 'name'

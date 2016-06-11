@@ -29,7 +29,7 @@ class SolrUpdateCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return null
@@ -42,15 +42,15 @@ class SolrUpdateCommand extends ContainerAwareCommand
         $system->bootstrap($container);
 
         $coreName = $container->getParameter('kernel.environment');
-        $all = $input->getOption('all');
-        
+        $all = $input->hasOption('all');
+
         $solr = new Client();
 
         $params = [
             'core' => $coreName,
-            'all' => (isset($all)) ? true : null,
+            'all' => $all ? true : null,
             'cron_id' => null,
-            'nolimit' => (!empty($input->getOption('nolimit'))) ? $input->getOption('nolimit') : null,
+            'nolimit' => $input->hasOption('nolimit') ? true : null,
         ];
 
         $solr->updateTree($params);

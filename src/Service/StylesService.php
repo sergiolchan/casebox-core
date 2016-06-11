@@ -90,11 +90,6 @@ class StylesService
                         'type' => 'text/css',
                         'href' => '/min/css.css',
                     ],
-                    'csstheme' => [
-                        'rel' => 'stylesheet',
-                        'type' => 'text/css',
-                        'href' => '/min/csstheme.css',
-                    ],
                 ]
             );
         }

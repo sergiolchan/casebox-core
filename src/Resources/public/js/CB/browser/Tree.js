@@ -325,7 +325,7 @@ Ext.define('CB.browser.Tree', {
             //assign only custom icons because folder icon shows shiftet
             //
             if(icon !== 'fa fa-folder fa-fl') {
-                node.set('iconCls', icon);
+                node.set('iconCls', icon + ' fa-lg');
             }
         }
 

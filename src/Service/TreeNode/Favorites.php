@@ -67,7 +67,7 @@ class Favorites extends Base
                 array(
                     'name' => $this->getName('favorites')
                     ,'id' => $this->getId('favorites')
-                    ,'iconCls' => 'i-star'
+                    ,'iconCls' => 'fa fa-star fa-lg'
                     ,'cls' => 'tree-header'
                     ,'has_childs' => false
                 )
