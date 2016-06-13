@@ -124,7 +124,7 @@ class CasesGrouped extends Base
             $rez['data'][] = array(
                 'name' => $this->getName(2)
                 ,'id' => $this->getId(2)
-                ,'iconCls' => 'icon-folder'
+                ,'iconCls' => 'fa fa-folder fa-fl'
                 ,'has_childs' => true
             );
         }
@@ -132,7 +132,7 @@ class CasesGrouped extends Base
             $rez['data'][] = array(
                 'name' => $this->getName(3)
                 ,'id' => $this->getId(3)
-                ,'iconCls' => 'icon-folder'
+                ,'iconCls' => 'fa fa-folder fa-fl'
                 ,'has_childs' => true
             );
         }
@@ -140,7 +140,7 @@ class CasesGrouped extends Base
             $rez['data'][] = array(
                 'name' => $this->getName(1)
                 ,'id' => $this->getId(1)
-                ,'iconCls' => 'icon-folder'
+                ,'iconCls' => 'fa fa-folder fa-fl'
                 ,'has_childs' => true
             );
         }
@@ -148,7 +148,7 @@ class CasesGrouped extends Base
             $rez['data'][] = array(
                 'name' => $this->getName(4)
                 ,'id' => $this->getId(4)
-                ,'iconCls' => 'i-magnifier'
+                ,'iconCls' => 'fa fa-search fa-fl'
                 ,'has_childs' => true
             );
         }
@@ -186,7 +186,7 @@ class CasesGrouped extends Base
                     $rez['data'][] = array(
                         'name' => $this->getName($k).' ('.$v.')'
                         ,'id' => $this->getId($k)
-                        ,'iconCls' => 'icon-folder'
+                        ,'iconCls' => 'fa fa-folder fa-fl'
                         ,'has_childs' => true
                     );
                 }

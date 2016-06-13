@@ -150,7 +150,7 @@ class Tasks extends Base
                 $rez['data'][] = array(
                     'name' => $this->trans('AssignedToMe') . $this->renderCount($sr['facets']->facet_fields->{'1assigned'}->{$userId})
                     ,'id' => $this->getId(2)
-                    ,'iconCls' => 'icon-task'
+                    ,'iconCls' => 'fa fa-calendar-o fa-fl'
                     ,'has_childs' => true
                 );
             }
@@ -158,7 +158,7 @@ class Tasks extends Base
                 $rez['data'][] = array(
                     'name' => $this->trans('CreatedByMe') . $this->renderCount($sr['facets']->facet_fields->{'2cid'}->{$userId})
                     ,'id' => $this->getId(3)
-                    ,'iconCls' => 'icon-task'
+                    ,'iconCls' => 'fa fa-calendar-o fa-fl'
                     ,'has_childs' => true
                 );
             }
@@ -205,21 +205,21 @@ class Tasks extends Base
                 $rez['data'][] = array(
                     'name' => lcfirst($this->trans('Overdue')) . $this->renderCount($sr['facets']->facet_fields->{'0task_status'}->{'1'})
                     ,'id' => $this->getId(4)
-                    ,'iconCls' => 'icon-task'
+                    ,'iconCls' => 'fa fa-calendar-o fa-fl'
                 );
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'2'})) {
                 $rez['data'][] = array(
                     'name' => lcfirst($this->trans('Ongoing')) . $this->renderCount($sr['facets']->facet_fields->{'0task_status'}->{'2'})
                     ,'id' => $this->getId(5)
-                    ,'iconCls' => 'icon-task'
+                    ,'iconCls' => 'fa fa-calendar-o fa-fl'
                 );
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'3'})) {
                 $rez['data'][] = array(
                     'name' => lcfirst($this->trans('Closed')) . $this->renderCount($sr['facets']->facet_fields->{'0task_status'}->{'3'})
                     ,'id' => $this->getId(6)
-                    ,'iconCls' => 'icon-task'
+                    ,'iconCls' => 'fa fa-calendar-o fa-fl'
                 );
             }
             // Add assignee node if there are any created tasks already added to result
@@ -227,7 +227,7 @@ class Tasks extends Base
                 $rez['data'][] = array(
                     'name' => lcfirst($this->trans('Assignee'))
                     ,'id' => $this->getId('assignee')
-                    ,'iconCls' => 'icon-task'
+                    ,'iconCls' => 'fa fa-calendar-o fa-fl'
                     ,'has_childs' => true
                 );
             }
@@ -316,7 +316,7 @@ class Tasks extends Base
                 $r = array(
                     'name' => $this->getName($k) . $this->renderCount($v)
                     ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-user'
+                    ,'iconCls' => 'fa fa-user fa-fl'
                 );
 
                 if (!empty($p['showFoldersContent']) ||

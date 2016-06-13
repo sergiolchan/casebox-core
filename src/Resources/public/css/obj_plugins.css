@@ -115,13 +115,6 @@ background-color: #FFFFCC;
 .block-plugin-comments .comment div.show-all {
     display: none;
     height: 6px;
-    background-image: url(default/s/ic_keyboard_control_grey600_18dp.png);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-}
-
-.block-plugin-comments .comment div.show-all:hover {
-    background-image: url(default/s/ic_keyboard_control_black_18dp.png);
 }
 
 .block-plugin-comments .comment-big div.show-all {

@@ -34,6 +34,9 @@ services:
     casebox_core.service_objects_plugins.thumb:
         class: Casebox\CoreBundle\Service\Objects\Plugins\Thumb
 
+    casebox_core.service_objects_plugins.timetracking:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\TimeTracking
+
     casebox_core.service_objects_plugins.versions:
         class: Casebox\CoreBundle\Service\Objects\Plugins\Versions
 

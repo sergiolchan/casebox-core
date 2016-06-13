@@ -44,7 +44,7 @@ class RealSubnode extends Base
                 array(
                     'name' => $this->config['title']
                     ,'id' => $this->config['realNodeId']
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => true
                 )
             )

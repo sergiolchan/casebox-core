@@ -88,7 +88,7 @@ class RecentActivity extends Base
                 array(
                     'name' => $this->getName('recent')
                     ,'id' => $this->getId('recent')
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => true
                 )
             )
@@ -104,19 +104,19 @@ class RecentActivity extends Base
                 array(
                     'name' => $this->getName('commented')
                     ,'id' => $this->getId('commented')
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => $isFromGrid
                 )
                 ,array(
                     'name' => $this->getName('modified')
                     ,'id' => $this->getId('modified')
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => $isFromGrid
                 )
                 ,array(
                     'name' => $this->getName('added')
                     ,'id' => $this->getId('added')
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => $isFromGrid
                 )
             )
@@ -157,7 +157,7 @@ class RecentActivity extends Base
     /**
      * get param for this node
      *
-     * @param string $param for now using to get 'facets' or 'DC'
+     * @param  string $param for now using to get 'facets' or 'DC'
      * @return array
      */
     public function getNodeParam($param = 'facets')

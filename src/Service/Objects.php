@@ -947,12 +947,15 @@ class Objects
 
         // Solr tree Update
         /** @var EventDispatcher $dispatcher */
-        $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
+        $continer = Cache::get('symfony.container');
+        $dispatcher = $container->get('event_dispatcher');
         $dispatcher->dispatch('onSolrTreeUpdate');
+
+        $comments = $container->get('casebox_core.service_objects_plugins.comments');
 
         return [
             'success' => true,
-            'data' => Plugins\Comments::loadComment($id),
+            'data' => $comments->loadComment($id),
         ];
     }
 
@@ -981,12 +984,15 @@ class Objects
 
             // Solr tree Update
             /** @var EventDispatcher $dispatcher */
-            $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
+            $container = Cache::get('symfony.container');
+            $dispatcher = $container->get('event_dispatcher');
             $dispatcher->dispatch('onSolrTreeUpdate');
+
+            $comments = $container->get('casebox_core.service_objects_plugins.comments');
 
             $rez = [
                 'success' => true,
-                'data' => Plugins\Comments::loadComment($commentData['id']),
+                'data' => $comments->loadComment($commentData['id']),
             ];
 
         }

@@ -65,7 +65,7 @@ class MyCalendar extends Base
                 array(
                     'name' => $this->getName(1)
                     ,'id' => $this->getId(1)
-                    ,'iconCls' => 'icon-calendar'
+                    ,'iconCls' => 'fa fa-calendar fa-fl'
                     ,'cls' => 'tree-header'
                     ,'view' => 'calendar'
                 )

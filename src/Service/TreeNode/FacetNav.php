@@ -203,8 +203,7 @@ class FacetNav extends Query
                 $r = array(
                     'name' => $name
                     ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
-                    // ,'iconCls' => 'icon-none'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                 );
 
                 if ($showChilds) {
