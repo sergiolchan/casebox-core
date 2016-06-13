@@ -106,7 +106,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     {
         $rez = 'Unnamed';
         $cfg = &$this->config;
-        $l = Cache::get('symfony.request')->getRequest();
+        $l = Cache::get('symfony.request')->getLocale();
 
         if (empty($cfg['title_'.$l])) {
             $l = $this->configService->get('language');

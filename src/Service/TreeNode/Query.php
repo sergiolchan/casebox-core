@@ -36,7 +36,7 @@ class Query extends Base
                 array(
                     'name' => $this->getName('root')
                     ,'id' => $this->getId('root')
-                    ,'iconCls' => Util\coalesce(@$this->config['iconCls'], 'icon-folder')
+                    ,'iconCls' => Util\coalesce(@$this->config['iconCls'], 'fa fa-folder fa-fl')
                     ,'cls' => 'tree-header'
                     ,'has_childs' => false
                 )

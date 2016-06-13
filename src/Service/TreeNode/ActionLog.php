@@ -130,7 +130,7 @@ class ActionLog extends Base
                 array(
                     'name' => $this->getName('actionLog')
                     ,'id' => $this->getId('actionLog')
-                    ,'iconCls' => 'i-book-open'
+                    ,'iconCls' => 'fa fa-book fa-fl'
                     ,'has_childs' => true
                 )
             )
@@ -169,7 +169,7 @@ class ActionLog extends Base
                 $rez['data'][$k] = array(
                     'name' => $this->getName($k) . ' (' . $v . ')'
                     ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => false
                 );
             }
@@ -182,7 +182,7 @@ class ActionLog extends Base
                 $rez['data'][] = array(
                     'name' => $this->getName($k) . ' (' . $sr->facet_counts->facet_queries->action_date . ')'
                     ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => false
                 );
         }
@@ -190,14 +190,14 @@ class ActionLog extends Base
         $rez['data'][] = array(
             'name' => $this->getName('g')
             ,'id' => $this->getId('g')
-            ,'iconCls' => 'icon-folder'
+            ,'iconCls' => 'fa fa-folder fa-fl'
             ,'has_childs' => true
         );
 
         $rez['data'][] = array(
             'name' => $this->getName('q')
             ,'id' => $this->getId('q')
-            ,'iconCls' => 'icon-folder'
+            ,'iconCls' => 'fa fa-folder fa-fl'
             ,'has_childs' => true
         );
 
@@ -227,7 +227,7 @@ class ActionLog extends Base
                 $rez['data'][] = array(
                     'name' => $this->getName($k) . ' (' . $v . ')'
                     ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-user'
+                    ,'iconCls' => 'fa fa-user fa-fl'
                     ,'has_childs' => false
                 );
             }
@@ -259,7 +259,7 @@ class ActionLog extends Base
                 $rez['data'][] = array(
                     'name' => $this->getName($k) . ' (' . $v . ')'
                     ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
+                    ,'iconCls' => 'fa fa-folder fa-fl'
                     ,'has_childs' => false
                 );
             }

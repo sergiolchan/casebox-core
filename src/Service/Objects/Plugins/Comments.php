@@ -81,7 +81,7 @@ class Comments extends Base
             array_unshift($rez['data'], $d);
         }
 
-        static::addAttachmentLinks($rez);
+        $this->addAttachmentLinks($rez);
 
         return $rez;
     }
@@ -127,7 +127,7 @@ class Comments extends Base
             array_unshift($rez['data'], $d);
         }
 
-        static::addAttachmentLinks($rez);
+        $this->addAttachmentLinks($rez);
 
         return @array_shift($rez['data']);
     }
@@ -137,7 +137,7 @@ class Comments extends Base
      * @param  array reference $rez
      * @return void
      */
-    protected static function addAttachmentLinks(&$rez)
+    protected function addAttachmentLinks(&$rez)
     {
         //collect comment ids
         $ids = array();
@@ -188,7 +188,7 @@ class Comments extends Base
             $links = array();
             foreach ($files[$d['id']] as $f) {
                 $f['type'] = @$fileTypes[$f['id']];
-                $links[] = static::getFileLink($f);
+                $links[] = $this->getFileLink($f);
             }
 
             $d['files'] = '<ul class="comment-attachments"><li>' . implode('</li><li>', $links) .'</li></ul>';
@@ -200,7 +200,7 @@ class Comments extends Base
      * @param  array  $file
      * @return string
      */
-    protected static function getFileLink($file)
+    protected function getFileLink($file)
     {
         $rez = '';
 

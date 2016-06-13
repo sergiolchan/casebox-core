@@ -72,7 +72,8 @@ class Path
 
         foreach ($nodeConfigs as $p => $cfg) {
             $class = empty($cfg['class']) ? '\\Casebox\\CoreBundle\\Service\\TreeNode\\'.$p : $cfg['class'];
-            $cfg['guid'] = $guids[$p]; //static::getGUID($p);
+
+            $cfg['guid'] = $guids[$p];
             $cfg['class'] = $class;
 
             try {

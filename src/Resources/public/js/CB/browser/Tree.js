@@ -313,21 +313,15 @@ Ext.define('CB.browser.Tree', {
         node.data.system = Ext.Number.from(node.data.system, 0);
         node.set('text', node.data.name);
 
-        // node.data.glyph = Ext.valueFrom(node.data.glyph, 0xf07b);
-        var icon = '';
-        if(Ext.isEmpty(node.data.iconCls)) {
+        var icon = node.data.iconCls;
+        if(Ext.isEmpty(icon)) {
             if(node.data.cfg && node.data.cfg.iconCls){
                 icon = node.data.cfg.iconCls;
             } else {
                 icon = getItemIcon(node.data);
             }
-
-            //assign only custom icons because folder icon shows shiftet
-            //
-            if(icon !== 'fa fa-folder fa-fl') {
-                node.set('iconCls', icon + ' fa-lg');
-            }
         }
+        node.set('iconCls', icon + ' fa-lg');
 
         node.data.editable = false;
         node.draggable = (node.data.system === 0);
