@@ -2,10 +2,12 @@
 
 namespace Casebox\CoreBundle\Command;
 
+use Casebox\CoreBundle\Service\System;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\Translator;
@@ -34,7 +36,10 @@ class RedisFlushCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output = new SymfonyStyle($input, $output);
-        $this->getContainer()->get('casebox_core.service.redis_service')->flushAll();
+        $container = $this->getContainer();
+        $system = new System();
+        $system->bootstrap($container);
+        $container->get('casebox_core.service.redis_service')->flushAll();
         $output->success("DONE!");
     }
 }
