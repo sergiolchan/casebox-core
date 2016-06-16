@@ -5,6 +5,7 @@ Ext.define('CB.object.plugin.Html', {
     ,alias: 'CBObjectPluginHtml'
 
     ,title: 'Html'
+    ,autoHeight: true
 
     ,initComponent: function(){
         Ext.apply(this, {
@@ -28,7 +29,7 @@ Ext.define('CB.object.plugin.Html', {
             this.update(r.data);
         }
 
-        this.setTitle(Ext.valueFrom(r.title), this.title);
+        this.setTitle(Ext.valueFrom(r.title, this.title));
     }
 
     ,onAfterRender: function(){

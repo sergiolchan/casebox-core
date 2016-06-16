@@ -101,30 +101,6 @@ class UsersGroups implements UserInterface, \Serializable
     protected $system;
 
     /**
-     * @ORM\Column(name="l1", type="string", nullable=true, length=150)
-     * @var string
-     */
-    protected $l1;
-
-    /**
-     * @ORM\Column(name="l2", type="string", nullable=true, length=150)
-     * @var string
-     */
-    protected $l2;
-
-    /**
-     * @ORM\Column(name="l3", type="string", nullable=true, length=150)
-     * @var string
-     */
-    protected $l3;
-
-    /**
-     * @ORM\Column(name="l4", type="string", nullable=true, length=150)
-     * @var string
-     */
-    protected $l4;
-
-    /**
      * @ORM\Column(name="sex", type="string", nullable=true, length=1)
      * @var string
      */

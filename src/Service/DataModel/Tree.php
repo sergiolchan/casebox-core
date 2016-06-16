@@ -25,20 +25,16 @@ class Tree extends Base
     protected static $tableFields = array(
         'id' => 'int'
         ,'pid' => 'int'
-        ,'user_id' => 'int'
         ,'system' => 'int'
-        // ,'type' => 'int'  // obsolete
         ,'draft' => 'int'
         ,'draft_pid' => 'varchar'
         ,'template_id' => 'int'
-        // ,'tag_id' => 'int' // obsolete
         ,'name' => 'varchar'
         ,'target_id' => 'int'
         ,'name' => 'varchar'
         ,'date' => 'datetime'
         ,'date_end' => 'datetime'
         ,'size' => 'int' //..
-        ,'is_main' => 'int' //..
         ,'cfg' => 'text'
         ,'inherit_acl' => 'int'
         ,'cid' => 'int'
@@ -139,7 +135,6 @@ class Tree extends Base
         $res = $dbs->query(
             'SELECT t.id `nid`
                 ,t.`system`
-                ,t.`type`
                 ,t.`name`
                 ,t.`cfg`
                 ,ti.acl_count
@@ -172,9 +167,8 @@ class Tree extends Base
 
         $res = $dbs->query(
             'SELECT t.id
-                ,t.name
                 ,t.`system`
-                ,t.`type`
+                ,t.name
                 ,ti.pids
                 ,ti.case_id
                 ,t.`template_id`
@@ -259,11 +253,11 @@ class Tree extends Base
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'SELECT id
+            'SELECT min(id) `id`
             FROM tree
             WHERE pid IS NULL
                 AND `system` = 1
-                AND `is_main` = 1'
+                AND dstatus = 0'
         );
 
         if ($r = $res->fetch()) {
@@ -276,8 +270,8 @@ class Tree extends Base
 
     /**
      * get child record by name
-     * @param  int     $pid
-     * @param string $name
+     * @param  int    $pid
+     * @param  string $name
      * @return array
      */
     public static function getChildByName($pid, $name)
@@ -305,9 +299,9 @@ class Tree extends Base
 
     /**
      * get child names under given pid that start with $name and have same extension as $ext
-     * @param  int     $pid
-     * @param string $name
-     * @param string $ext
+     * @param  int    $pid
+     * @param  string $name
+     * @param  string $ext
      * @return array
      */
     public static function getChildNames($pid, $name, $ext)
@@ -396,8 +390,8 @@ class Tree extends Base
 
     /**
      * assign draft children to real id
-     * @param string $draftId
-     * @param  array   $id
+     * @param  string $draftId
+     * @param  array  $id
      * @return void
      */
     public static function assignChildDrafts($draftId, $targetId)
@@ -449,9 +443,7 @@ class Tree extends Base
             'INSERT INTO `tree`
                 (`id`
                 ,`pid`
-                ,`user_id`
                 ,`system`
-                ,`type`
                 ,`template_id`
                 ,`tag_id`
                 ,`target_id`
@@ -459,7 +451,6 @@ class Tree extends Base
                 ,`date`
                 ,`date_end`
                 ,`size`
-                ,`is_main`
                 ,`cfg`
                 ,`inherit_acl`
                 ,`cid`
@@ -474,9 +465,7 @@ class Tree extends Base
             SELECT
                 NULL
                 ,$2
-                ,`user_id`
                 ,`system`
-                ,`type`
                 ,`template_id`
                 ,`tag_id`
                 ,`target_id`
@@ -484,7 +473,6 @@ class Tree extends Base
                 ,`date`
                 ,`date_end`
                 ,`size`
-                ,`is_main`
                 ,`cfg`
                 ,`inherit_acl`
                 ,$3

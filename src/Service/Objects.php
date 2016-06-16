@@ -554,8 +554,28 @@ class Objects
         }
 
         switch ($type) {
+            case 'comment':
+                return new Objects\Comment($objectId);
+                break;
+
+            case 'config':
+                return new Objects\Config($objectId);
+                break;
+
+            case 'field':
+                return new Objects\TemplateField($objectId);
+                break;
+
             case 'file':
                 return new Objects\File($objectId);
+                break;
+
+            case 'group':
+                return new Objects\Group($objectId);
+                break;
+
+            case 'shortcut':
+                return new Objects\Shortcut($objectId);
                 break;
 
             case 'task':
@@ -566,20 +586,8 @@ class Objects
                 return new Objects\Template($objectId);
                 break;
 
-            case 'field':
-                return new Objects\TemplateField($objectId);
-                break;
-
-            case 'comment':
-                return new Objects\Comment($objectId);
-                break;
-
-            case 'config':
-                return new Objects\Config($objectId);
-                break;
-
-            case 'shortcut':
-                return new Objects\Shortcut($objectId);
+            case 'user':
+                return new Objects\User($objectId);
                 break;
 
             default:
@@ -816,8 +824,7 @@ class Objects
             /*
             Now we'll try to detect plugins config that could be found in following places:
                 1. in config of the template for the given object, named object_plugins
-                2. in core config, property object_type_plugins (config definitions per available template type values: object, case, task etc)
-                3. a generic config,  named default_object_plugins, could be defined in core config
+                2. a generic config,  named default_object_plugins, could be defined in core config
             */
 
             $o = $this->getCachedObject($id);

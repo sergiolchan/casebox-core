@@ -2,12 +2,9 @@
 namespace Casebox\CoreBundle\Service\Auth;
 
 use Casebox\CoreBundle\Entity\UsersGroups as UsersGroupsEntity;
-use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\UsersGroups;
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Security;
-use Casebox\CoreBundle\Service\DataModel as DM;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -80,27 +77,15 @@ class CaseboxAuth
      */
     public function authenticate($username, $password)
     {
-        $user = $this->getEm()->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
-
-        if (!$user instanceof UsersGroupsEntity) {
-            return false;
+        if (!$this->verifyUserPassword($username, $password)) {
+            return null;
         }
+
+        $user = $this->getEm()->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
 
         $roles =  $user->getRoles();
         if (empty($roles)) {
             $roles = [UsersGroupsEntity::ROLE_USER => UsersGroupsEntity::ROLE_USER];
-        }
-
-        if (strlen($user->getPassword()) <= 32) {
-            // Old password behavior
-            $encodedPass = md5('aero'.$password);
-        } else {
-            $encoder = $this->getEncoderFactoryInterface()->getEncoder($user);
-            $encodedPass = $encoder->encodePassword($password, $user->getSalt());
-        }
-
-        if ($encodedPass !== $user->getPassword()) {
-            return null;
         }
 
         $this->getSession()->start();
@@ -119,6 +104,31 @@ class CaseboxAuth
         $session->save();
 
         return $user;
+    }
+
+    /**
+     * verify user password
+     * @param  string $username
+     * @param  string $password
+     * @return bool
+     */
+    public function verifyUserPassword($username, $password)
+    {
+        $user = $this->getEm()->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
+
+        if (!$user instanceof UsersGroupsEntity) {
+            return false;
+        }
+
+        if (strlen($user->getPassword()) <= 32) {
+            // Old password behavior
+            $encodedPass = md5('aero'.$password);
+        } else {
+            $encoder = $this->getEncoderFactoryInterface()->getEncoder($user);
+            $encodedPass = $encoder->encodePassword($password, $user->getSalt());
+        }
+
+        return ($encodedPass == $user->getPassword());
     }
 
     /**
@@ -191,8 +201,8 @@ class CaseboxAuth
     }
 
     /**
-     * @param string $password Plain password
-     * @param string|null $salt
+     * @param  string      $password Plain password
+     * @param  string|null $salt
      * @return array
      */
     public function getEncodedPasswordAndSalt($password, $salt = null)

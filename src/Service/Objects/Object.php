@@ -71,7 +71,6 @@ class Object
         ,'user_id'
         ,'system'
         ,'template_id'
-        ,'tag_id'
         ,'target_id'
         ,'name'
         ,'date'
@@ -215,10 +214,6 @@ class Object
             $p['date_end'] = null;
         }
 
-        if (empty($p['tag_id'])) {
-            $p['tag_id'] = null;
-        }
-
         if (empty($p['cid'])) {
             $p['cid'] = User::getId();
         }
@@ -266,16 +261,18 @@ class Object
 
                 if (!empty($this->template)) {
                     $field = $this->template->getField($fieldName);
+                    if (!empty($field)) {
+                        $rez[$fieldName] = @$this->getFieldValue($fieldName, 0)['value'];
+                    }
                 }
 
-                if (isset($p[$fieldName])) {
-                    $rez[$fieldName] = $p[$fieldName];
+                if (empty($rez[$fieldName])) {
+                    if (isset($p[$fieldName])) {
+                        $rez[$fieldName] = $p[$fieldName];
 
-                } elseif (!empty($field)) {
-                    $rez[$fieldName] = @$this->getFieldValue($fieldName, 0)['value'];
-
-                } elseif (!empty($p['data'][$fieldName])) {
-                    $rez[$fieldName] = $p['data'][$fieldName];
+                    } elseif (!empty($p['data'][$fieldName])) {
+                        $rez[$fieldName] = $p['data'][$fieldName];
+                    }
                 }
 
                 if (isset($rez[$fieldName]) && !is_scalar($rez[$fieldName]) && !is_null($rez[$fieldName])) {
@@ -1311,19 +1308,25 @@ class Object
             return $rez;
         }
 
+        $headers = [];
+
         $template = $this->getTemplate();
-        $templateData = $template->getData();
-        $headers = $templateData['headers'];
+        if (!empty($template)) {
+            $templateData = $template->getData();
+            $headers = $templateData['headers'];
+        }
 
         foreach ($data as $fieldName => $fieldValue) {
             if ($this->isFieldValue($fieldValue)) {
                 $fieldValue = [$fieldValue];
             }
 
-            $templateField = $template->getField($fieldName);
-            $level = $templateField['level'];
+            $templateField = [];
+            if (!empty($template)) {
+                $template->getField($fieldName);
+            }
 
-            if ($templateField['type'] == 'H') {
+            if (!empty($templateField['type']) && $templateField['type'] == 'H') {
                 $prevHeaderField = $templateField;
 
             } else {

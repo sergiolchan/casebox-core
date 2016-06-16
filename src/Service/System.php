@@ -90,7 +90,7 @@ class System
     /**
      * Get defined timezones
      * Returns an array of records for arrayReader
-     * record contains two fields: caption, gmt offset
+     * record contains three fields: timezone, gmt offset, caption
      * @return array
      */
     public function getTimezones()

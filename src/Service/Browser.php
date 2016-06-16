@@ -1082,7 +1082,6 @@ class Browser
 
         if (!empty($r)) {
             $rez['data'] = [$r];
-            Browser::updateLabels($rez['data']);
             $rez['data'] = $rez['data'][0];
         }
 
@@ -1111,23 +1110,6 @@ class Browser
                 unset($d['id']);
             }
         }
-    }
-
-    public static function updateLabels(&$data)
-    {
-        for ($i = 0; $i < sizeof($data); $i++) {
-            $d = &$data[$i];
-            unset($d['iconCls']);
-            //@$d['nid'] = intval($d['nid']);
-            @$d['system'] = intval($d['system']);
-            @$d['type'] = intval($d['type']);
-
-            // if ($d['system']) {
-            //     $d['name'] = L\getTranslationIfPseudoValue($d['name']);
-            // }
-        }
-
-        return $data;
     }
 
     /**

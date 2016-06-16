@@ -82,7 +82,7 @@
 
 .bgs32{background-size: 32px 32px}
 .wsNW {white-space: nowrap}
-.click, .header-click{ cursor: hand; cursor: pointer; text-decoration: none }
+.click, .header-click{ color: #286bcc; cursor: hand; cursor: pointer; text-decoration: none }
 .click:hover{ color: #286bcc; text-decoration: underline }
 .header-click:hover{ color: #286bcc; text-decoration: none }
 

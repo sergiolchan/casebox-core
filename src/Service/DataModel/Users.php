@@ -139,8 +139,8 @@ class Users extends UsersGroups
 
     /**
      * get user id by username
-     * @param string $username
-     * @param  int     $onlyActive
+     * @param  string $username
+     * @param  int    $onlyActive
      * @return int
      */
     public static function getIdByName($username, $onlyActive = true)
@@ -172,8 +172,8 @@ class Users extends UsersGroups
 
     /**
      * get user id by email
-     * @param string $email
-     * @return int     | null
+     * @param  string $email
+     * @return int    | null
      */
     public static function getIdByEmail($email)
     {
@@ -208,8 +208,8 @@ class Users extends UsersGroups
 
     /**
      * get user id by recovery hash
-     * @param string $hash
-     * @return int     | null
+     * @param  string $hash
+     * @return int    | null
      */
     public static function getIdByRecoveryHash($hash)
     {

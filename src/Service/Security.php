@@ -86,10 +86,6 @@ class Security
         $p['data']['id'] = DM\Group::create(
             array(
                 'name' => $name
-                // ,'l1' => $name
-                // ,'l2' => $name
-                // ,'l3' => $name
-                // ,'l4' => $name
                 ,'cid' => User::getId()
             )
         );
@@ -589,7 +585,7 @@ class Security
                 ,deny
             FROM tree_acl
             WHERE node_id IN (0'.implode(',', $ids).')
-                AND user_group_id IN ('.implode(',', $user_group_ids).')'
+                AND user_group_id IN (0'.implode(',', $user_group_ids).')'
         );
 
         while ($r = $res->fetch()) {

@@ -126,7 +126,7 @@ class DBService
 
     /**
      * @param string $query
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return \PDOStatement
      * @throws \Exception
@@ -144,7 +144,7 @@ class DBService
 
         $sth = $this->dbh->prepare($query);
 
-        $this->lastQuery = $query;
+        $this->lastQuery = $query . "\n" . var_export($parameters, 1);
 
         if (!is_array($parameters)) {
             $parameters = [$parameters];

@@ -18,12 +18,7 @@ class TemplateField extends Object
     protected $tableFields =  array(
         'id'
         ,'pid'
-        //,'template_id'
         ,'name'
-        // ,'l1'
-        // ,'l2'
-        // ,'l3'
-        // ,'l4'
         ,'type'
         ,'order'
         ,'cfg'

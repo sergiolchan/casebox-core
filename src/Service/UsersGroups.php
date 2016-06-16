@@ -1,9 +1,9 @@
 <?php
 namespace Casebox\CoreBundle\Service;
 
-use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
-use Casebox\CoreBundle\Entity\UsersGroups as UsersGroupsEntity;
+use Casebox\CoreBundle\Service\DataModel as DM;
+use Casebox\CoreBundle\Service\Objects;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -12,461 +12,6 @@ use Symfony\Component\DependencyInjection\Container;
 class UsersGroups
 {
     use TranslatorTrait;
-
-    /**
-     * Get the child list to be displayed in user management window in left tree
-     *
-     * @param array $p
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function getChildren(array $p = [])
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        $rez = [];
-
-        if (!Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-        $path = explode('/', $p['path']);
-        $id = array_pop($path);
-        $nodeType = null;
-
-        $dbs = Cache::get('casebox_dbs');
-
-        if (is_numeric($id)) {
-            $r = DM\UsersGroups::read($id);
-
-            if (!empty($r)) {
-                $nodeType = $r['type'];
-            }
-        }
-
-        // users out of a group
-        if ($id == -1) {
-            $res = $dbs->query(
-                'SELECT
-                    id,
-                    u.cid,
-                    name,
-                    first_name,
-                    last_name,
-                    sex,
-                    `enabled`
-                FROM users_groups u
-                LEFT JOIN users_groups_association a ON u.id = a.user_id
-                WHERE u.`type` = 2
-                    AND u.`system` = 0
-                    AND u.did IS NULL
-                    AND a.group_id IS NULL
-                ORDER BY 3, 2'
-            );
-
-            while ($r = $res->fetch()) {
-                $r['loaded'] = true;
-                $rez[] = $r;
-            }
-            unset($res);
-
-        } elseif (is_null($nodeType)) { /* root node childs*/
-            $res = $dbs->query(
-                'SELECT
-                    id,
-                    name,
-                    `type`,
-                    `system`,
-                    (SELECT count(*)
-                        FROM users_groups_association a
-                        JOIN users_groups u ON a.user_id = u.id
-                        AND u.did IS NULL
-                        WHERE group_id = g.id) `loaded`
-                FROM users_groups g
-                WHERE `type` = 1
-                    AND `system` = 0
-                ORDER BY 3, 2'
-            );
-
-            while ($r = $res->fetch()) {
-                $r['iconCls'] = 'icon-users';
-                $r['expanded'] = true;
-                $r['loaded'] = empty($r['loaded']);
-
-                $rez[] = $r;
-            }
-            unset($res);
-            $rez[] = [
-                'nid' => -1,
-                'name' => $this->trans('Users_without_group'),
-                'iconCls' => 'icon-users',
-                'type' => 1,
-                'expanded' => true,
-            ];
-        } else {
-            // group users
-            $res = $dbs->query(
-                'SELECT
-                    u.id
-                    ,u.cid
-                    ,u.name
-                    ,first_name
-                    ,last_name
-                    ,sex
-                    ,enabled
-                FROM users_groups_association a
-                JOIN users_groups u ON a.user_id = u.id
-                WHERE a.group_id = $1
-                    AND u.did IS NULL
-                ORDER BY 4, 5, 3',
-                $id
-            );
-
-            while ($r = $res->fetch()) {
-                $r['loaded'] = true;
-                $rez[] = $r;
-            }
-            unset($res);
-        }
-
-        // collapse first and last names into title
-        for ($i = 0; $i < sizeof($rez); $i++) {
-            $rez[$i]['title'] = User::getDisplayName($rez[$i]);
-
-            unset($rez[$i]['first_name']);
-            unset($rez[$i]['last_name']);
-
-            if (isset($rez[$i]['id'])) {
-                $rez[$i]['nid'] = $rez[$i]['id'];
-                unset($rez[$i]['id']);
-            }
-        }
-
-        return $rez;
-    }
-
-    /**
-     * Associating a user to a group
-     */
-    public function associate($user_id, $group_id)
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        if (!Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-
-        $dbs = Cache::get('casebox_dbs');
-
-        $res = $dbs->query(
-            'SELECT user_id FROM users_groups_association WHERE user_id = $1 AND group_id = $2',
-            [$user_id, $group_id]
-        );
-        if ($res->fetch()) {
-            throw new \Exception($this->trans('UserAlreadyInOffice'));
-        }
-        unset($res);
-        $dbs->query(
-            'INSERT INTO users_groups_association (user_id, group_id, cid) VALUES ($1, $2, $3)',
-            [
-                $user_id,
-                $group_id,
-                User::getId(),
-            ]
-        );
-
-        Security::calculateUpdatedSecuritySets();
-
-        Solr\Client::runBackgroundCron();
-
-        return ['success' => true];
-    }
-
-    /**
-     * Deassociating a user from a group
-     */
-    public function deassociate($user_id, $group_id)
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        if (!Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-
-        $dbs = Cache::get('casebox_dbs');
-
-        $res = $dbs->query(
-            'DELETE FROM users_groups_association WHERE user_id = $1 AND group_id = $2',
-            [$user_id, $group_id]
-        );
-
-        Security::calculateUpdatedSecuritySets();
-
-        Solr\Client::runBackgroundCron();
-
-        //return if the user is associated to another office,
-        //otherwise it shoul be added to Users out of office folder
-        $outOfGroup = true;
-        $res = $dbs->query(
-            'SELECT group_id FROM users_groups_association WHERE user_id = $1 LIMIT 1',
-            $user_id
-        );
-        if ($r = $res->fetch()) {
-            $outOfGroup = false;
-        }
-
-        return ['success' => true, 'outOfGroup' => $outOfGroup];
-    }
-
-    /**
-     * Add a new user
-     *
-     */
-    public function addUser($p)
-    {
-        if (!User::isVerified()) {
-            return [
-                'success' => false,
-                'verify' => true,
-            ];
-        }
-
-        if (!Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-
-        $rez = [
-            'success' => false,
-            'msg' => $this->trans('Missing_required_fields'),
-        ];
-
-        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
-        $dbs = Cache::get('casebox_dbs');
-
-        $p['name'] = strip_tags($p['name']);
-        $p['name'] = trim($p['name']);
-
-        $p1 = empty($p['password']) ? '' : $p['password'];
-        $p2 = empty($p['confirm_password']) ? '' : $p['confirm_password'];
-
-        if (empty($p['name']) || ($p1 != $p2)) {
-            return $rez;
-        }
-
-        // Validate input params
-        if (!preg_match('/^[a-z\.0-9_]+$/i', $p['name'])) {
-            return [
-                'success' => false,
-                'msg' => 'Invalid username. Use only letters, digits, "dot" and/or "underscore".',
-            ];
-        }
-
-        $p['first_name'] = Purify::humanName($p['first_name']);
-        $p['last_name'] = Purify::humanName($p['last_name']);
-
-        if (!empty($p['email'])) {
-            if (!filter_var($p['email'], FILTER_VALIDATE_EMAIL)) {
-                return [
-                    'success' => false,
-                    'msg' => $this->trans('InvalidEmail'),
-                ];
-            }
-        }
-
-        // Check if user with such email doesn exist
-        $user_id = DM\Users::getIdByEmail($p['email']);
-        if (!empty($user_id)) {
-            throw new \Exception($this->trans('UserEmailExists'));
-        }
-
-        // Check user existance, if user already exists but is deleted
-        // then its record will be used for new user
-        $user_id = DM\Users::getIdByName($p['name']);
-        if (!empty($user_id)) {
-            throw new \Exception($this->trans('User_exists'));
-        }
-
-        $params = [
-            'name' => $p['name'],
-            'first_name' => $p['first_name'],
-            'last_name' => $p['last_name'],
-            'cid' => User::getId(),
-            'language_id' => 1,
-            'email' => $p['email'],
-            'salt' => md5(uniqid(null, true)),
-            'roles' => json_encode([UsersGroupsEntity::ROLE_USER => UsersGroupsEntity::ROLE_USER]),
-            'cdate' => time(),
-        ];
-
-        if (!empty($p['password']) && !empty($p['psw_setup']['ps']) && ($p['psw_setup']['ps'] == 2)) {
-            $params['password'] = Cache::get('symfony.container')->get('casebox_core.service_auth.authentication')
-                ->getEncodedPasswordAndSalt($p['password'], $params['salt']);
-        }
-
-        $user_id = DM\Users::getIdByName($p['name'], false);
-        if (!empty($user_id)) {
-            //update
-            $params['id'] = $user_id;
-            DM\Users::update($params);
-
-            // In case it was a deleted user we delete all old accesess
-            $dbs->query('DELETE FROM users_groups_association WHERE user_id = $1', $user_id);
-            $dbs->query('DELETE FROM tree_acl WHERE user_group_id = $1', $rez['data']['id']);
-        } else {
-            //create
-            $user_id = DM\Users::create($params);
-        }
-
-        $rez = [
-            'success' => true,
-            'data' => ['id' => $user_id],
-        ];
-        $p['id'] = $user_id;
-
-        // associating user to group if group was specified
-        if (isset($p['group_id']) && is_numeric($p['group_id'])) {
-            $params = [
-                $user_id,
-                $p['group_id'],
-                User::getId(),
-            ];
-
-            $dbs->query(
-                'INSERT INTO users_groups_association (user_id, group_id, cid) VALUES($1, $2, $3)
-                 ON duplicate KEY UPDATE cid = $3',
-                $params
-            );
-
-            $rez['data']['group_id'] = $p['group_id'];
-        } else {
-            $rez['data']['group_id'] = 0;
-        }
-
-        // Check if send invite is set and create notification
-        if (!empty($p['psw_setup']['ps']) && ($p['psw_setup']['ps'] == 1)) {
-            $this->sendResetPasswordMail($user_id, 'invite');
-        }
-
-        Security::calculateUpdatedSecuritySets();
-
-        Solr\Client::runBackgroundCron();
-
-        return $rez;
-    }
-
-    /**
-     * Delete a user from user management window
-     */
-    public function deleteUser($user_id)
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        if (!Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-
-        $dbs = Cache::get('casebox_dbs');
-
-        $res = $dbs->query(
-            'UPDATE users_groups SET did = $2 ,ddate = CURRENT_TIMESTAMP WHERE id = $1',
-            [
-                $user_id,
-                User::getId(),
-            ]
-        );
-
-        //TODO: destroy user session if logged in
-        return [
-            'success' => $res->rowCount() ? true : false,
-            'data' => [$user_id, User::getId()],
-        ];
-    }
-
-    /**
-     * Delete a group from user management window
-     */
-    public function deleteGroup($group_id)
-    {
-        if (!Security::canEditUser($group_id)) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-
-        /* Delete group record. All security rules with this group wil be deleted by foreign key.
-        On deleting a group also the users associations are deleted by the foreign key
-        and corresponding security sets are marked, by trigger, as updated.
-        */
-        $dbs = Cache::get('casebox_dbs');
-
-        $dbs->query('DELETE FROM users_groups WHERE id = $1 AND `type` = 1', $group_id);
-        /* call the recalculation method for security sets. */
-        Security::calculateUpdatedSecuritySets();
-
-        Solr\Client::runBackgroundCron();
-
-        return ['success' => true];
-    }
-
-    /**
-     * Retreive user details data to be displayed in user details window
-     */
-    public function getUserData($p)
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        if ((User::getId() != $p['data']['id']) && !Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-        $user_id = $p['data']['id'];
-        $rez = ['success' => false, 'msg' => $this->trans('Wrong_id')];
-
-        $dbs = Cache::get('casebox_dbs');
-
-        $res = $dbs->query(
-            'SELECT id
-                ,cid
-                ,name
-                ,first_name
-                ,last_name
-                ,sex
-                ,email
-                ,enabled
-                ,data
-                ,last_action_time
-                ,cdate
-                ,cid
-            FROM users_groups u
-            WHERE id = $1',
-            $user_id
-        );
-
-        if ($r = $res->fetch()) {
-            $r['title'] = User::getDisplayName($r);
-            $r['data'] = Util\toJSONArray($r['data']);
-            $r['last_action_time'] = Util\formatMysqlTime($r['last_action_time']);
-            $r['cdate'] = Util\formatMysqlTime($r['cdate']);
-            $r['owner'] = User::getDisplayName($r['cid']);
-
-            $rez = ['success' => true, 'data' => $r];
-        }
-        unset($res);
-        if ($rez['success'] == false) {
-            throw new \Exception($this->trans('Wrong_id'));
-        }
-
-        $rez['data']['template_id'] = User::getTemplateId();
-
-        return $rez;
-    }
 
     /**
      * get display data for given ids
@@ -492,101 +37,6 @@ class UsersGroups
         }
 
         return $rez;
-    }
-
-    /**
-     * Get access data for a user to be displayed in user management window
-     */
-    public function getAccessData($user_id = false)
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        if (!Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-        $user_id = $this->extractId($user_id);
-        $rez = $this->getUserData(['data' => ['id' => $user_id]]);
-
-        $rez['data']['groups'] = [];
-
-        $dbs = Cache::get('casebox_dbs');
-
-        $res = $dbs->query('SELECT a.group_id FROM users_groups_association a WHERE user_id = $1', $user_id);
-
-        while ($r = $res->fetch()) {
-            $rez['data']['groups'][] = $r['group_id'];
-        }
-        unset($res);
-
-        // set tsv status
-        $tsv = User::getTSVConfig($user_id);
-        $rez['data']['tsv'] = empty($tsv['method']) ? 'none' : $this->trans('TSV_'.$tsv['method']);
-
-        return $rez;
-    }
-
-    /**
-     * Save access data specified for a user in UserManagement form (groups association)
-     * @param string|array $p
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function saveAccessData($p)
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        if (!Security::canManage()) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-        $p = (Array)$p;
-        @$user_id = $this->extractId($p['id']);
-
-        /*
-            analize groups:
-            - for newly associated groups the access should be updated
-            - for deassociated groups the access also should be reviewed
-        */
-
-        // get current user groups
-        $current_groups = UsersGroups::getGroupIdsForUser($user_id);
-        $updating_groups = Util\toNumericArray(@$p['groups']);
-
-        $new_groups = array_diff($updating_groups, $current_groups);
-        $deleting_groups = array_diff($current_groups, $updating_groups);
-
-        $dbs = Cache::get('casebox_dbs');
-
-        foreach ($new_groups as $group_id) {
-            $dbs->query(
-                'INSERT INTO users_groups_association (user_id, group_id, cid)
-                VALUES($1, $2, $3) ON DUPLICATE KEY
-                UPDATE uid = $3',
-                [
-                    $user_id,
-                    $group_id,
-                    User::getId(),
-                ]
-            );
-        }
-
-        if (!empty($deleting_groups)) {
-            $dbs->query(
-                'DELETE FROM users_groups_association WHERE user_id = $1 AND group_id IN (' .
-                implode(', ', $deleting_groups).')',
-                $user_id
-            );
-        }
-
-        Security::calculateUpdatedSecuritySets($user_id);
-
-        Solr\Client::runBackgroundCron();
-
-        return ['success' => true];
     }
 
     /**
@@ -638,39 +88,40 @@ class UsersGroups
         if (empty($p['password']) || ($p['password'] != $p['confirmpassword'])) {
             throw new \Exception($this->trans('Wrong_input_data'));
         }
-        $user_id = $this->extractId($p['id']);
+        $userId = $this->extractId($p['id']);
 
         $dbs = Cache::get('casebox_dbs');
 
+        $container = Cache::get('symfony.container');
+        $authService = $container->get('casebox_core.service_auth.authentication');
+
+        $rec = DM\Users::read($userId);
         // Check for old password if users changes password for himself
-        if (User::getId() == $user_id) {
-            $res = $dbs->query(
-                'SELECT id FROM users_groups WHERE id = $1 AND `password` = $2',
-                [
-                    $user_id,
-                    $p['currentpassword'],
-                ]
-            );
-            if (!$res->fetch()) {
+        if (User::getId() == $userId) {
+            if (!$authService->verifyUserPassword($rec['name'], $p['currentpassword'])) {
                 throw new \Exception($this->trans('WrongCurrentPassword'));
             }
-            unset($res);
         }
 
-        if (!Security::canEditUser($user_id) && $verify) {
+        if (!Security::canEditUser($userId) && $verify) {
             throw new \Exception($this->trans('Access_denied'));
         }
+
+        $em = $container->get('doctrine.orm.entity_manager');
+        $user = $em->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($rec['name']);
+        $encoder = $container->get('security.encoder_factory')->getEncoder($user);
+        $encodedPass = $encoder->encodePassword($p['password'], $user->getSalt());
 
         $dbs->query(
             'UPDATE users_groups SET `password` = $2, uid = $3 WHERE id = $1',
             [
-                $user_id,
-                $p['password'],
+                $userId,
+                $encodedPass,
                 User::getId(),
             ]
         );
 
-        Session::clearUserSessions($user_id);
+        Session::clearUserSessions($userId);
 
         return ['success' => true];
     }
@@ -811,22 +262,20 @@ class UsersGroups
             throw new \Exception($this->trans('Wrong_input_data'));
         }
 
-        $user_id = $this->extractId($p['id']);
+        $userId = $this->extractId($p['id']);
 
-        if (!Security::canEditUser($user_id)) {
+        if (!Security::canEditUser($userId)) {
             throw new \Exception($this->trans('Access_denied'));
         }
 
-        $dbs = Cache::get('casebox_dbs');
+        $o = Objects::getCachedObject($userId);
+        $d = $o->getData();
+        $d['data']['name'] = $name;
+        $d['data']['_title'] = $name;
+        $o->update($d);
 
-        $dbs->query(
-            'UPDATE users_groups SET `name` = $2, uid = $3 WHERE id = $1',
-            [
-                $user_id,
-                $name,
-                User::getId(),
-            ]
-        );
+        $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return ['success' => true, 'name' => $name];
     }
@@ -855,44 +304,6 @@ class UsersGroups
         User::setEnabled($userId, $enabled);
 
         return ['success' => true, 'enabled' => $enabled];
-    }
-
-    /**
-     * @param array $p
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function renameGroup($p)
-    {
-        if (!User::isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
-
-        $title = Purify::humanName($p['title']);
-
-        if (empty($title)) {
-            throw new \Exception($this->trans('Wrong_input_data'));
-        }
-
-        $id = $this->extractId($p['id']);
-
-        if (!Security::canEditUser($id)) {
-            throw new \Exception($this->trans('Access_denied'));
-        }
-
-        $dbs = Cache::get('casebox_dbs');
-
-        $dbs->query(
-            'UPDATE users_groups SET name = $2, uid = $3 WHERE id = $1 AND type = 1',
-            [
-                $id,
-                $title,
-                User::getId(),
-            ]
-        );
-
-        return ['success' => true, 'title' => $title];
     }
 
     /**

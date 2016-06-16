@@ -23,17 +23,11 @@ class Template extends Object
         ,'pid'
         ,'type'
         ,'name'
-        // ,'l1'
-        // ,'l2'
-        // ,'l3'
-        // ,'l4'
         ,'order'
         ,'visible'
         ,'iconCls'
-        ,'default_field'
         ,'cfg'
         ,'title_template'
-        ,'info_template'
     );
 
     /**
@@ -366,98 +360,141 @@ class Template extends Object
                         $value = '';
                         break;
                     }
+
                     $ids = Util\toNumericArray($value);
                     if (empty($ids)) {
-                        if (empty($field['cfg']['source']) || !is_array($field['cfg']['source'])) {
+                        if (empty($field['cfg']['source'])) {
                             $value = '';
+                            break;
+                        } else {
+                            $ids = Util\toTrimmedArray($value);
                         }
-                        break;
                     }
 
                     $value = array();
 
-                    if (in_array(
-                        @$field['cfg']['source'],
-                        array(
-                            'users'
-                            ,'groups'
-                            ,'usersgroups'
-                        )
-                    )) {
+                    switch (@$field['cfg']['source']) {
+                        case 'users':
+                        case 'groups':
+                        case 'usersgroups':
+                            $value = array();
+                            $udp = UsersGroups::getDisplayData($ids);
 
-                        $udp = UsersGroups::getDisplayData($ids);
+                            foreach ($ids as $id) {
+                                if (empty($udp[$id])) {
+                                    continue;
+                                }
+                                $r = &$udp[$id];
 
-                        foreach ($ids as $id) {
-                            if (empty($udp[$id])) {
-                                continue;
+                                $label = @htmlspecialchars(Util\coalesce($r['title'], $r['name']), ENT_COMPAT);
+
+                                if ($html) {
+                                    switch (@$field['cfg']['renderer']) {
+                                        case 'listGreenIcons':
+                                            $label = '<li class="icon-padding icon-element">' . $label . '</li>';
+                                            break;
+
+                                        // case 'listObjIcons':
+                                        default:
+                                            $icon = empty($r['iconCls'])
+                                                ? 'icon-none'
+                                                : $r['iconCls'];
+
+                                            $label = '<li><i class="' . $icon . ' fa-fw"></i> ' . $label . '</li>';
+                                            break;
+                                    }
+                                }
+
+                                $value[] = $label;
                             }
-                            $r = &$udp[$id];
+                            break;
 
-                            $label = @htmlspecialchars(Util\coalesce($r['title'], $r['name']), ENT_COMPAT);
+                        case 'sex':
+                            $id = array_shift($ids);
+                            switch ($id) {
+                                case 'm':
+                                    $value[] = self::trans('male');
+                                    break;
+                                case 'f':
+                                    $value[] = self::trans('female');
+                                    break;
+                            }
+                            break;
 
-                            if ($html) {
-                                switch (@$field['cfg']['renderer']) {
-                                    case 'listGreenIcons':
-                                        $label = '<li class="icon-padding icon-element">' . $label . '</li>';
-                                        break;
+                        case 'countries':
+                            $id = array_shift($ids);
+                            $term = Cache::get('symfony.container')->get('casebox_core.service_vocabulary.country_phone_codes_vocabulary')->getTermById($id);
 
-                                    // case 'listObjIcons':
-                                    default:
-                                        $icon = empty($r['iconCls'])
-                                            ? 'icon-none'
-                                            : $r['iconCls'];
+                            if (!empty($term)) {
+                                $value[] = $term['name'];
+                            }
+                            break;
 
-                                        $label = '<li><i class="' . $icon . ' fa-fw"></i> ' . $label . '</li>';
-                                        break;
+                        case 'timezones':
+                            $value = $ids;
+                            break;
+
+                        case 'shortDateFormats':
+                            $value = $ids;
+                            break;
+
+                        case 'languages':
+                            $coreLanguages = $this->configService->get('languages');
+                            $ls = $this->configService->get('language_settings');
+                            foreach ($ids as $id) {
+                                if (!empty($coreLanguages[$id-1])) {
+                                    $value[] = $html
+                                            ? '<li>'.$ls[$coreLanguages[$id-1]]['name'].'</li>'
+                                            : $ls[$coreLanguages[$id-1]]['name'];
                                 }
                             }
 
-                            $value[] = $label;
-                        }
+                            break;
 
-                    } else {
-                        $objects = \Casebox\CoreBundle\Service\Objects::getCachedObjects($ids);
-                        foreach ($ids as $id) {
-                            if (empty($objects[$id])) {
-                                continue;
+                        default:
+                            $objects = \Casebox\CoreBundle\Service\Objects::getCachedObjects($ids);
+                            foreach ($ids as $id) {
+                                if (empty($objects[$id])) {
+                                    continue;
+                                }
+
+                                $obj = &$objects[$id];
+
+                                $d = $obj->getData();
+                                $label = $obj->getHtmlSafeName();
+
+                                $pids = $d['pids'];
+
+                                if ($html && !empty($pids)) {
+                                    $pids = str_replace(',', '/', $pids);
+                                    $linkType = empty($field['cfg']['linkType'])
+                                        ? ''
+                                        : 'link-type-' . $field['cfg']['linkType'];
+
+                                    $label = '<a class="click ' . $linkType . '" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
+                                }
+
+                                switch (@$field['cfg']['renderer']) {
+                                    case 'listGreenIcons':
+                                        $value[] =  $html
+                                            ? '<li class="icon-padding icon-element">'.$label.'</li>'
+                                            : $label;
+                                        break;
+                                    // case 'listObjIcons':
+                                    default:
+                                        $icon = \Casebox\CoreBundle\Service\Browser::getIcon($d);
+
+                                        if (empty($icon)) {
+                                            $icon = 'icon-none';
+                                        }
+
+                                        $value[] = $html
+                                            ? '<li><i class="'.$icon.' fa-fw"></i>'.$label.'</li>'
+                                            : $label;
+                                        break;
+                                }
                             }
-
-                            $obj = &$objects[$id];
-
-                            $d = $obj->getData();
-                            $label = $obj->getHtmlSafeName();
-
-                            $pids = $d['pids'];
-
-                            if ($html && !empty($pids)) {
-                                $pids = str_replace(',', '/', $pids);
-                                $linkType = empty($field['cfg']['linkType'])
-                                    ? ''
-                                    : 'link-type-' . $field['cfg']['linkType'];
-
-                                $label = '<a class="click ' . $linkType . '" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
-                            }
-
-                            switch (@$field['cfg']['renderer']) {
-                                case 'listGreenIcons':
-                                    $value[] =  $html
-                                        ? '<li class="icon-padding icon-element">'.$label.'</li>'
-                                        : $label;
-                                    break;
-                                // case 'listObjIcons':
-                                default:
-                                    $icon = \Casebox\CoreBundle\Service\Browser::getIcon($d);
-
-                                    if (empty($icon)) {
-                                        $icon = 'icon-none';
-                                    }
-
-                                    $value[] = $html
-                                        ? '<li><i class="'.$icon.' fa-fw"></i>'.$label.'</li>'
-                                        : $label;
-                                    break;
-                            }
-                        }
+                            break;
                     }
 
                     $value = $html

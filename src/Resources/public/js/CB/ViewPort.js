@@ -370,21 +370,21 @@ Ext.define('CB.ViewPort', {
 
 
         // creating menu config for available themes
-        var themes = [];
-        CB.DB.themes.each(
-            function(r){
-                themes.push({
-                    text: r.get('name')
-                    ,xtype: 'menucheckitem'
-                    ,checked: (r.get('id') == App.loginData.theme)
-                    ,data:{id: r.get('id')}
-                    ,scope: this
-                    ,handler: this.setUserTheme
-                    ,group: 'theme'
-                });
-            }
-            ,this
-        );
+        // var themes = [];
+        // CB.DB.themes.each(
+        //     function(r){
+        //         themes.push({
+        //             text: r.get('name')
+        //             ,xtype: 'menucheckitem'
+        //             ,checked: (r.get('id') == App.loginData.theme)
+        //             ,data:{id: r.get('id')}
+        //             ,scope: this
+        //             ,handler: this.setUserTheme
+        //             ,group: 'theme'
+        //         });
+        //     }
+        //     ,this
+        // );
 
         um.menu.add(
             {
@@ -402,9 +402,9 @@ Ext.define('CB.ViewPort', {
                 text: L.NotifySettings
                 ,scope: this
                 ,handler: this.onNotifySettingsClick
-            },{
-                text: L.Theme
-                ,menu: themes
+            // },{
+            //     text: L.Theme
+            //     ,menu: themes
             },{
                 text: L.Language
                 ,hideOnClick: false
@@ -419,33 +419,6 @@ Ext.define('CB.ViewPort', {
         );
 
         var managementItems = [];
-        if(App.loginData.manage) {
-            managementItems.push(
-                {
-                    text: L.Users
-                    ,glyph: 0xf0c0
-                    ,handler: function(){
-                        var w = new CB.VerifyPassword({
-                            listeners:{
-                                scope: this
-                                ,beforeclose: function(cmp){
-                                    if(cmp.success !== true) {
-                                        cmp.destroy();
-                                    } else {
-                                        App.windowManager.openWindow({
-                                            xtype: 'CBUsersGroups'
-                                            ,id: 'usersGroupsWnd'
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                        w.show();
-
-                    }
-                }
-            );
-        }
 
         if(App.loginData.admin) {
             managementItems.push(

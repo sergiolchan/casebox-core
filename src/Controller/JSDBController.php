@@ -39,7 +39,7 @@ class JSDBController extends Controller
             [null, '-'],
             ['_auto_title', $ts->trans('ftAutoTitle')], //Auto title (uses title_template)
             // array('checkbox', $ts->trans('ftCheckbox')), //CheckBox
-            // array('combo', $ts->trans('ftCombo')), //ComboBox
+            ['combo', $ts->trans('ftCombo')], //ComboBox
             ['date', $ts->trans('ftDate')], //Date
             ['datetime', $ts->trans('ftDatetime')], //Datetime
             ['float', $ts->trans('ftFloat')], //Float

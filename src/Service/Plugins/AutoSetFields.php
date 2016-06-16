@@ -40,13 +40,15 @@ class AutoSetFields
             $objData['date'] = Util\dateISOToMysql($date);
         }
 
-        $dateEndField = $template->getField('_date_end');
-        if (!empty($dateEndField)) {
-            $date = @$o->getFieldValue('_date_end', 0)['value'];
-            if (!empty($date)) {
-                $objData['date_end'] = Util\dateISOToMysql($date);
-            } else {
-                $objData['date_end'] = null;
+        if (!empty($template)) {
+            $dateEndField = $template->getField('_date_end');
+            if (!empty($dateEndField)) {
+                $date = @$o->getFieldValue('_date_end', 0)['value'];
+                if (!empty($date)) {
+                    $objData['date_end'] = Util\dateISOToMysql($date);
+                } else {
+                    $objData['date_end'] = null;
+                }
             }
         }
 

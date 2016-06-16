@@ -300,40 +300,6 @@ class Config
     }
 
     /**
-     * get defined plugins for right panel for given object type
-     *
-     * @param string $objectType
-     * @param string $from       defines subgroup plugin definition (window - object edit window)
-     *
-     * @return array
-     */
-    public function getObjectTypePluginsConfig($objectType, $from = '')
-    {
-        $rez = [];
-        $tmp = $this->get('object_type_plugins');
-
-        if (!empty($from)) {
-            $tmp = @$tmp[$from];
-        }
-
-        if (!empty($tmp[$objectType])) {
-            $rez = $tmp[$objectType];
-        } else {
-            $tmp = $this->get('default_object_plugins');
-
-            if (!empty($from)) {
-                $tmp = @$tmp[$from];
-            }
-
-            if (!empty($tmp)) {
-                $rez = $tmp;
-            }
-        }
-
-        return $rez;
-    }
-
-    /**
      * return default columns available for griv view
      * @return array
      */
@@ -555,7 +521,6 @@ class Config
             'default_DC',
             'search_DC',
             'default_object_plugins',
-            'object_type_plugins',
             'treeNodes',
             'action_log',
             'maintenance',

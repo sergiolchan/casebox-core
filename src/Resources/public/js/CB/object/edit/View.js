@@ -330,7 +330,7 @@ Ext.define('CB.object.edit.View', {
                     region: 'center'
                     ,border: false
                     ,bodyStyle: 'border-bottom:0; border-left: 0'
-                    ,scrollable: false
+                    ,scrollable: true
                     ,layout: {
                         type: 'vbox'
                         ,align: 'stretch'

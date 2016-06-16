@@ -8,9 +8,6 @@ CB.ObjectsFieldCommonFunctions = {
         var source = Ext.isEmpty(this.cfg.source) ? 'tree': this.cfg.source;
 
         switch(source){
-            case 'thesauri':
-                this.store = this.getThesauriStore();
-                break;
             case 'users':
             case 'groups':
             case 'usersgroups':
@@ -114,10 +111,6 @@ CB.ObjectsFieldCommonFunctions = {
     }
 
     ,getObjectsStore: function(){
-        if(this.cfg.source === 'thesauri') {
-            return this.getThesauriStore();
-        }
-
         if(Ext.isEmpty(this.data)) {
             return;
         }
@@ -133,30 +126,6 @@ CB.ObjectsFieldCommonFunctions = {
             }
         }
     }
-    ,getThesauriStore: function(){
-        var thesauriId = this.cfg.thesauriId;
-
-        if(this.cfg.thesauriId === 'dependent'){
-            fieldName = this.data.record.store.fields.findIndex('name', 'field_id');
-            fieldName = (fieldName < 0) ? 'id': 'field_id';
-
-            var pri = this.data.record.store.findBy(
-                function(r){
-                    return ( (r.get(fieldName) == this.data.record.get('pid')) && (r.get('duplicate_id') == this.data.record.get('duplicate_id')) );
-                }
-                ,this
-            );
-
-            if(pri > -1) {
-                thesauriId = this.data.pidValue;
-            }
-        }
-
-        if(!isNaN(thesauriId)) {
-            return getThesauriStore(thesauriId);
-        }
-    }
-
 };
 
 Ext.define('CB.ObjectsComboField', {

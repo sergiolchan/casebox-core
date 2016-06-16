@@ -1142,7 +1142,7 @@ class Files
         if (!empty($preview)) {
             DM\FilePreviews::update(
                 [
-                    'id' => $content['id'],
+                    'id' => $file['content_id'],
                     'filename' => $rez['filename'],
                 ]
             );
@@ -1150,7 +1150,7 @@ class Files
         } else {
             DM\FilePreviews::create(
                 [
-                    'id' => $content['id'],
+                    'id' => $file['content_id'],
                     'filename' => $rez['filename'],
                 ]
             );

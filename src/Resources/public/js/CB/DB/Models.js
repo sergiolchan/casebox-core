@@ -260,7 +260,6 @@ Ext.define('Template', {
         ,'title'
         ,'iconCls'
         ,{name: "cfg", convert: function(v, r){ return Ext.isEmpty(v) ? {} : v;}}
-        ,'info_template'
         ,{name: 'visible', type: 'int'}
     ]
 });
@@ -302,6 +301,6 @@ Ext.define('Timezone', {
     ,fields: [
         {name: 'id', type: 'string'}
         ,{name: 'gmt_offset',  type: 'string'}
-        ,{name: 'caption',  type: 'string'}
+        ,{name: 'name',  type: 'string'}
     ]
 });

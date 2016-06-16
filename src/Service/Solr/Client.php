@@ -172,43 +172,6 @@ class Client extends Service
     }
 
     /**
-     * @param string $cronId
-     */
-    private function updateCronLastActionTime($cronId)
-    {
-        if (empty($cronId)) {
-            return;
-        }
-
-        $cache_var_name = 'update_cron_'.$cronId;
-
-        // If less than 20 seconds have passed then skip updating db
-        if (Cache::exist($cache_var_name) && ((time() - Cache::get($cache_var_name)) < 20)) {
-            return;
-        }
-
-        Cache::set($cache_var_name, time());
-
-        $id = DM\Crons::toId($cronId, 'cron_id');
-        if (empty($id)) {
-            DM\Crons::create(
-                [
-                    'cron_id' => $cronId,
-                    'last_action' => 'CURRENT_TIMESTAMP',
-                ]
-            );
-
-        } else {
-            DM\Crons::update(
-                [
-                    'id' => $id,
-                    'last_action' => 'CURRENT_TIMESTAMP',
-                ]
-            );
-        }
-    }
-
-    /**
      * Update tree nodes into solr
      *
      * @param string[ $p {
@@ -311,7 +274,6 @@ class Client extends Service
 
                     $docs[$r['id']] = $r;
                 }
-                $this->updateCronLastActionTime(@$p['cron_id']);
             }
             unset($res);
 
@@ -336,8 +298,6 @@ class Client extends Service
                     WHERE tree.id in ('.implode(',', array_keys($docs)).')
                         AND tree_info.id = tree.id'
                 );
-
-                $this->updateCronLastActionTime(@$p['cron_id']);
 
                 $indexedDocsCount += sizeof($docs);
             }
@@ -410,8 +370,6 @@ class Client extends Service
                 }
 
                 $docs[$r['id']] = $r;
-
-                $this->updateCronLastActionTime(@$p['cron_id']);
             }
             unset($res);
 
@@ -420,8 +378,6 @@ class Client extends Service
 
                 // Reset updated flag into database for processed documents info
                 $dbs->query('UPDATE tree_info SET updated = 0 WHERE id IN ('.implode(', ', array_keys($docs)).')');
-
-                $this->updateCronLastActionTime(@$p['cron_id']);
 
                 $this->commit();
             }

@@ -1,0 +1,39 @@
+<table border="0" width="100%">
+<tr>
+    <th class="taL" width="30%">{{ 'Password'|trans }}</th>
+    <td>
+        <a class="click" data-action="pass-change" data-user-id="{{ user.id }}">{{ 'change'|trans }}</a>
+        <a class="click" data-action="pass-reset" data-user-id="{{ user.id }}">{{ 'reset'|trans }}</a>
+    </td>
+</tr>
+<tr>
+    <th class="taL">{{ 'Username'|trans }}</th>
+    <td><a class="click" data-action="change-username" data-user-id="{{ user.id }}" data-username="{{ user.name }}">{{ 'change'|trans }}</a></td>
+</tr>
+<tr>
+    <th class="taL">{{ 'TSV'|trans }}</th>
+    <td>
+        {% if user.cfg.security and user.cfg.security.TSV %}
+            {{ 'active'|trans }} {{ user.cfg.security.TSV }}
+            <a class="click" data-action="tsv-disable" data-user-id="{{ user.id }}">{{ 'disable'|trans }}</a>
+        {% else %}
+            {{ 'disabled'|trans }}
+            {% if user.id == activeUserId %}
+                <a class="click" data-action="tsv-enable" data-user-id="{{ user.id }}">{{ 'enable'|trans }}</a>
+            {% endif %}
+        {% endif %}
+    </td>
+</tr>
+<tr>
+    <th class="taL">{{ 'Status'|trans }}</th>
+    <td>
+        {% if user.enabled == 1 %}
+            {{ 'active'|trans }}
+            <a class="click" data-action="user-disable" data-user-id="{{ user.id }}">{{ 'disable'|trans }}</a>
+        {% else %}
+            {{ 'disabled'|trans }}
+            <a class="click" data-action="user-enable" data-user-id="{{ user.id }}">{{ 'enable'|trans }}</a>
+        {% endif %}
+        </td>
+</tr>
+</table>

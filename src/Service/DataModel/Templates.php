@@ -21,20 +21,13 @@ class Templates extends Base
     protected static $tableFields = [
         'id' => 'int',
         'pid' => 'int',
-        'is_folder' => 'int',
         'type' => 'varchar',
         'name' => 'varchar',
-        // ,'l1' => 'varchar'
-        // ,'l2' => 'varchar'
-        // ,'l3' => 'varchar'
-        // ,'l4' => 'varchar',
         'order' => 'int',
         'visible' => 'int',
         'iconCls' => 'varchar',
-        // ,'default_field' => 'varchar' //??,
         'cfg' => 'text',
         'title_template' => 'varchar',
-        'info_template' => 'varchar',
     ];
 
     /**
@@ -61,13 +54,12 @@ class Templates extends Base
         $res = $dbs->query(
             'SELECT t.* ,o.data
             FROM '.static::getTableName().' t
-            LEFT JOIN objects o ON t.id = o.id
-            WHERE t.is_folder = 0'
+            LEFT JOIN objects o ON t.id = o.id'
         );
 
         while ($r = $res->fetch()) {
-            $r['cfg'] = Util\toJSONArray($r['cfg']);
             $r['data'] = Util\toJSONArray($r['data']);
+            $r['cfg'] = Util\toJSONArray(empty($r['data']['cfg']) ? $r['cfg'] : $r['data']['cfg']);
 
             $rez[] = $r;
         }
@@ -116,37 +108,23 @@ class Templates extends Base
             'INSERT INTO '.static::getTableName().'
                 (id,
                 pid,
-                `is_folder`,
                 `type`,
                 `name`,
-                `l1`,
-                `l2`,
-                `l3`,
-                `l4`,
                 `order`,
                 `visible`,
                 `iconCls`,
-                `default_field`,
                 `cfg`,
-                `title_template`,
-                `info_template`)
+                `title_template`)
             SELECT
                 $2,
                 $3,
-                `is_folder`,
                 `type`,
                 `name`,
-                `l1`,
-                `l2`,
-                `l3`,
-                `l4`,
                 `order`,
                 `visible`,
                 `iconCls`,
-                `default_field`,
                 `cfg`,
-                `title_template`,
-                `info_template`
+                `title_template`
             FROM '.static::getTableName().'
             WHERE id = $1',
             [

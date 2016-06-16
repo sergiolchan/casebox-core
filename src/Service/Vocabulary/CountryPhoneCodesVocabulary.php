@@ -50,6 +50,27 @@ class CountryPhoneCodesVocabulary implements VocabularyInterface
     }
 
     /**
+     * Find term by id
+     * @param string $id
+     *
+     * @return array|null
+     */
+    public function getTermById($id)
+    {
+        $terms = $this->getTerms();
+
+        $result = null;
+
+        foreach ($terms as $key => $term) {
+            if ($term['id'] == $id) {
+                return $term;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Find by contry code
      * @param string $code
      *

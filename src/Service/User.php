@@ -166,6 +166,7 @@ class User
         /** @var Session $session */
         $session = Cache::get('symfony.container')->get('session');
 
+        return true; //to review verifcation mechanism after users migration into tree
         return (!empty($session->get('verified')));
     }
 

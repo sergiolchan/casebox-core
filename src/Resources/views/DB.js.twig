@@ -45,7 +45,7 @@ CB.DB.templateTypes = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
     //,fields: ['id', 'name']
-    ,data:  [[null, '-'], ['case', 'case'], ['comment', 'comment'], ['config', 'config'], ['email', 'email'], ['field', 'field'], ['file', 'file'], ['menu', 'menu'], ['object', 'object'], ['search', 'search'], ['shortcut', 'shortcut'], ['task', 'task'], ['template', 'template'], ['user', 'user']]
+    ,data:  [[null, '-'], ['case', 'case'], ['comment', 'comment'], ['config', 'config'], ['email', 'email'], ['field', 'field'], ['file', 'file'], ['group', 'group'], ['menu', 'menu'], ['object', 'object'], ['search', 'search'], ['shortcut', 'shortcut'], ['task', 'task'], ['template', 'template'], ['user', 'user']]
     ,getName: getStoreNames
 });
 CB.DB.fieldTypes = new Ext.data.ArrayStore({
@@ -294,7 +294,7 @@ createDirectStores = function(){
     });
 
     CB.DB.countries = new Ext.data.DirectStore({
-        autoLoad: false
+        autoLoad: true
         ,autoDestroy: false
         ,model: 'Country'
         ,proxy: {
@@ -328,7 +328,7 @@ createDirectStores = function(){
         }/**/
     });
     CB.DB.timezones = new Ext.data.DirectStore({
-        autoLoad: false
+        autoLoad: true
         ,autoDestroy: false
         ,model: 'Timezone'
         ,proxy: {
@@ -336,7 +336,7 @@ createDirectStores = function(){
             ,paramsAsHash: true
             ,directFn: CB_System.getTimezones
             ,reader: {
-                type: 'json'
+                type: 'array'
                 ,successProperty: 'success'
                 ,idProperty: 'id'
                 ,rootProperty: 'data'
@@ -372,27 +372,4 @@ CB.DB.convertJsonReaderDates = function (jsonData) {
             }
         }
     }
-}
-
-function getThesauriStore(thesauriId)
-{
-    storeName = 'ThesauriStore'+thesauriId;
-    if (!Ext.isDefined(CB.DB[storeName])) {
-        data = CB.DB.thesauri.queryBy(function(record, id){ return (record.get('pid') == thesauriId); });
-        CB.DB[storeName] = new Ext.data.ArrayStore({
-            idIndex: 0
-            ,fields: [{name:'id', type: 'int'}, {name:'pid', type: 'int'}, 'name', {name:'order', type: 'int'}, 'iconCls']
-            ,data:  []
-            ,getNames: getStoreNames
-        });
-        CB.DB[storeName].add([
-            Ext.create(
-                CB.DB[storeName].getModel().getName()
-                ,{id: null, name: ''}
-            )
-        ]);
-        CB.DB[storeName].add(data.items);/**/
-    }
-
-    return CB.DB[storeName];
 }

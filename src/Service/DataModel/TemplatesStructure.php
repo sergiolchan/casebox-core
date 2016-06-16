@@ -111,10 +111,6 @@ class TemplatesStructure extends Base
                 ,`pid`
                 ,`template_id`
                 ,`name`
-                ,`l1`
-                ,`l2`
-                ,`l3`
-                ,`l4`
                 ,`type`
                 ,`order`
                 ,`cfg`
@@ -125,10 +121,6 @@ class TemplatesStructure extends Base
                 ,t.pid
                 ,$3
                 ,ts.name
-                ,ts.l1
-                ,ts.l2
-                ,ts.l3
-                ,ts.l4
                 ,ts.type
                 ,ts.order
                 ,ts.cfg
@@ -141,10 +133,6 @@ class TemplatesStructure extends Base
                 pid = t.pid
                 ,template_id = $3
                 ,name = ts.name
-                ,l1 = ts.l1
-                ,l2 = ts.l2
-                ,l3 = ts.l3
-                ,l4 = ts.l4
                 ,`type` = ts.type
                 ,`order` = ts.order
                 ,`cfg` = ts.cfg

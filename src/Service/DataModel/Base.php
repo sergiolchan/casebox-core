@@ -415,6 +415,10 @@ class Base
                 case 'time':
                 case 'timestamp':
                 case 'date':
+                    if ($p[$fn] == 'CURRENT_TIMESTAMP') {
+                        break;
+                    }
+
                     $dt = explode(' ', $p[$fn]);
 
                     $valid = sizeof($dt) < 3;

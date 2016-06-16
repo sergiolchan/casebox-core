@@ -191,47 +191,22 @@ function initApp() {
     App.xtemplates.object.compile();
 
     App.customRenderers = {
-        thesauriCell: function(v, metaData, record, rowIndex, colIndex, store, grid) {
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-            var va = v.split(',');
-            var vt = []
-                ,thesauriId = grid.helperTree.getNode(record.get('id')).data.templateRecord.get('cfg').thesauriId;
+        relatedCell: function(v, metaData, record, rowIndex, colIndex, store) { }
 
-            if(Ext.isEmpty(thesauriId) && store.thesauriIds) {
-                thesauriId = store.thesauriIds[record.id];
-            }
+        ,combo: function(v, metaData, record, rowIndex, colIndex, store) {
+            var rez = '';
 
-            if(!Ext.isEmpty(thesauriId)){
-                var ts = getThesauriStore(thesauriId)
-                    ,idx;
-                for (var i = 0; i < va.length; i++) {
-                    idx = ts.findExact('id', parseInt(va[i], 10));
-                    if(idx >=0) {
-                        vt.push(ts.getAt(idx).get('name'));
+            if(!Ext.isEmpty(v) && !Ext.isEmpty(metaData.fieldConfig.source)) {
+                var st = CB.DB[metaData.fieldConfig.source];
+                if(st) {
+                    var r = st.findRecord(Ext.valueFrom(metaData.fieldConfig.valueField, 'id'), v, 0, false, false, true);
+                    if(r) {
+                        rez = r.get(Ext.valueFrom(metaData.fieldConfig.displayField, 'name'));
                     }
                 }
             }
 
-            return App.xtemplates.cell.apply(vt);
-        }
-
-        ,relatedCell: function(v, metaData, record, rowIndex, colIndex, store) { }
-
-        ,combo: function(v, metaData, record, rowIndex, colIndex, store) {
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-
-            var ed = this.editor
-                ,r = ed.store.findRecord(ed.valueField, v, 0, false, false, true);
-
-            if(!r) {
-                return '';
-            }
-
-            return r.get(ed.displayField);
+            return rez;
         }
 
         ,objectsField: function(v, metaData, record, rowIndex, colIndex, store, grid) {
@@ -256,7 +231,7 @@ function initApp() {
 
             switch(source){
                 case 'thesauri':
-                    store = isNaN(cfg.thesauriId) ? CB.DB.thesauri : getThesauriStore(cfg.thesauriId);
+                    store = [];
                     break;
                 case 'users':
                     store = CB.DB.usersStore;
@@ -354,27 +329,6 @@ function initApp() {
             }
 
             return CB.DB.shortDateFormats.getAt(ri).get('name');
-        }
-
-        ,thesauriCombo: function(v, metaData, record, rowIndex, colIndex, store, grid) {
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-            var node = grid.helperTree.getNode(record.get('id'))
-                ,tr = node.data.templateRecord
-                ,th = tr.get('cfg').thesauriId;
-
-            if(th === 'dependent'){
-                th = grid.helperTree.getParentValue(node, tr.get('pid'));
-            }
-            var ts = getThesauriStore(th)
-                ,ri = ts.findExact('id', parseInt(v, 10));
-
-            if(ri < 0) {
-                return '';
-            }
-
-            return ts.getAt(ri).get('name');
         }
 
         ,checkbox: function(v){
@@ -571,6 +525,7 @@ function initApp() {
             case '_objects':
                 return App.customRenderers.objectsField;
             case 'combo':
+                return App.customRenderers.combo;
             case '_language':
                 return App.customRenderers.languageCombo;
             case '_sex':
@@ -590,34 +545,6 @@ function initApp() {
                 return App.customRenderers.text;
             default: return null;
         }
-    };
-
-    App.getTemplatesXTemplate = function(template_id){
-
-        template_id = String(template_id);
-
-        if(!Ext.isDefined(App.templatesXTemplate)) {
-            App.templatesXTemplate = {};
-        }
-
-        if(App.templatesXTemplate[template_id]) {
-            return App.templatesXTemplate[template_id];
-        }
-
-        var idx = CB.DB.templates.findExact('id', template_id);
-
-        if(idx >= 0){
-            var r = CB.DB.templates.getAt(idx)
-                ,it = r.get('info_template');
-
-            if(!Ext.isEmpty(it)){
-                App.templatesXTemplate[template_id] = new Ext.XTemplate(it);
-                App.templatesXTemplate[template_id].compile();
-                return App.templatesXTemplate[template_id];
-            }
-        }
-
-        return App.xtemplates.object;
     };
 
     App.findTab = function(tabPanel, id, xtype){
@@ -1024,7 +951,7 @@ function initApp() {
                 break;
 
             case 'combo':
-                th = cfg.thesauriId;
+                th = Ext.valueFrom(cfg.thesauriId, cfg.source);
                 if(th === 'dependent'){
                     th = e.pidValue;
                 }
@@ -1036,29 +963,9 @@ function initApp() {
                     ,triggerAction: 'all'
                     ,lazyRender: true
                     ,queryMode: 'local'
-                    ,store: getThesauriStore(th)
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
-                break;
-
-            case 'iconcombo':
-                th = cfg.thesauriId;
-                if(th === 'dependent'){
-                    th = e.pidValue;
-                }
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,forceSelection: false
-                    ,typeAhead: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,store: getThesauriStore(th)
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,iconClsField: 'name'
+                    ,store: Ext.valueFrom(CB.DB[th], [])
+                    ,displayField: Ext.valueFrom(cfg.displayField, 'name')
+                    ,valueField: Ext.valueFrom(cfg.valueField, 'id')
                     ,listeners: autoExpand
                 });
                 break;
