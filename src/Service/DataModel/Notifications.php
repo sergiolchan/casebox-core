@@ -290,8 +290,8 @@ class Notifications extends Base
 
     /**
      * mark user notifications as seen
-     * @param string | array $id     notification ids
-     * @param  int             $userId
+     * @param  string | array $id     notification ids
+     * @param  int            $userId
      * @return void
      */
     public static function markAsSeen($ids, $userId)

@@ -8,9 +8,11 @@ use Casebox\CoreBundle\Service\Browser;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects;
+use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Service\System;
 use Casebox\CoreBundle\Service\Templates;
 use Casebox\CoreBundle\Service\User;
+use Casebox\CoreBundle\Service\Util;
 
 /**
  * Class MigrateUsersGroupsCommand
@@ -171,15 +173,22 @@ class MigrateUsersGroupsCommand extends ContainerAwareCommand
         $system = new System();
         $system->bootstrap($container);
 
+        $configService = $container->get('casebox_core.service.config');
+
+        $configService->setFlag('disableActivityLog', 1);
+
         $ids = DM\Templates::getIdsByType('user');
         $this->userTemplateId = array_shift($ids);
+
+        //set preudo user id because we get into error for some queries without creator id
+        Cache::get('session')->set('user', ['id' => 1]);
 
         Cache::set('is_admin' . User::getId(), true);
 
         $this->createTreeFolders();
         $output->writeln('<info>[x] Tree folders created.</info>');
 
-        $this->userTemplateFields['groups']['data']['cfg'] = '{"editor":"form", "scope": "' . $this->groupsFolderId . '"}';
+        $this->userTemplateFields['groups']['data']['cfg'] = '{"editor":"form", "scope": "' . $this->groupsFolderId . '", "multiValued": true}';
 
         $this->updateUserTemplate();
         $output->writeln('<info>[x] User template updated.</info>');
@@ -190,11 +199,29 @@ class MigrateUsersGroupsCommand extends ContainerAwareCommand
         $this->addMenuRules();
         $output->writeln('<info>[x] Menu rules added.</info>');
 
+        $this->rememberSecurityRules();
+        $output->writeln('<info>[x] Active security rules remembered.</info>');
+
         $this->migrateGroups();
         $output->writeln('<info>[x] Groups migrated.</info>');
 
         $this->migrateUsers();
         $output->writeln('<info>[x] Users migrated.</info>');
+
+        $this->restoreSecurityRules();
+        $output->writeln('<info>[x] Security rules restored.</info>');
+
+        $this->updateDBUserFields();
+        $output->writeln('<info>[x] DB users fields updated.</info>');
+
+        $this->updateTaskSolrFields();
+        $output->writeln('<info>[x] Tasks solr fields updated.</info>');
+
+        $this->updateObjectsUserReferences();
+        $output->writeln('<info>[x] Object user references updated.</info>');
+
+        Security::calculateUpdatedSecuritySets();
+        $output->writeln('<info>[x] Security sets updated updated.</info>');
 
         return;
     }
@@ -459,13 +486,16 @@ class MigrateUsersGroupsCommand extends ContainerAwareCommand
         $recs = DM\UsersGroups::readAll();
         $o = new Objects\Group();
 
+        $this->oldUserGroups = [];
+
         foreach ($recs as $rec) {
             if ($rec['type'] == 1) {
                 $id = Objects::getChildId($this->groupsFolderId, $rec['name']);
                 if (empty($id)) {
+                    $groupUsersIds = DM\UsersGroups::getGroupUserIds($rec['id']);
                     DM\UsersGroups::delete($rec['id']);
 
-                    $this->groupIds[$rec['id']] = $o->create(
+                    $id = $o->create(
                         [
                             'id' => null,
                             'pid' => $this->groupsFolderId,
@@ -477,7 +507,12 @@ class MigrateUsersGroupsCommand extends ContainerAwareCommand
                             ],
                         ]
                     );
+
+                    foreach ($groupUsersIds as $userId) {
+                        $this->oldUserGroups[$userId][] = $id;
+                    }
                 }
+                $this->groupIds[$rec['id']] = $id;
             }
         }
     }
@@ -494,6 +529,7 @@ class MigrateUsersGroupsCommand extends ContainerAwareCommand
                 $id = Objects::getChildId($this->usersFolderId, $rec['name']);
                 if (empty($id)) {
                     DM\UsersGroups::delete($rec['id']);
+
                     $cfg = &$rec['cfg'];
                     $data = &$rec['data'];
 
@@ -517,6 +553,11 @@ class MigrateUsersGroupsCommand extends ContainerAwareCommand
                     if (empty($data['short_date_format']) && !empty($cfg['short_date_format'])) {
                         $data['short_date_format'] = $cfg['short_date_format'];
                     }
+
+                    if (!empty($this->oldUserGroups[$rec['id']])) {
+                        $data['groups'] = implode(',', $this->oldUserGroups[$rec['id']]);
+                    }
+
                     $id = $o->create(
                         [
                             'id' => null,
@@ -529,12 +570,219 @@ class MigrateUsersGroupsCommand extends ContainerAwareCommand
                         ]
                     );
 
-                    $res = $dbs->query(
+                    $dbs->query(
                         'UPDATE users_groups SET password = :p2, roles = \'{"ROLE_USER":"ROLE_USER"}\' WHERE id = :p1 ',
                         [$id, $rec['password']]
                     );
                 }
+                $this->userIds[$rec['id']] = $id;
             }
         }
+    }
+
+    protected function rememberSecurityRules()
+    {
+        $this->activeSecurityRules = DM\TreeAcl::readAll();
+    }
+
+    protected function restoreSecurityRules()
+    {
+        foreach ($this->activeSecurityRules as $rule) {
+            $ugId = $rule['user_group_id'];
+            if (isset($this->groupIds[$ugId])) {
+                $rule['user_group_id'] = $this->groupIds[$ugId];
+            } else {
+                $rule['user_group_id'] = $this->userIds[$ugId];
+            }
+
+            try {
+                DM\TreeAcl::create($rule);
+            } catch (\Exception $e) {
+
+            }
+        }
+    }
+
+    protected function updateDBUserFields()
+    {
+        $dbs = Cache::get('casebox_dbs');
+        $userIdsCase = [];
+
+        foreach ($this->userIds as $oldId => $newId) {
+            $userIdsCase[] = "WHEN $oldId THEN $newId";
+        }
+        $userIdsCase = ' CASE ' . implode("\n", $userIdsCase) . ' END';
+
+        $dbs->query('UPDATE tree SET cid = ' . $userIdsCase .', uid = ' . $userIdsCase);
+        $dbs->query('UPDATE favorites SET user_id = ' . $userIdsCase);
+        $dbs->query('UPDATE files SET cid = ' . $userIdsCase .', uid = ' . $userIdsCase);
+        $dbs->query('UPDATE files_versions SET cid = ' . $userIdsCase .', uid = ' . $userIdsCase);
+        $dbs->query('UPDATE notifications SET from_user_id = ' . $userIdsCase .', user_id = ' . $userIdsCase);
+        $dbs->query('UPDATE tree_user_config SET user_id = ' . $userIdsCase);
+        $dbs->query('UPDATE users_groups_association SET cid = ' . $userIdsCase .', uid = ' . $userIdsCase);
+
+        $dbs->query('UPDATE users_groups SET udate = null WHERE udate = "0000-00-00 00:00:00"');
+        $dbs->query('UPDATE files SET `date` = null WHERE `date` = "0000-00-00"');
+        $dbs->query('UPDATE files SET `udate` = null WHERE udate = "0000-00-00 00:00:00"');
+        $dbs->query('UPDATE files_versions SET `date` = null WHERE `date` = "0000-00-00"');
+        $dbs->query('UPDATE tree SET `cdate` = null WHERE `cdate` = "0000-00-00 00:00:00"');
+        $dbs->query('UPDATE tree SET `udate` = null WHERE `udate` = "0000-00-00 00:00:00"');
+        $dbs->query('UPDATE tree SET `ddate` = null WHERE `ddate` = "0000-00-00 00:00:00"');
+    }
+
+    protected function updateTaskSolrFields()
+    {
+        $taskSolrFelds = [
+            'task_tags' => 'task_tags_is'
+            ,'task_projects' => 'task_projects_is'
+            ,'task_phase' => 'task_phase_i'
+            ,'task_importance' => 'task_importance_i'
+            ,'task_order' => 'task_order_i'
+        ];
+
+        $dbs = Cache::get('casebox_dbs');
+
+        $res = $dbs->query('SELECT id from templates_structure where solr_column_name in ("' . implode('", "', array_keys($taskSolrFelds)) .'")');
+
+        while ($r = $res->fetch()) {
+            $o = Objects::getCachedObject($r['id']);
+            $d = $o->getData();
+            if (!empty($d['data']['solr_column_name'])) {
+                $d['data']['solr_column_name'] = $taskSolrFelds[$d['data']['solr_column_name']];
+            }
+
+            $o->update($d);
+        }
+
+        $res = $dbs->query(
+            'SELECT *
+            FROM objects
+            WHERE sys_data LIKE "%' . implode('%" OR sys_data like "%', array_keys($taskSolrFelds)) . '%"'
+        );
+
+        while ($r = $res->fetch()) {
+            $sysData = Util\toJSONArray($r['sys_data']);
+
+            foreach ($taskSolrFelds as $ofn => $nfn) {
+                if (!empty($sysData['solr'][$ofn])) {
+                    $sysData['solr'][$nfn] = $sysData['solr'][$ofn];
+                    unset($sysData['solr'][$ofn]);
+                }
+            }
+
+            $dbs->query(
+                'UPDATE objects SET sys_data = $2 WHERE id = $1',
+                [
+                    $r['id'],
+                    Util\jsonEncode($sysData)
+                ]
+            );
+        }
+
+        //replace config references to these fields
+        $fieldsString = implode('|', array_keys($taskSolrFelds));
+        $res = $dbs->query(
+            'SELECT * FROM config WHERE VALUE REGEXP \'[- ("](' . $fieldsString . '):\'
+            UNION
+            SELECT * FROM config WHERE VALUE REGEXP \':[[:space:]]*"(' . $fieldsString . ')"\''
+        );
+
+        while ($r = $res->fetch()) {
+            $o = Objects::getCachedObject($r['id']);
+            $d = $o->getData();
+            $value = $d['data']['value'];
+            foreach ($taskSolrFelds as $ofn => $nfn) {
+                $pattern = '/([- ("]+)' . $ofn . ':/u';
+                $replacement = '${1}' . $nfn .':';
+                $value = preg_replace($pattern, $replacement, $value);
+
+                $pattern = '/(:\s*")' . $ofn . '"/m';
+                $replacement = '${1}' . $nfn .'"';
+                $value = preg_replace($pattern, $replacement, $value);
+            }
+
+            $d['data']['value'] = $value;
+            $o->update($d);
+        }
+
+    }
+
+    protected function updateObjectsUserReferences()
+    {
+        $dbs = Cache::get('casebox_dbs');
+
+        $userProps = [
+            'fu'
+            ,'wu'
+            ,'task_u_ongoing'
+            ,'task_u_done'
+            ,'task_u_assignee'
+            ,'task_u_all'
+            ,'task_u_ongoing'
+        ];
+
+        $res = $dbs->query(
+            'SELECT *
+            FROM objects
+            WHERE sys_data LIKE "%task_u_%"
+                OR sys_data like "%\"fu\"%"
+                OR sys_data like "%\"lastAction\"%"
+            '
+        );
+
+        while ($r = $res->fetch()) {
+            $data = Util\toJSONArray($r['data']);
+            $sysData = Util\toJSONArray($r['sys_data']);
+
+            if (!empty($data['assigned'])) {
+                $data['assigned'] = implode(',', $this->replaceUsers($data['assigned']));
+            }
+
+            foreach ($userProps as $prop) {
+                if (!empty($sysData[$prop])) {
+                    $sysData[$prop] = $this->replaceUsers($sysData[$prop]);
+                }
+                if (!empty($sysData['solr'][$prop])) {
+                    $sysData['solr'][$prop] = $this->replaceUsers($sysData['solr'][$prop]);
+                }
+            }
+
+            //update lastAction data
+            if (!empty($sysData['lastAction']['users'])) {
+                $usersActions = [];
+                foreach ($sysData['lastAction']['users'] as $uid => $actionId) {
+                    $usersActions[$this->userIds[$uid]] = $actionId;
+                }
+                $sysData['lastAction']['users'] = $usersActions;
+            }
+
+            $dbs->query(
+                'UPDATE objects SET data = $2, sys_data = $3 WHERE id = $1',
+                [
+                    $r['id'],
+                    Util\jsonEncode($data),
+                    Util\jsonEncode($sysData)
+                ]
+            );
+        }
+        unset($res);
+    }
+
+    /**
+     * replace old user ids with new ids into a value
+     * @param  string|array $value
+     * @return array
+     */
+    protected function replaceUsers($value)
+    {
+        $rez = [];
+        $ids = Util\toNumericArray($value);
+        foreach ($ids as $id) {
+            if (!empty($this->userIds[$id])) {
+                $rez[] = $this->userIds[$id];
+            }
+        }
+
+        return $rez;
     }
 }
