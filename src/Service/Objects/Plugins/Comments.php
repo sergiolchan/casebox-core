@@ -92,7 +92,7 @@ class Comments extends Base
      * @param  int  $id
      * @return json response
      */
-    public static function loadComment($id)
+    public function loadComment($id)
     {
         $rez = array(
             'success' => true

@@ -96,7 +96,7 @@ Ext.define('CB.controller.History', {
         if(el) {
             el = Ext.get(el);
             if(el) {
-                var parent = el.findParent('.x-window', true);
+                var parent = el.findParent('.x-window');
                 if(parent) {
                     rez = Ext.getCmp(parent.id);
                 }

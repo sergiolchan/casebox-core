@@ -954,7 +954,7 @@ class Objects
 
         // Solr tree Update
         /** @var EventDispatcher $dispatcher */
-        $continer = Cache::get('symfony.container');
+        $container = Cache::get('symfony.container');
         $dispatcher = $container->get('event_dispatcher');
         $dispatcher->dispatch('onSolrTreeUpdate');
 

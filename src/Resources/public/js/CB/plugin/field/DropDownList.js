@@ -89,6 +89,7 @@ Ext.define('CB.plugin.field.DropDownList', {
                 ,'onOtherFocus'
                 ,'alignPicker'
                 ,'beforeDestroy'
+                ,'onGlobalScroll'
             ]
         );
 
