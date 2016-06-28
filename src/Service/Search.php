@@ -584,16 +584,18 @@ class Search extends Solr\Client
             'data' => [],
         ];
 
-        //add extra params for debugging if is debug host
-        // if (IS_DEBUG_HOST) {
-        //     $rez['search'] = array(
-        //         'query' => $this->query
-        //         ,'start' => $this->start
-        //         ,'rows' => $this->rows
-        //         ,'params' => $this->params
-        //         ,'inputParams' => $this->inputParams
-        //     );
-        // }
+        $container = Cache::get('symfony.container');
+
+        //add extra params for debugging if in devel environment
+        if ($container->hasParameter('devel')) {
+            $rez['search'] = array(
+                'query' => $this->query
+                ,'start' => $this->start
+                ,'rows' => $this->rows
+                ,'params' => $this->params
+                ,'inputParams' => $this->inputParams
+            );
+        }
 
         $sr = &$this->results;
 

@@ -123,7 +123,7 @@ function getItemIcon(d){
 
             case 'task':
                 if(d['task_status'] == 3) {
-                    rez = 'icon-task-completed';
+                    rez = 'fa fa-calendar-check-o fa-fl';
                 }
         }
     }
@@ -172,31 +172,130 @@ function getFileExtension(filename)
 }
 
 function getFileIcon(filename){
+    var rez = 'fa fa-file-o';
     if(Ext.isEmpty(filename)) {
-        return 'file-';
+        return rez;
     }
 
-    var a = String(filename).split('.');
+    var a = String(filename).split('.'),
+        ext = a.pop();
 
-    if(a.length <2 ) {
-        return 'file-';
+    if(a.length < 1 ) {
+        return rez;
     }
 
-    return 'file- file-'+ Ext.util.Format.lowercase(a.pop());
+    switch(ext) {
+        case '7z':
+        case 'ace':
+        case 'bz2':
+        case 'cab':
+        case 'rar':
+        case 'zip':
+            rez = 'fa fa-file-archive-o';
+            break;
+        case 'wma':
+        case 'mpga':
+        case 'mp3':
+        case 'mp4a':
+        case 'oga':
+        case 'au':
+            rez = 'fa fa-file-audio-o';
+            break;
+        case 'css':
+        case 'html':
+        case 'java':
+        case 'js':
+        case 'json':
+        case 'tex':
+        case 'xhtml':
+        case 'xml':
+            rez = 'fa fa-file-code-o';
+            break;
+        case 'csv':
+        case 'xlsm':
+        case 'xlsx':
+        case 'xltx':
+        case 'ods':
+        case 'ots':
+            rez = 'fa fa-file-excel-o';
+            break;
+        case 'bmp':
+        case 'dwg':
+        case 'xif':
+        case 'gif':
+        case 'jpeg':
+        case 'jpg':
+        case 'jpe':
+        case 'odi':
+        case 'oti':
+        case 'png':
+        case 'psd':
+        case 'tif':
+        case 'tiff':
+            rez = 'fa fa-file-image-o';
+            break;
+        case 'pdf':
+        case 'djvu':
+        case 'epub':
+            rez = 'fa fa-file-pdf-o';
+            break;
+        case 'pptx':
+        case 'ppsx':
+        case 'potx':
+        case 'ppt':
+        case 'ppam':
+        case 'pptm':
+        case 'ppsm':
+        case 'odc':
+        case 'otc':
+        case 'odp':
+        case 'otp':
+            rez = 'fa fa-file-powerpoint-o';
+            break;
+        case 'texinfo':
+        case 'txt':
+            rez = 'fa fa-file-text-o';
+            break;
+        case '3gp':
+        case '3g2':
+        case 'avi':
+        case 'swf':
+        case 'f4v':
+        case 'm4v':
+        case 'wmv':
+        case 'mpeg':
+        case 'mp4':
+        case 'ogv':
+        case 'movie':
+        case 'vcd':
+            rez = 'fa fa-file-video-o';
+            break;
+        case 'docm':
+        case 'dotm':
+        case 'docx':
+        case 'dotx':
+        case 'doc':
+        case 'wri':
+        case 'odt':
+        case 'odm':
+        case 'ott':
+        case 'rtf':
+        case 'rtx':
+            rez = 'fa fa-file-word-o';
+            break;
+        case 'eml':
+            rez = 'fa fa-envelope-o';
+            break;
+
+    }
+
+    return rez;
 }
 
 function getFileIcon32(filename){
-    if(Ext.isEmpty(filename)) {
-        return 'file-unknown32';
-    }
+    var rez = getFileIcon(filename) + ' fa-5x';
 
-    var a = String(filename).split('.');
-
-    if(a.length <2 ) {
-        return 'file-unknown32';
-    }
-
-    return 'file-unknown32 file-'+ Ext.util.Format.lowercase(a.pop())+'32';
+    return rez;
 }
 
 function getStoreTitles(v){

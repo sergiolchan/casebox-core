@@ -53,19 +53,19 @@ Ext.define('CB.widget.block.Chart', {
 
         var tipsCfg = {
             trackMouse: true
-            ,style: 'background: #FFF; overflow: visible'
-            ,height: 20
-            ,width: 200
-            // ,renderer: function(storeItem, item) {
-            //     this.setTitle(storeItem.get('name') + ': ' + storeItem.get('count'));
-            // }
+            ,renderer: function(tooltip, record, item) {
+                tooltip.setHtml(record.get('name') + ': ' + record.get('count'));
+            }
         };
 
         this.chartConfigs = {
             'bar': {
-                width: '100%'
+                xtype: 'cartesian'
+                ,reference: 'chart'
+                ,width: '100%'
                 ,store: this.chartDataStore
                 ,colors: App.colors
+                ,flipXY: true
                 ,axes: [
                     {
                         type: 'numeric'
@@ -81,7 +81,7 @@ Ext.define('CB.widget.block.Chart', {
                 ]
                 ,series: [{
                     type: 'bar'
-                    ,axis: 'bottom'
+                    ,axis: 'left'
                     ,xField: 'shortname'
                     ,yField: 'count'
                     ,style: {
@@ -97,6 +97,7 @@ Ext.define('CB.widget.block.Chart', {
                         field: 'count'
                         ,display: 'insideEnd'
                     }
+                    ,title: 'count'
                     ,tips: tipsCfg
                     ,listeners: {
                         scope: this
@@ -105,7 +106,9 @@ Ext.define('CB.widget.block.Chart', {
                 }]
             }
             ,'column': {
-                width: '100%'
+                xtype: 'chart'
+                ,reference: 'chart'
+                ,width: '100%'
                 ,store: this.chartDataStore
                 ,colors: App.colors
                 ,axes: [{
@@ -125,7 +128,7 @@ Ext.define('CB.widget.block.Chart', {
                     }
                 ]
                 ,series: [{
-                    type: 'column'
+                    type: 'bar'
                     ,xField: 'shortname'
                     ,yField: ['count']
                     ,stacked: true
@@ -136,6 +139,7 @@ Ext.define('CB.widget.block.Chart', {
                         field: 'count'
                         ,display: 'insideEnd'
                     }
+                    ,title: 'count'
                     ,tips: tipsCfg
                     ,listeners: {
                         scope: this
@@ -144,16 +148,22 @@ Ext.define('CB.widget.block.Chart', {
                 }]
             }
             ,'pie': {
-                width: '100%'
+                xtype: 'polar'
+                ,reference: 'chart'
+                ,theme: 'default-gradients'
+                ,width: '100%'
                 ,store: this.chartDataStore
                 ,series: [{
                     type: 'pie',
-                    donut: 0,
+                    // donut: 0,
                     angleField: 'count',
                     label: {
                         field: 'shortname',
                         display: 'outside',
-                        calloutLine: true
+                        calloutLine: {
+                            length: 60,
+                            width: 3
+                        }
                     },
                     showInLegend: true
                     ,highlight: true
@@ -258,21 +268,20 @@ Ext.define('CB.widget.block.Chart', {
             // cfg.height = Math.max(cfg.store.getCount() * 25, 300);
             cfg.height = this.body.getHeight() - 20;
 
-            cfg.insetPadding = (charts[0] === 'pie')
-                ? 75
-                : 35;
+            if (charts[0] === 'pie') {
+                cfg.insetPadding = 75;
+            } else {
+                cfg.insetPadding = 35;
+            }
 
             cfg.legend = (this.showLegend !== false)
                 ? {
-                    position: 'right'
-                    ,boxStrokeWidth: 0
+                    docked: 'right'
+                    // ,boxStrokeWidth: 0
                 }
                 : false;
 
-            this.chart = Ext.create(
-                'Ext.chart.Chart'
-                ,cfg
-            );
+            this.chart = Ext.create(cfg);
 
             this.add(this.chart);
         }

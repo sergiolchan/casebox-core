@@ -54,7 +54,7 @@ Ext.define('CB.object.plugin.Files', {
             ,'        <span class="gr" title="{[ displayDateTime(values.cdate) ]}">{[ App.customRenderers.filesize(values.size) ]}, {ago_text}</span>'
             ,'    </td>'
             ,'    <td class="elips">'
-            ,'        <span class="click menu"></span>'
+            ,'        <span class="fa fa-ellipsis-v click menu"></span>'
             ,'    </td>'
             ,'</tr>'
             ,'</tpl>'

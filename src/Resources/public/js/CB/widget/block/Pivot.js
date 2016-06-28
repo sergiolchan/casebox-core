@@ -28,7 +28,7 @@ Ext.define('CB.widget.block.Pivot', {
         }
 
         if(data.pivot) {
-            var key = ''
+            var key = rez.xField + ',' + rez.yField
                 ,arr;
             if(Ext.isEmpty(rez.xField) || Ext.isEmpty(rez.yField)) {
                 //just get the facets the server returned the pivot for
@@ -177,7 +177,7 @@ Ext.define('CB.widget.block.Pivot', {
                 ,function(k, v, o) {
                     columns.push({
                         text: v
-                        ,width: 50
+                        ,width: 100
                         ,cls: 'fwB'
                         ,align: 'right'
                         ,renderer: this.cellRenderer
@@ -193,7 +193,7 @@ Ext.define('CB.widget.block.Pivot', {
 
             columns.push({
                 text: L.Total
-                ,width: 50
+                ,width: 100
                 ,align: 'right'
                 ,cls: 'fwB cG'
                 ,tdCls: 'fwB cG'
@@ -289,11 +289,9 @@ Ext.define('CB.widget.block.Pivot', {
         /* create data, stores and charts on the fly */
         var tipsCfg = {
             trackMouse: true
-            ,style: 'background: #FFF; overflow: visible'
-            ,height: 20
-            ,width: 200
-            ,renderer: function(storeItem, item) {
-                this.setTitle(item.value.join(': '));
+            ,renderer: function(tooltip, record, item) {
+                var idx = this._yField.indexOf(item.field);
+                tooltip.setHtml(this._title[idx] + ': ' + record.get(item.field));
             }
         }
         ,series = [
@@ -364,7 +362,9 @@ Ext.define('CB.widget.block.Pivot', {
             var serie = series[i];
 
             var cfg = {
-                height: Math.max(data[i].length * 25, 400)
+                xtype: 'chart'
+
+                ,height: Math.max(data[i].length * 25, 400)
                 ,width: '100%'
                 ,store: new Ext.data.JsonStore({
                     fields: [serie.xField].concat(serie.yField)
@@ -376,12 +376,6 @@ Ext.define('CB.widget.block.Pivot', {
                     }
                     ,data: data[i]
                 })
-                ,items: [{
-                    type  : 'text',
-                    text  : ' ',
-                    x : 40, //the sprite x position
-                    y : 12  //the sprite y position
-                }]
                 ,axes: [{
                     type: 'category'
                     ,position: (chartType === 'bar') ? 'left' : 'bottom'
@@ -404,7 +398,7 @@ Ext.define('CB.widget.block.Pivot', {
 
                 ,legend: (this.showLegend !== false)
                     ? {
-                        position: 'right'
+                        docked: 'right'
                         ,boxStrokeWidth: 0
                     }
                     : false
@@ -413,7 +407,7 @@ Ext.define('CB.widget.block.Pivot', {
                     Ext.apply(
                         serie
                         ,{
-                            type: chartType
+                            type: 'bar'
                             ,stacked: true
                             ,style: {
                                 opacity: 0.80
@@ -426,12 +420,12 @@ Ext.define('CB.widget.block.Pivot', {
                     )
                 ]
             };
+            if(chartType === 'bar') {
+                cfg.flipXY = true;
+            }
 
             chartItems.push(
-                Ext.create(
-                    'Ext.chart.Chart'
-                    ,cfg
-                )
+                Ext.create(cfg)
             );
         // }
 

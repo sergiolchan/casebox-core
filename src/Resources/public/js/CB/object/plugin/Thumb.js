@@ -8,7 +8,7 @@ Ext.define('CB.object.plugin.Thumb', {
         var tpl = new Ext.XTemplate(
             '<tpl for=".">'
                 ,'<div style="width: 100%; text-align: center; margin: 30px 0">'
-                ,'{[ Ext.isEmpty(values.html) ? "<img class=\\"click preview-thumb " + values.cls + "\\" src=\\"'+Ext.BLANK_IMAGE_URL+'\\" alt=\\"'+L.Preview +'\\" />" : values.html ]}'
+                ,'{[ Ext.isEmpty(values.html) ? "<span class=\\"click preview-thumb " + getFileIcon32(values.name) + "\\" ></span>" : values.html ]}'
                 ,'</div>'
             ,'</tpl>'
         );
@@ -35,6 +35,8 @@ Ext.define('CB.object.plugin.Thumb', {
     }
 
     ,onLoadData: function(r, e) {
+        r.data.name = this.params.name;
+
         if(this.rendered) {
             this.dataView.update(r.data);
             this.updateLayout({defer: true});
@@ -53,7 +55,7 @@ Ext.define('CB.object.plugin.Thumb', {
      * @return void
      */
     ,onViewReady: function(cmp, eOpts) {
-        var images = this.getEl().query('img');
+        var images = this.getEl().query('span.click');
         if(Ext.isEmpty(images)) {
             return;
         }

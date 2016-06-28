@@ -34,7 +34,7 @@ Ext.define('CB.object.plugin.ContentItems', {
             ,'        <span class="gr" title="{[ displayDateTime(values.cdate) ]}">{user}, {ago_text}</span>'
             ,'    </td>'
             ,'    <td class="elips">'
-            ,'        <span class="click menu"></span>'
+            ,'        <span class="fa fa-ellipsis-v click menu"></span>'
             ,'    </td>'
             ,'</tr>'
             ,'</tpl>'

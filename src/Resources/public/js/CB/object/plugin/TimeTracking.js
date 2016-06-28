@@ -41,7 +41,7 @@ Ext.define('CB.object.plugin.TimeTracking', {
             ,'        <span class="click">{time} / {cost}</span>'
             ,'    </td>'
             ,'    <td class="elips">'
-            ,'        <span class="click menu"></span>'
+            ,'        <span class="fa fa-ellipsis-v click menu"></span>'
             ,'    </td>'
             ,'</tr>'
             ,'</tpl>'

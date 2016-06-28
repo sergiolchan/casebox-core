@@ -95,7 +95,7 @@ Ext.define('CB.object.edit.View', {
             ,cancel: new Ext.Action({
                 text: L.Cancel
                 ,glyph: 0xf00d
-                ,hidden: true
+                // ,hidden: true
                 ,scope: this
                 ,handler: this.onCancelClick
             })
@@ -725,14 +725,14 @@ Ext.define('CB.object.edit.View', {
         if(this.viewMode === 'preview') {
             this.actions.edit.show();
             this.actions.save.hide();
-            this.actions.cancel.hide();
+            // this.actions.cancel.hide();
 
             this.actions.rename.show();
         } else {
             this.actions.edit.hide();
             this.actions.save.show();
             // this.actions.save.setDisabled(!this._isDirty);
-            this.actions.cancel.show();
+            // this.actions.cancel.show();
 
             this.actions.rename.hide();
         }

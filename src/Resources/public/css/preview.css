@@ -23,9 +23,8 @@ table{
     -webkit-transition: opacity .25s ease-in-out;
 
 */
-    width: 128px;
-    height: 128px;
-    background-image: url(default/l/none-icon.png);
+    width: 100px;
+    height: 100px;
     opacity: 1;
     transition: opacity .25s ease-in-out;
     -moz-transition: opacity .25s ease-in-out;

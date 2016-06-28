@@ -57,10 +57,9 @@
 .block-plugin td.elips span {
     visibility: hidden;
     cursor: pointer;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     display: inline-block;
-    background: url(i/ico/_points-gray.png) 0 0 no-repeat;
 }
 
 .block-plugin tr:hover td.elips span {
