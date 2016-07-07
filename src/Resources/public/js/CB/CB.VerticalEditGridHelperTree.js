@@ -289,7 +289,7 @@ Ext.define('CB.VerticalEditGridHelperTree', {
             var parentNodeValue = node.parentNode.data.value.value;
             if(Ext.isDefined(r.get('cfg').dependency) && !Ext.isEmpty(r.get('cfg').dependency.pidValues)){
                 v = r.get('cfg').dependency.pidValues;
-                va = toNumericArray(v);
+                va = toTrimmedArray(v);
             }
 
             if (pr && (['H', 'G'].indexOf(pr.get('type')) > -1)) {

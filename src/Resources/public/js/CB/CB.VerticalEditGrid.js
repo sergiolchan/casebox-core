@@ -67,7 +67,7 @@ Ext.define('CB.VerticalEditGrid', {
                     ,beforeedit: this.onBeforeEditProperty
                     ,edit: this.onAfterEditProperty
                 }
-                ,onSpecialKey: this.onCellEditingSpecialKey
+                // ,onSpecialKey: this.onCellEditingSpecialKey
             }
         );
 
@@ -102,6 +102,7 @@ Ext.define('CB.VerticalEditGrid', {
                 scope: this
                 ,keypress:  function(e){
                     if( (e.getKey() == e.ENTER) && (!e.hasModifier())) {
+                        clog('here');
                         this.onFieldTitleDblClick();
                     }
                 }
@@ -120,20 +121,6 @@ Ext.define('CB.VerticalEditGrid', {
             ]
             ,viewConfig: viewCfg
             ,editors: {
-                iconcombo: function(){
-                    return new Ext.form.ComboBox({
-                        editable: true
-                        ,name: 'iconCls'
-                        ,hiddenName: 'iconCls'
-                        ,tpl: '<tpl for="."><div class="x-boundlist-item"><i class="{[values["name"]]}"></i> {[values["name"]]}<tpl if="xindex < xcount">, </tpl></div></tpl>'
-                        ,store: CB.DB.templatesIconSet
-                        ,valueField: 'name'
-                        ,displayField: 'name'
-                        ,iconClsField: 'name'
-                        ,triggerAction: 'all'
-                        ,queryMode: 'local'
-                    });
-                }
             }
 
             ,plugins: plugins
@@ -146,9 +133,7 @@ Ext.define('CB.VerticalEditGrid', {
 
     ,initRenderers: function () {
         this.renderers = {
-            iconcombo: App.customRenderers.iconcombo
-
-            ,H: function(){ return '';}
+            H: function(){ return '';}
 
             ,title: function(v, meta, record, row_idx, col_idx, store){
                 var id = record.get('id');
@@ -568,15 +553,8 @@ Ext.define('CB.VerticalEditGrid', {
         }
 
         return (
-            (r.get('type') !== 'G')
-            &&
-            (
-                (r.get('cfg').showIn !== 'top') ||
-                ((r.get('cfg').showIn === 'top') &&
-                    this.includeTopFields
-                )
-            ) &&
-            (r.get('cfg').showIn !== 'tabsheet') &&
+            (r.get('type') !== 'G') &&
+            (r.get('cfg').editMode !== 'standalone') &&
             (node.data.visible !== false)
         );
     }
@@ -608,6 +586,7 @@ Ext.define('CB.VerticalEditGrid', {
             return;
         }
 
+        clog('delete context.grid.pressedSpecialKey');
         delete context.grid.pressedSpecialKey;
 
         var pw = this.findParentByType(CB.GenericForm, false)
@@ -684,7 +663,6 @@ Ext.define('CB.VerticalEditGrid', {
             ,lastFocused = navModel.getLastFocused()
             ,rez = Ext.clone(lastFocused);
 
-
         if(lastFocused && !isNaN(lastFocused.rowIdx)){
             if(position === 'next') {
                 if(lastFocused.colIdx < (this.visibleColumnManager.columns.length-1)) {
@@ -709,7 +687,7 @@ Ext.define('CB.VerticalEditGrid', {
 
             navModel.setPosition(cell.rowIdx, cell.colIdx);
 
-            navModel.focusPosition(cell);
+            // navModel.focusPosition(cell);
         }
 
         return rez;
@@ -739,8 +717,10 @@ Ext.define('CB.VerticalEditGrid', {
         );
     }
 
+    /**  doesnt work in Ext 6 **/
     ,onCellEditingSpecialKey: function(ed, field, e) {
         var key = e.getKey();
+
         switch(key) {
             case e.TAB:
                 ed.completeEdit();
@@ -759,6 +739,7 @@ Ext.define('CB.VerticalEditGrid', {
 
             case e.ENTER:
             case e.ESC:
+                clog('set ed.grid.pressedSpecialKey', key, ed.grid);
                 ed.grid.pressedSpecialKey = key;
                 break;
         }
@@ -805,14 +786,7 @@ Ext.define('CB.VerticalEditGrid', {
             var validator = tr.get('cfg').validator;
 
             if(!Ext.isEmpty(validator)) {
-                if(!Ext.isDefined(CB.Validators[validator])) {
-                    plog('Undefined field validator: ' + validator);
-
-                } else {
-                    //empty values are considered valid by default
-                    node.data.valid = Ext.isEmpty(context.value) || CB.Validators[validator](context.value);
-                    context.record.set('valid', node.data.valid);
-                }
+                context.record.set('valid', CB.Validators.isValidValue(validator, context.value) === true);
             }
 
             if(context.value != context.originalValue){
@@ -845,13 +819,16 @@ Ext.define('CB.VerticalEditGrid', {
             this.getView().refresh();
         } else {
             this.fireEvent('restorescroll', this);
+            // this.gainFocus();
         }
 
-        //the grid shouldnt be focused all the time,
-        //the user can click outside of the grid
-        if(this.pressedSpecialKey) {
-            this.gainFocus();
-        }
+        // //the grid shouldnt be focused all the time,
+        // //the user can click outside of the grid
+        // clog(this, this.pressedSpecialKey, editor, editor.grid.pressedSpecialKey);
+        // if(this.pressedSpecialKey) {
+        //     clog('call gainFocus;');
+        //     this.gainFocus();
+        // }
     }
 
     ,getFieldValue: function(field_id, duplication_id){

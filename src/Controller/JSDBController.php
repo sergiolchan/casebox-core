@@ -38,7 +38,6 @@ class JSDBController extends Controller
         $fieldTypes = [
             [null, '-'],
             ['_auto_title', $ts->trans('ftAutoTitle')], //Auto title (uses title_template)
-            // array('checkbox', $ts->trans('ftCheckbox')), //CheckBox
             ['combo', $ts->trans('ftCombo')], //ComboBox
             ['date', $ts->trans('ftDate')], //Date
             ['datetime', $ts->trans('ftDatetime')], //Datetime
@@ -47,18 +46,11 @@ class JSDBController extends Controller
             ['G', $ts->trans('ftGroup')], //Group
             ['H', $ts->trans('ftHeader')], //Header
             ['html', $ts->trans('ftHtml')], //Html
-            ['iconcombo', $ts->trans('ftIconcombo')], //IconCombo
             ['int', $ts->trans('ftInt')], //Integer
-            ['_language', $ts->trans('ftLanguage')], //Language
             ['memo', $ts->trans('ftMemo')], //Memo
             ['_objects', $ts->trans('ftObjects')], //Objects
-            // array('_sex', $ts->trans('ftSex')), //Sex
-            ['_short_date_format', $ts->trans('ftShortDateFormat')], //Short date format combo
-            ['_fieldTypesCombo', $ts->trans('ftFieldTypesCombo')], //Template field types combo
-            ['_templateTypesCombo', $ts->trans('ftTemplateTypesCombo')], //Template types combo
             ['text', $ts->trans('ftText')], //Text
             ['time', $ts->trans('ftTime')], //Time
-            // array('timeunits', $ts->trans('ftTimeunits')), //Time units
             ['varchar', $ts->trans('ftVarchar')], //Varchar
         ];
 

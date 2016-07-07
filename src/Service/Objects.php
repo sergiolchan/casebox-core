@@ -509,10 +509,17 @@ class Objects
             foreach ($data as $objData) {
                 $varName = 'Objects['.$objData['id'].']';
 
-                $o = static::getCustomClassByType($tc->getType($objData['template_id']));
+                $templateType = $tc->getType($objData['template_id']);
+                $o = static::getCustomClassByType($templateType);
 
                 if (!empty($o)) {
-                    $o->setData($objData, false);
+                    //template fields require custom processing on load
+                    if ($templateType == 'field') {
+                        $o->load($objData['id']);
+
+                    } else {
+                        $o->setData($objData, false);
+                    }
 
                     Cache::set($varName, $o);
                     $rez[$objData['id']] = $o;

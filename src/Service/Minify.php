@@ -79,6 +79,8 @@ class Minify
                 'css/facets.css',
                 'css/obj_plugins.css',
                 'css/preview.css',
+                'css/activity-stream-view.css',
+                'css/charts.css',
             ],
 
             'csspreview' => [

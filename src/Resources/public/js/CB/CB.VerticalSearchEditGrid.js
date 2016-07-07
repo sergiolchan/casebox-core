@@ -104,9 +104,6 @@ Ext.define('CB.VerticalSearchEditGrid', {
 
             case '_objects':
             case 'combo':
-            case 'iconcombo':
-            case 'timeunits':
-            case '_sex':
                 cond = [
                     {id: '<=', name: L.condSetLt}
                     ,{id: '>=', name: L.condSetGt}
@@ -130,14 +127,6 @@ Ext.define('CB.VerticalSearchEditGrid', {
                     ,{id: '!=', name: L.condTxtNe}
                 ];
                 break;
-
-            case 'checkbox':
-                cond = [
-                    {id: '=', name: L.condCbEq}
-                    ,{id: '!=', name: l.condCbNe}
-                ];
-                break;
-
         }
 
         return new Ext.data.JsonStore({

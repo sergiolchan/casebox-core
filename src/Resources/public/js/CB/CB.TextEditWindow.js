@@ -74,7 +74,7 @@ Ext.define('CB.TextEditWindow', {
             /* need to clarify why json mode is not present in current ace distribution
 
              ,{
-                mode: this.config.mode //set mode for qace editor
+                mode: this.config.mode //set mode for ace editor
             }/**/
         );
         this.editor.focus(false, 350);

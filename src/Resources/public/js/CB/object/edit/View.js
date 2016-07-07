@@ -330,11 +330,11 @@ Ext.define('CB.object.edit.View', {
                     region: 'center'
                     ,border: false
                     ,bodyStyle: 'border-bottom:0; border-left: 0'
-                    ,scrollable: true
-                    ,layout: {
-                        type: 'vbox'
-                        ,align: 'stretch'
-                    }
+                    ,scrollable: 'y'
+                    // ,layout: {
+                    //     type: 'vbox'
+                    //     ,align: 'stretch'
+                    // }
                     ,items: [
                         this.titleContainer
                         ,this.gridContainer
@@ -611,7 +611,6 @@ Ext.define('CB.object.edit.View', {
                     ,autoHeight: true
                     ,hidden: true
                     ,refOwner: this
-                    ,includeTopFields: true
                     ,stateId: 'oevg' //object edit vertical grid
                     ,autoExpandColumn: 'value'
                     ,scrollable: false
@@ -666,17 +665,22 @@ Ext.define('CB.object.edit.View', {
             var fields = [];
             this.grid.templateStore.each(
                 function(r) {
-                    if(r.get('cfg').showIn === 'tabsheet') {
+                    var config = r.get('cfg');
+                    if(config.editMode === 'standalone') {
                         var cfg = {
                             border: false
                             ,isTemplateField: true
                             ,name: r.get('name')
                             ,value: this.data.data[r.get('name')]
-                            ,height: Ext.valueFrom(r.get('cfg').height, 200)
+                            ,height: Ext.valueFrom(config.height, 200)
                             ,anchor: '100%'
                             ,grow: true
                             ,title: r.get('title')
                             ,fieldLabel: r.get('title')
+                            ,resizable: {
+                                pinned: true
+                            }
+                            ,resizeHandles: 's'
                             ,labelAlign: 'top'
                             ,labelCls: 'fwB ttU'
                             ,labelSeparator: ''
@@ -689,10 +693,32 @@ Ext.define('CB.object.edit.View', {
                                     this.fireEvent('change');
                                 }
                             }
-                            ,xtype: (r.get('type') === 'html')
-                                ? 'CBHtmlEditor'
-                                : 'textarea'
+                            ,xtype: 'CBHtmlEditor'
                         };
+
+                        if(config.validator && CB.Validators[config.validator]) {
+                            cfg.validator = CB.Validators[config.validator];
+                        }
+
+                        if(r.get('type') !== 'html') {
+                            delete cfg.resizable;
+                            cfg.xtype = 'textarea';
+
+                            cfg = {
+                                xtype: 'panel'
+                                ,anchor: '100%'
+                                ,height: cfg.height
+                                ,width: '100%'
+                                ,border: false
+                                ,resizable: {
+                                    pinned: true
+                                }
+                                ,resizeHandles: 's'
+                                ,layout: 'fit'
+                                ,items: [cfg]
+                            };
+                        }
+
                         this.complexFieldContainer.add(cfg);
                     }
                 }
@@ -836,10 +862,13 @@ Ext.define('CB.object.edit.View', {
             if(!i.scrollable) {
                 i = this.items.getAt(1);
             }
-            Ext.get(v.getRow(g.invalidRecord)).scrollIntoView(i.body, null, false);
 
-            return this.grid.focusInvalidRecord();
+            if(g.invalidRecord) {
+                Ext.get(v.getRow(g.invalidRecord)).scrollIntoView(i.body, null, false);
+                return this.grid.focusInvalidRecord();
+            }
 
+            return false;
         }
 
         if(!this._isDirty) {
@@ -1175,6 +1204,8 @@ Ext.define('CB.object.edit.View', {
         if(this.grid && this.grid.isValid) {
             rez = this.grid.isValid();
         }
+
+        rez = this.complexFieldContainer.getForm().isValid();
 
         return rez;
     }

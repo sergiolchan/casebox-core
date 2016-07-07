@@ -5,7 +5,9 @@
 
 CB.ObjectsFieldCommonFunctions = {
     detectStore: function(){
-        var source = Ext.isEmpty(this.cfg.source) ? 'tree': this.cfg.source;
+        var source = Ext.isEmpty(this.cfg.source)
+            ? 'tree':
+            this.cfg.source;
 
         switch(source){
             case 'users':
@@ -13,7 +15,8 @@ CB.ObjectsFieldCommonFunctions = {
             case 'usersgroups':
                 this.store = CB.DB.usersGroupsSearchStore;
                 break;
-            default:
+
+            case 'tree':
                 //try to access object window to locate objects store
                 this.objectsStore = this.getObjectsStore();
 
@@ -80,6 +83,10 @@ CB.ObjectsFieldCommonFunctions = {
                         }
                     }
                 });
+                break;
+
+            default:
+                this.store = CB.DB[source];
         }
 
         if(Ext.isEmpty(this.store)) {
@@ -160,15 +167,6 @@ Ext.define('CB.ObjectsComboField', {
                 this.tpl = Ext.create('Ext.XTemplate',
                     '<tpl for=".">'
                     ,'<div class="x-boundlist-item icon-padding {iconCls} bgpLT">{name}</div>'
-                    ,'</tpl>'
-                );
-
-                break;
-
-            case 'listGreenIcons':
-                this.tpl = Ext.create('Ext.XTemplate',
-                    '<tpl for=".">'
-                    ,'<div class="x-boundlist-item icon-padding {[ values.id ? \'icon-element\': \'\' ]}">{name}</div>'
                     ,'</tpl>'
                 );
 

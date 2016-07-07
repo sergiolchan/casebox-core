@@ -1,0 +1,48 @@
+/* charts legend */
+.x-legend-container {
+  display: inline-block;
+  line-height: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.6) 0 1px 1px;
+  -moz-box-shadow: rgba(255, 255, 255, 0.6) 0 1px 1px;
+  box-shadow: rgba(255, 255, 255, 0.6) 0 1px 1px;
+}
+.x-legend.x-docked-top .x-legend-item, .x-legend.x-docked-bottom .x-legend-item, .x-legend-panel.x-docked-top .x-legend-item, .x-legend-panel.x-docked-bottom .x-legend-item {
+    border-left: 1px solid rgba(204, 204, 204, 0.5);
+}
+.x-legend-item-marker{
+  position: absolute;
+  width: 0.8em;
+  height: 0.8em;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.3) 0 1px 0, rgba(0, 0, 0, 0.4) 0 1px 0 inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.3) 0 1px 0, rgba(0, 0, 0, 0.4) 0 1px 0 inset;
+  box-shadow: rgba(255, 255, 255, 0.3) 0 1px 0, rgba(0, 0, 0, 0.4) 0 1px 0 inset;
+  left: 0.7em;
+  top: 0.85em;
+}
+
+.x-legend-item {
+  padding: 0.8em 1em 0.8em 1.8em;
+  color: #333;
+  background: rgba(255, 255, 255, 0);
+  max-width: 16em;
+  min-width: 0;
+  font-size: 13px;
+  font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+  line-height: 13px;
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+.x-legend-inactive {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+    opacity: 0.3;
+}

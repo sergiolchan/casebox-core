@@ -38,7 +38,6 @@ class Template extends Object
 
     private static $fieldTypeNames =  array(
         '_auto_title' => 'ftAutoTitle'
-        ,'checkbox' => 'ftCheckbox'
         ,'combo' => 'ftCombo'
         ,'date' => 'ftDate'
         ,'datetime' => 'ftDatetime'
@@ -46,18 +45,11 @@ class Template extends Object
         ,'G' => 'ftGroup'
         ,'H' => 'ftHeader'
         ,'html' => 'ftHtml'
-        ,'iconcombo' => 'ftIconcombo'
         ,'int' => 'ftInt'
-        ,'_language' => 'ftLanguage'
         ,'memo' => 'ftMemo'
         ,'_objects' => 'ftObjects'
-        ,'_sex' => 'ftSex'
-        ,'_short_date_format' => 'ftShortDateFormat'
-        ,'_fieldTypesCombo' => 'ftFieldTypesCombo'
-        ,'_templateTypesCombo' => 'ftTemplateTypesCombo'
         ,'text' => 'ftText'
         ,'time' => 'ftTime'
-        ,'timeunits' => 'ftTimeunits'
         ,'varchar' => 'ftVarchar'
     );
 
@@ -321,279 +313,261 @@ class Template extends Object
         }
 
         /*check if field is not rezerved field for usernames (cid, oid, uid, did)*/
-        if (!empty($field['name']) && in_array($field['name'], array('cid', 'oid', 'uid', 'did'))) {
-            $value = Util\toNumericArray($value);
-            for ($i=0; $i < sizeof($value); $i++) {
-                $value[$i] = User::getDisplayName($value[$i]);
-            }
-            $value = implode(', ', $value);
+        // if (!empty($field['name']) && in_array($field['name'], array('cid', 'oid', 'uid', 'did'))) {
+        //     $value = Util\toNumericArray($value);
+        //     for ($i=0; $i < sizeof($value); $i++) {
+        //         $value[$i] = User::getDisplayName($value[$i]);
+        //     }
+        //     $value = implode(', ', $value);
 
-        } else {
-            switch ($field['type']) {
-                case 'boolean':
-                case 'checkbox':
-                    $value = empty($value) ? '' : (($value) < 0 ? self::trans('no') : self::trans('yes'));
-
+        // } else {
+        switch ($field['type']) {
+            case 'combo':
+            case '_objects':
+                if (empty($value)) {
+                    $value = '';
                     break;
+                }
 
-                case '_sex':
-                    switch ($value) {
-                        case 'm':
-                            $value = self::trans('male');
-                            break;
-                        case 'f':
-                            $value = self::trans('female');
-                            break;
-                        default:
-                            $value = '';
-                    }
-                    break;
+                $ids = Util\toNumericArray($value);
 
-                case '_language':
-                    @$value = @$this->configService->get('language_settings')[$this->configService->get('languages')[$value -1]][0];
-                    break;
-
-                case 'combo':
-
-                case '_objects':
-                    if (empty($value)) {
+                if (empty($ids)) {
+                    if (empty($field['cfg']['source'])) {
                         $value = '';
                         break;
-                    }
-
-                    $ids = Util\toNumericArray($value);
-                    if (empty($ids)) {
-                        if (empty($field['cfg']['source'])) {
-                            $value = '';
-                            break;
-                        } else {
-                            $ids = Util\toTrimmedArray($value);
-                        }
-                    }
-
-                    $value = array();
-
-                    switch (@$field['cfg']['source']) {
-                        case 'users':
-                        case 'groups':
-                        case 'usersgroups':
-                            $value = array();
-                            $udp = UsersGroups::getDisplayData($ids);
-
-                            foreach ($ids as $id) {
-                                if (empty($udp[$id])) {
-                                    continue;
-                                }
-                                $r = &$udp[$id];
-
-                                $label = @htmlspecialchars(Util\coalesce($r['title'], $r['name']), ENT_COMPAT);
-
-                                if ($html) {
-                                    switch (@$field['cfg']['renderer']) {
-                                        case 'listGreenIcons':
-                                            $label = '<li class="icon-padding icon-element">' . $label . '</li>';
-                                            break;
-
-                                        // case 'listObjIcons':
-                                        default:
-                                            $icon = empty($r['iconCls'])
-                                                ? 'icon-none'
-                                                : $r['iconCls'];
-
-                                            $label = '<li><i class="' . $icon . ' fa-fw"></i> ' . $label . '</li>';
-                                            break;
-                                    }
-                                }
-
-                                $value[] = $label;
-                            }
-                            break;
-
-                        case 'sex':
-                            $id = array_shift($ids);
-                            switch ($id) {
-                                case 'm':
-                                    $value[] = self::trans('male');
-                                    break;
-                                case 'f':
-                                    $value[] = self::trans('female');
-                                    break;
-                            }
-                            break;
-
-                        case 'countries':
-                            $id = array_shift($ids);
-                            $term = Cache::get('symfony.container')->get('casebox_core.service_vocabulary.country_phone_codes_vocabulary')->getTermById($id);
-
-                            if (!empty($term)) {
-                                $value[] = $term['name'];
-                            }
-                            break;
-
-                        case 'timezones':
-                            $value = $ids;
-                            break;
-
-                        case 'shortDateFormats':
-                            $value = $ids;
-                            break;
-
-                        case 'languages':
-                            $coreLanguages = $this->configService->get('languages');
-                            $ls = $this->configService->get('language_settings');
-                            foreach ($ids as $id) {
-                                if (!empty($coreLanguages[$id-1])) {
-                                    $value[] = $html
-                                            ? '<li>'.$ls[$coreLanguages[$id-1]]['name'].'</li>'
-                                            : $ls[$coreLanguages[$id-1]]['name'];
-                                }
-                            }
-
-                            break;
-
-                        default:
-                            $objects = \Casebox\CoreBundle\Service\Objects::getCachedObjects($ids);
-                            foreach ($ids as $id) {
-                                if (empty($objects[$id])) {
-                                    continue;
-                                }
-
-                                $obj = &$objects[$id];
-
-                                $d = $obj->getData();
-                                $label = $obj->getHtmlSafeName();
-
-                                $pids = $d['pids'];
-
-                                if ($html && !empty($pids)) {
-                                    $pids = str_replace(',', '/', $pids);
-                                    $linkType = empty($field['cfg']['linkType'])
-                                        ? ''
-                                        : 'link-type-' . $field['cfg']['linkType'];
-
-                                    $label = '<a class="click ' . $linkType . '" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
-                                }
-
-                                switch (@$field['cfg']['renderer']) {
-                                    case 'listGreenIcons':
-                                        $value[] =  $html
-                                            ? '<li class="icon-padding icon-element">'.$label.'</li>'
-                                            : $label;
-                                        break;
-                                    // case 'listObjIcons':
-                                    default:
-                                        $icon = \Casebox\CoreBundle\Service\Browser::getIcon($d);
-
-                                        if (empty($icon)) {
-                                            $icon = 'icon-none';
-                                        }
-
-                                        $value[] = $html
-                                            ? '<li><i class="'.$icon.' fa-fw"></i>'.$label.'</li>'
-                                            : $label;
-                                        break;
-                                }
-                            }
-                            break;
-                    }
-
-                    $value = $html
-                        ? '<ul class="clean">'.implode('', $value).'</ul>'
-                        : implode(', ', $value);
-                    break;
-
-                case '_fieldTypesCombo':
-                    $value = self::trans(@static::$fieldTypeNames[$value]);
-                    break;
-
-                case 'date':
-                    $value = Util\formatMysqlDate(Util\dateISOToMysql($value));
-                    break;
-
-                case 'datetime':
-                    $value = Util\UTCTimeToUserTimezone($value);
-
-                    break;
-
-                case 'time':
-                    if (empty($value)) {
-                        continue;
-                    }
-
-                    $format = empty($field['format'])
-                        ? 'H:i'
-                        : $field['format'];
-
-                    if (is_numeric($value)) {
-                        $s = $value % 60;
-                        $value = floor($value / 60);
-                        $m = $value % 60;
-                        $value = floor($value / 60);
-                        if (strlen($value) < 2) {
-                            $value = '0' . $value;
-                        }
-                        if (strlen($m) < 2) {
-                            $m = '0' . $m;
-                        }
-                        $value .= ':' . $m;
-                        if (!empty($s)) {
-                            if (strlen($s) < 2) {
-                                $s = '0' . $s;
-                            }
-                            $value .= ':' . $s;
-                        }
-
                     } else {
-                        $date = \DateTime::createFromFormat($format, $value);
+                        $ids = Util\toTrimmedArray($value);
+                    }
+                }
 
-                        if (is_object($date)) {
-                            $value = $date->format($format);
+                $value = array();
+                $source = empty($field['cfg']['source'])
+                    ? 'tree'
+                    : $field['cfg']['source'];
+
+                switch ($source) {
+                    case 'users':
+                    case 'groups':
+                    case 'usersgroups':
+                        $value = array();
+                        $udp = UsersGroups::getDisplayData($ids);
+
+                        foreach ($ids as $id) {
+                            if (empty($udp[$id])) {
+                                continue;
+                            }
+                            $r = &$udp[$id];
+
+                            $label = @htmlspecialchars(Util\coalesce($r['title'], $r['name']), ENT_COMPAT);
+
+                            if ($html) {
+                                $icon = empty($r['iconCls'])
+                                    ? 'icon-none'
+                                    : $r['iconCls'];
+
+                                $label = '<li><i class="' . $icon . ' fa-fw"></i> ' . $label . '</li>';
+                            }
+
+                            $value[] = $label;
                         }
+                        break;
+
+                    case 'yesno':
+                        $id = array_shift($ids);
+                        $value[] = empty($id) ? '' : (($id) < 0 ? self::trans('no') : self::trans('yes'));
+                        break;
+
+                    case 'sex':
+                        $id = array_shift($ids);
+                        switch ($id) {
+                            case 'm':
+                                $value[] = self::trans('male');
+                                break;
+                            case 'f':
+                                $value[] = self::trans('female');
+                                break;
+                        }
+                        break;
+
+                    case 'countries':
+                        $id = array_shift($ids);
+                        $term = Cache::get('symfony.container')->get('casebox_core.service_vocabulary.country_phone_codes_vocabulary')->getTermById($id);
+
+                        if (!empty($term)) {
+                            $value[] = $term['name'];
+                        }
+                        break;
+
+                    case 'timezones':
+                        $value = $ids;
+                        break;
+
+                    case 'shortDateFormats':
+                        $value = $ids;
+                        break;
+
+                    case 'languages':
+                        $coreLanguages = $this->configService->get('languages');
+                        $ls = $this->configService->get('language_settings');
+                        foreach ($ids as $id) {
+                            if (!empty($coreLanguages[$id-1])) {
+                                $value[] = $html
+                                        ? '<li>'.$ls[$coreLanguages[$id-1]]['name'].'</li>'
+                                        : $ls[$coreLanguages[$id-1]]['name'];
+                            }
+                        }
+                        break;
+
+                    case 'templatesIconSet':
+                        $id = array_shift($ids);
+                        if (!empty($id)) {
+                            $value[] = $html
+                                ? '<span class="' . $id . '"></span> ' . $id
+                                : $id;
+                        }
+
+                        break;
+
+                    case 'fieldTypes':
+                        $id = array_shift($ids);
+                        if (!empty($id)) {
+                            $value[] = self::trans(@static::$fieldTypeNames[$id]);
+                        }
+                        break;
+
+                    case 'templateTypes':
+                        $value = $ids;
+                        break;
+
+                    case 'timeUnits':
+                        break;
+
+                    case 'tree':
+                        $objects = \Casebox\CoreBundle\Service\Objects::getCachedObjects($ids);
+                        foreach ($ids as $id) {
+                            if (empty($objects[$id])) {
+                                continue;
+                            }
+
+                            $obj = &$objects[$id];
+
+                            $d = $obj->getData();
+                            $label = $obj->getHtmlSafeName();
+
+                            $pids = $d['pids'];
+
+                            if ($html && !empty($pids)) {
+                                $pids = str_replace(',', '/', $pids);
+                                $linkType = empty($field['cfg']['linkType'])
+                                    ? ''
+                                    : 'link-type-' . $field['cfg']['linkType'];
+
+                                $label = '<a class="click ' . $linkType . '" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
+                            }
+
+                            if ($html) {
+                                $icon = \Casebox\CoreBundle\Service\Browser::getIcon($d);
+
+                                if (empty($icon)) {
+                                    $icon = 'icon-none';
+                                }
+                                $label = '<li><i class="'.$icon.' fa-fw"></i>'.$label.'</li>';
+                            }
+
+                            $value[] = $label;
+                        }
+                        break;
+
+                    default: //display ids if source not detected
+                        $value = $ids;
+                }
+
+                $value = $html
+                    ? '<ul class="clean">'.implode('', $value).'</ul>'
+                    : implode(', ', $value);
+                break;
+
+            case 'date':
+                $value = Util\formatMysqlDate(Util\dateISOToMysql($value));
+                break;
+
+            case 'datetime':
+                $value = Util\UTCTimeToUserTimezone($value);
+
+                break;
+
+            case 'time':
+                if (empty($value)) {
+                    continue;
+                }
+
+                $format = empty($field['format'])
+                    ? 'H:i'
+                    : $field['format'];
+
+                if (is_numeric($value)) {
+                    $s = $value % 60;
+                    $value = floor($value / 60);
+                    $m = $value % 60;
+                    $value = floor($value / 60);
+                    if (strlen($value) < 2) {
+                        $value = '0' . $value;
+                    }
+                    if (strlen($m) < 2) {
+                        $m = '0' . $m;
+                    }
+                    $value .= ':' . $m;
+                    if (!empty($s)) {
+                        if (strlen($s) < 2) {
+                            $s = '0' . $s;
+                        }
+                        $value .= ':' . $s;
                     }
 
-                    break;
+                } else {
+                    $date = \DateTime::createFromFormat($format, $value);
 
-                case 'html':
+                    if (is_object($date)) {
+                        $value = $date->format($format);
+                    }
+                }
+
+                break;
+
+            case 'html':
+                $cacheValue = false;
+                // $value = trim(strip_tags($value));
+                // $value = nl2br($value);
+                break;
+            case 'varchar':
+            case 'memo':
+            case 'text':
+                $cacheValue = false;
+
+                $renderers = '';
+                if (!empty($field['cfg']['linkRenderers'])) {
+                    $renderers = $field['cfg']['linkRenderers'];
+                } elseif (!empty($field['cfg']['text_renderer'])) {
+                    $renderers = $field['cfg']['text_renderer'];
+                }
+
+                if (empty($renderers)) {
+                    $value = nl2br(htmlspecialchars($value, ENT_COMPAT));
+                } else {
+                    $value = nl2br(Object::processAndFormatMessage($value), $renderers);
+                }
+
+                break;
+
+            default:
+                if (is_array($value)) {
                     $cacheValue = false;
-                    // $value = trim(strip_tags($value));
-                    // $value = nl2br($value);
-                    break;
-                case 'varchar':
-                case 'memo':
-                case 'text':
-                    $cacheValue = false;
-
-                    $renderers = '';
-                    if (!empty($field['cfg']['linkRenderers'])) {
-                        $renderers = $field['cfg']['linkRenderers'];
-                    } elseif (!empty($field['cfg']['text_renderer'])) {
-                        $renderers = $field['cfg']['text_renderer'];
-                    }
-
-                    if (empty($renderers)) {
-                        $value = nl2br(htmlspecialchars($value, ENT_COMPAT));
-                    } else {
-                        $value = nl2br(Object::processAndFormatMessage($value), $renderers);
-                    }
-
-                    break;
-
-                case 'iconcombo':
-                    if ($html) {
-                        $value = '<span class="' . $value . '"></span> ' . $value;
-
-                    }
-                    break;
-
-                default:
-                    if (is_array($value)) {
-                        $cacheValue = false;
-                        $value = Util\jsonEncode($value);
-                    } else {
-                        $value = htmlspecialchars($value, ENT_COMPAT);
-                    }
-            }
+                    $value = Util\jsonEncode($value);
+                } else {
+                    $value = htmlspecialchars($value, ENT_COMPAT);
+                }
         }
+        // }
 
         if ($showInfo) {
             $value .= ' &nbsp; <span style="color: gray">' . Util\adjustTextForDisplay($info) . '</span>';

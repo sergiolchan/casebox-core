@@ -348,6 +348,10 @@ function getStoreNames(v){
 }
 
 function toNumericArray(v, delimiter){
+    return toTrimmedArray(v, delimiter, true);
+}
+
+function toTrimmedArray(v, delimiter, numericOnly) {
     if (Ext.isEmpty(v)) {
         return [];
     }
@@ -370,6 +374,8 @@ function toNumericArray(v, delimiter){
             rez.push(iw);
         } else if(!isNaN(iw)){
             rez.push(parseFloat(w));
+        } else if(numericOnly !== true) {
+            rez.push(w);
         }
     }
 

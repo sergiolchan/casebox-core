@@ -55,6 +55,61 @@ CB.DB.fieldTypes = new Ext.data.ArrayStore({
     ,data: {{fieldTypes|raw}}
     ,getName: getStoreNames
 });
+
+CB.DB.objectFieldScopes = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['tree', 'Tree'], ['project', 'Project (case)'], ['parent', 'Parent'], ['self', 'Self'], ['variable', 'Variable'], ['custom', 'Custom ids']]
+    ,getName: getStoreNames
+});
+
+CB.DB.objectFieldSources = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['tree', 'Tree'], ['users', 'Users'], ['groups', 'Groups'], ['usersgroups', 'Users and groups'], ['facet', 'Facet'], ['field', 'Field'], ['custom', 'Custom']]
+    ,getName: getStoreNames
+});
+
+CB.DB.objectFieldRenderers = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['list', 'List'], ['listObjIcons', 'List with object icons']]
+    ,getName: getStoreNames
+});
+
+CB.DB.objectFieldEditors = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['combo', 'combo'], ['form', 'form'], ['text', 'text'], ['tagField', 'tagField']]
+    ,getName: getStoreNames
+});
+
+CB.DB.textFieldEditors = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['textarea', 'textarea'], ['ace', 'Ace editor']]
+    ,getName: getStoreNames
+});
+
+CB.DB.geoPointFieldEditors = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['text', 'text'], ['form', 'Leaflet window']]
+    ,getName: getStoreNames
+});
+CB.DB.fieldEditModes = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['grid', 'in grid'], ['standalone', 'Standalone']]
+    ,getName: getStoreNames
+});
+CB.DB.fieldValidators = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [[null, '-'], ['json', 'json'], ['geoPoint', 'geoPoint']]
+    ,getName: getStoreNames
+});
+
 CB.DB.reminderTypes = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic'

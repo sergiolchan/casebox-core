@@ -191,17 +191,22 @@ function initApp() {
     App.xtemplates.object.compile();
 
     App.customRenderers = {
-        relatedCell: function(v, metaData, record, rowIndex, colIndex, store) { }
 
-        ,combo: function(v, metaData, record, rowIndex, colIndex, store) {
+        combo: function(v, metaData, record, rowIndex, colIndex, store) {
             var rez = '';
 
             if(!Ext.isEmpty(v) && !Ext.isEmpty(metaData.fieldConfig.source)) {
-                var st = CB.DB[metaData.fieldConfig.source];
-                if(st) {
-                    var r = st.findRecord(Ext.valueFrom(metaData.fieldConfig.valueField, 'id'), v, 0, false, false, true);
-                    if(r) {
-                        rez = r.get(Ext.valueFrom(metaData.fieldConfig.displayField, 'name'));
+                //special processing for template icons
+                if (metaData.fieldConfig.source === 'templatesIconSet') {
+                    rez = '<span class="'+v+'" /></span> '+v;
+
+                } else {
+                    var st = CB.DB[metaData.fieldConfig.source];
+                    if(st) {
+                        var r = st.findRecord(Ext.valueFrom(metaData.fieldConfig.valueField, 'id'), v, 0, false, false, true);
+                        if(r) {
+                            rez = r.get(Ext.valueFrom(metaData.fieldConfig.displayField, 'name'));
+                        }
                     }
                 }
             }
@@ -230,16 +235,15 @@ function initApp() {
             }
 
             switch(source){
-                case 'thesauri':
-                    store = [];
-                    break;
                 case 'users':
                     store = CB.DB.usersStore;
                     break;
+
                 case 'groups':
                     store = CB.DB.groupsStore;
                     break;
-                default:
+
+                case 'tree':
                     var cw = null;
                     if(grid && grid.findParentByType) {
                         cw = grid.refOwner || grid.findParentByType(CB.Objects);
@@ -248,17 +252,13 @@ function initApp() {
                         return '';
                     }
                     store = cw.objectsStore;
+                    break;
+
+                default:
+                    return App.customRenderers.combo(v, metaData, record, rowIndex, colIndex, store, grid);
             }
 
             switch(cfg.renderer){
-                case 'listGreenIcons':
-                    for(i=0; i < va.length; i++){
-                        row = store.findRecord('id', va[i], 0, false, false, true);
-                        if(row) {
-                            r.push('<li class="lh16 icon-padding icon-element">'+row.get('name')+'</li>');
-                        }
-                    }
-                    return '<ul class="clean">'+r.join('')+'</ul>';
                 case 'listObjIcons':
                     for(i=0; i < va.length; i++){
                         row = store.findRecord('id', va[i], 0, false, false, true);
@@ -288,59 +288,6 @@ function initApp() {
                     return r.join(', ');
             }
 
-        }
-
-        ,languageCombo: function(v, metaData, record, rowIndex, colIndex, store, grid) {
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-
-            var ri = CB.DB.languages.findExact('id', parseInt(v, 10));
-
-            if(ri < 0) {
-                return '';
-            }
-
-            return CB.DB.languages.getAt(ri).get('name');
-        }
-
-        ,sexCombo: function(v, metaData, record, rowIndex, colIndex, store, grid) {
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-            var ri = CB.DB.sex.findExact('id', v);
-
-            if(ri < 0) {
-                return '';
-            }
-
-            return CB.DB.sex.getAt(ri).get('name');
-        }
-
-        ,shortDateFormatCombo: function(v, metaData, record, rowIndex, colIndex, store, grid) {
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-
-            var ri = CB.DB.shortDateFormats.findExact('id', v);
-
-            if(ri < 0) {
-                return '';
-            }
-
-            return CB.DB.shortDateFormats.getAt(ri).get('name');
-        }
-
-        ,checkbox: function(v){
-            if(v == 1) {
-                return L.yes;
-            }
-
-            if(v == -1) {
-                return L.no;
-            }
-
-            return '';
         }
 
         ,date: function(v){
@@ -426,73 +373,6 @@ function initApp() {
             }
         }
 
-        ,tags: function(v, m, r, ri, ci, s){
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-
-            var rez = [];
-
-            Ext.each(
-                v
-                ,function(i){
-                    rez.push(i.name);
-                }
-                ,this
-            );
-
-            rez = rez.join(', ');
-
-            m.attr = 'name="' + rez.replace(/"/g, '&quot;') + '"';
-
-            return rez;
-        }
-
-        ,tagIds: function(v){
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-
-            var rez = [];
-
-            v = String(v).split(',');
-
-            Ext.each(
-                v
-                ,function(i){
-                    rez.push(CB.DB.thesauri.getName(i));
-                }
-                ,this
-            );
-
-            rez = rez.join(', ');
-
-            return rez;
-        }
-
-        ,importance: function(v){
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-
-            return CB.DB.importance.getName(v);
-        }
-
-        ,timeUnits: function(v){
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-
-            return CB.DB.timeUnits.getName(v);
-        }
-
-        ,taskStatus: function(v, m, r, ri, ci, s){
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-            return '<span class="taskStatus'+v+'">'+L['taskStatus'+parseInt(v, 10)]+'</span>';
-        }
-
         ,text: function(v, m, r, ri, ci, s){
             if(Ext.isEmpty(v)) {
                 return '';
@@ -504,47 +384,38 @@ function initApp() {
             return v;
         }
         ,userName: function(v){ return CB.DB.usersStore.getName(v);}
-        ,iconcombo: function(v){
-            if(Ext.isEmpty(v)) {
-                return '';
-            }
-            return '<span class="'+v+'" /></span> '+v;
-        }
     };
 
     App.getCustomRenderer = function(fieldType){
+        var rez = null;
         switch(fieldType){
-            case 'checkbox':
-                return App.customRenderers.checkbox;
             case 'date':
-                return App.customRenderers.date;
+                rez = App.customRenderers.date;
+                break;
+
             case 'datetime':
-                return App.customRenderers.datetime;
+                rez = App.customRenderers.datetime;
+                break;
+
             case 'time':
-                return App.customRenderers.time;
+                rez = App.customRenderers.time;
+                break;
+
             case '_objects':
-                return App.customRenderers.objectsField;
+                rez = App.customRenderers.objectsField;
+                break;
+
             case 'combo':
-                return App.customRenderers.combo;
-            case '_language':
-                return App.customRenderers.languageCombo;
-            case '_sex':
-                return App.customRenderers.sexCombo;
-            case 'importance':
-                return App.customRenderers.importance;
-            case 'timeunits':
-                return App.customRenderers.timeUnits;
-            case '_templateTypesCombo':
-                return Ext.Function.bind(CB.DB.templateTypes.getName, CB.DB.templateTypes);
-            case '_fieldTypesCombo':
-                return Ext.Function.bind(CB.DB.fieldTypes.getName, CB.DB.fieldTypes);
-            case '_short_date_format':
-                return App.customRenderers.shortDateFormatCombo;
+                rez = App.customRenderers.combo;
+                break;
+
             case 'memo':
             case 'text':
-                return App.customRenderers.text;
-            default: return null;
+                rez = App.customRenderers.text;
+                break;
         }
+
+        return rez;
     };
 
     App.findTab = function(tabPanel, id, xtype){
@@ -666,7 +537,6 @@ function initApp() {
         return App.explorer;
     };
 
-
     App.downloadFile = function(fileId, zipped, versionId){
         if(Ext.isElement(fileId)){
             //retreive id from html element
@@ -700,7 +570,8 @@ function initApp() {
             ,objectPid: e.objectPid
             ,path: e.path
         };
-        var w, th, ed, rez = null;
+
+        var w, fieldCfg, ed, rez = null;
         var tr = e.fieldRecord;
         var cfg = tr.get('cfg');
         var objectWindow = e.ownerCt
@@ -723,7 +594,7 @@ function initApp() {
 
         switch(type){
             case '_objects':
-                //e should contain all necessary info
+                //"e" should contain all necessary info
                 switch(cfg.editor){
                     case 'form':
                         if(e && e.grid){
@@ -862,54 +733,13 @@ function initApp() {
                 }
 
                 break;
-            case 'checkbox':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,triggerAction: 'all'
-                    ,queryMode: 'local'
-                    ,editable: false
-                    ,store: CB.DB.yesno
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                });
-                break;
-
-            case 'timeunits':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,forceSelection: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,editable: false
-                    ,store: CB.DB.timeUnits
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
-                break;
-
-            case 'importance':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,forceSelection: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,editable: false
-                    ,store: CB.DB.importance
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
-                break;
 
             case 'date':
                 rez = new Ext.form.DateField({
                     enableKeyEvents: true
                     ,format: App.dateFormat
                     ,width: 100
-                    ,listeners: autoExpand
+                    // ,listeners: autoExpand
                 });
                 break;
 
@@ -918,7 +748,7 @@ function initApp() {
                     enableKeyEvents: true
                     ,format: App.dateFormat+' ' + App.timeFormat
                     ,width: 130
-                    ,listeners: autoExpand
+                    // ,listeners: autoExpand
                 });
                 break;
 
@@ -939,7 +769,7 @@ function initApp() {
                 break;
 
             case 'float':
-                var fieldCfg = {
+                fieldCfg = {
                     enableKeyEvents: true
                     ,allowDecimals: true
                     ,width: 90
@@ -951,99 +781,25 @@ function initApp() {
                 break;
 
             case 'combo':
-                th = Ext.valueFrom(cfg.thesauriId, cfg.source);
-                if(th === 'dependent'){
-                    th = e.pidValue;
-                }
-
-                rez = new Ext.form.ComboBox({
+                fieldCfg = {
                     enableKeyEvents: true
                     ,forceSelection: true
                     ,typeAhead: true
                     ,triggerAction: 'all'
                     ,lazyRender: true
                     ,queryMode: 'local'
-                    ,store: Ext.valueFrom(CB.DB[th], [])
+                    ,store: Ext.valueFrom(CB.DB[cfg.source], [])
                     ,displayField: Ext.valueFrom(cfg.displayField, 'name')
                     ,valueField: Ext.valueFrom(cfg.valueField, 'id')
                     ,listeners: autoExpand
-                });
-                break;
+                };
 
-            case '_language':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,forceSelection: true
-                    ,typeAhead: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,store: CB.DB.languages
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
-                break;
+                if(cfg.source === 'templatesIconSet') { //special tpl for templatesIconSet source
+                    fieldCfg.tpl ='<tpl for="."><div class="x-boundlist-item"><i class="{[values["name"]]}"></i> {[values["name"]]}<tpl if="xindex < xcount">, </tpl></div></tpl>';
+                }
 
-            case '_sex':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,forceSelection: true
-                    ,typeAhead: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,store: CB.DB.sex
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
-                break;
+                rez = new Ext.form.ComboBox(fieldCfg);
 
-            case '_templateTypesCombo':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,forceSelection: true
-                    ,typeAhead: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,store: CB.DB.templateTypes
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
-                break;
-
-            case '_fieldTypesCombo':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,autoSelect: true
-                    ,forceSelection: true
-                    ,typeAhead: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,store: CB.DB.fieldTypes
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
-                break;
-
-            case '_short_date_format':
-                rez = new Ext.form.ComboBox({
-                    enableKeyEvents: true
-                    ,forceSelection: true
-                    ,typeAhead: true
-                    ,triggerAction: 'all'
-                    ,lazyRender: true
-                    ,queryMode: 'local'
-                    ,store: CB.DB.shortDateFormats
-                    ,displayField: 'name'
-                    ,valueField: 'id'
-                    ,listeners: autoExpand
-                });
                 break;
 
             case 'memo':

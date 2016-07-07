@@ -49,7 +49,7 @@ Ext.define('CB.field.CommentLight', {
             ,{
                 xtype: 'panel'
                 ,padding: 0
-                ,border: 0
+                ,border: false
                 ,flex: 1
                 ,layout: {
                     type: 'vbox'
@@ -76,12 +76,12 @@ Ext.define('CB.field.CommentLight', {
                 // ,style: 'margin-top: 5px; font-family: arial,sans-serif; font-size: 12px'
                 ,triggers: {
                     attach: {
-                        cls: 'comment-trigger-attach'
+                        extraCls: 'fa fa-paperclip'
                         ,scope: this
                         ,handler: this.onAttachFileClick
                     }
                     ,reply: {
-                        cls: 'comment-trigger-reply'
+                        cls: 'fa fa-check'
                         ,scope: this
                         ,handler: this.onAddCommentClick
                     }
