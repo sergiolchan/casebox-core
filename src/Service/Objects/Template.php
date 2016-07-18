@@ -46,7 +46,6 @@ class Template extends Object
         ,'H' => 'ftHeader'
         ,'html' => 'ftHtml'
         ,'int' => 'ftInt'
-        ,'memo' => 'ftMemo'
         ,'_objects' => 'ftObjects'
         ,'text' => 'ftText'
         ,'time' => 'ftTime'
@@ -452,6 +451,10 @@ class Template extends Object
                             $obj = &$objects[$id];
 
                             $d = $obj->getData();
+                            //skip displaying deleted items
+                            if (!empty($d['dstatus'])) {
+                                continue;
+                            }
                             $label = $obj->getHtmlSafeName();
 
                             $pids = $d['pids'];
@@ -540,7 +543,6 @@ class Template extends Object
                 // $value = nl2br($value);
                 break;
             case 'varchar':
-            case 'memo':
             case 'text':
                 $cacheValue = false;
 
@@ -619,7 +621,6 @@ class Template extends Object
             case '_auto_title':
             case 'varchar':
             case 'text':
-            case 'memo':
             case 'html':
                 switch ($condition) {
                     case 'contain':

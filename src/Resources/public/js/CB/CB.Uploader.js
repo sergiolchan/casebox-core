@@ -501,28 +501,28 @@ Ext.define('CB.UploadWindow', {
         this.actions = {
             start: new Ext.Action({
                 text: L.Start
-                ,glyph: 0xf04b
+                ,iconCls: 'fa fa-play'
                 ,handler: this.onStartClick
                 ,scope: this
                 ,disabled: true
             })
             ,stop: new Ext.Action({
                 text: L.Stop
-                ,glyph: 0xf04d
+                ,iconCls: 'fa fa-stop'
                 ,handler: this.onStopClick
                 ,scope: this
                 ,hidden: true
             })
             ,cancel: new Ext.Action({
                 text: L.Cancel
-                ,glyph: 0xf00d
+                ,iconCls: 'fa fa-close'
                 ,handler: this.onCancelClick
                 ,scope: this
                 ,disabled: true
             })
             ,cancelAll: new Ext.Action({
                 text: L.CancelAll
-                ,glyph: 0xf00d
+                ,iconCls: 'fa fa-close'
                 ,handler: this.onCancelAllClick
                 ,scope: this
                 ,disabled: true
@@ -556,7 +556,7 @@ Ext.define('CB.UploadWindow', {
 
         this.cancelSplitButton = new Ext.SplitButton({
             xtype: 'splitbutton'
-            ,glyph: 0xf00d
+            ,iconCls: 'fa fa-close'
             ,text: L.Cancel
             ,handler: this.onCancelClick
             ,scope: this
@@ -566,7 +566,7 @@ Ext.define('CB.UploadWindow', {
 
         this.viewButton = new Ext.Button({
             text: L.Pending
-            ,glyph: 0xf03a
+            ,iconCls: 'fa fa-list'
             ,menu: [{
                     enableToggle: true
                     ,allowDepress: false
@@ -603,7 +603,7 @@ Ext.define('CB.UploadWindow', {
 
         this.optionsButton = new Ext.Button({
             text: L.Options
-            ,glyph: 0xf013
+            ,iconCls: 'fa fa-cog'
             ,menu: [{
                     checked: true
                     ,text: L.AutoshowUpload

@@ -5,7 +5,7 @@ Ext.define('CB.Login', {
     ,title: L.Authorization
     ,plain: true
     ,closable: false
-    ,glyph: 0xf084
+    ,iconCls: 'fa fa-key'
     ,id: 'CBLoginWindow'
     ,modal: true
     ,frame: true
@@ -117,7 +117,7 @@ Ext.define('CB.VerifyPassword', {
 
     ,title: L.Verify
     ,plain: true
-    ,glyph: 0xf084
+    ,iconCls: 'fa fa-key'
     ,modal: true
     ,frame: true
     ,autoHeight: true

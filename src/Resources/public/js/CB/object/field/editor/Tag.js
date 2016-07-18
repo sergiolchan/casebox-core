@@ -148,7 +148,7 @@ Ext.define('CB.object.field.editor.Tag', {
         return this.store;
     }
 
-    ,collapse: function() {
+    ,c_ollapse: function() {
         var ev = Ext.event.Event
             ,eventTime = ev.getTime();
 

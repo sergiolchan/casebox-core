@@ -73,11 +73,18 @@ class JavascriptService
                 'ext-theme-triton-debug' => [
                     'src' => '/js/ext/classic/theme-triton/theme-triton.js',
                 ],
-                'extjs-ace-init-path' => [
-                    'inline' => "bravojs = {url: window.location.protocol + '//' + window.location.host + '/js/extjs-ace/Component.js'};",
+
+                'ace-editor' => [
+                    'src' => '/js/jarvus-ace-master/resources/ace-builds-master/src-min-noconflict/ace.js ',
                 ],
-                'extjs-ace-component' => [
-                    'src' => '/js/extjs-ace/Component.js',
+                'jarvus-config0' => [
+                    'src' => '/js/jarvus-ace-master/classic/src/ace/util/AbstractConfiguration.js',
+                ],
+                'jarvus-config1' => [
+                    'src' => '/js/jarvus-ace-master/classic/src/ace/util/Configuration.js',
+                ],
+                'jarvus-wrapper' => [
+                    'src' => '/js/jarvus-ace-master/src/ace/Editor.js',
                 ],
                 'l' => [
                     'inline' => "if (typeof(L) !== 'undefined') { LL = L; }",
@@ -102,16 +109,13 @@ class JavascriptService
 
         $container = Cache::get('symfony.container');
         if (!empty($container) && $container->hasParameter('devel')) {
-
             $groups = $container->get('casebox_core.service.minify')->getDefaultAssests();
             $addGroups = ['js', 'jsoverrides', 'jsplugins'];
             foreach ($addGroups as $group) {
                 foreach ($groups[$group] as $script) {
                     $scripts['footer'][$script]['src'] = '/' . $script;
-
                 }
             }
-
         } else {
             $scripts['footer'] = array_merge(
                 $scripts['footer'],

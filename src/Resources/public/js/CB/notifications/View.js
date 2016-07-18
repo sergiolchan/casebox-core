@@ -29,15 +29,14 @@ Ext.define('CB.notifications.View', {
                 ,handler: this.onShowUnreadClick
             })
             ,markAllAsRead: new Ext.Action({
-                glyph: 0xf0ea
-                ,itemId: 'markAllAsRead'
+                itemId: 'markAllAsRead'
                 ,scale: 'medium'
                 ,text: L.MarkAllAsRead
                 ,scope: this
                 ,handler: this.onMarkAllAsReadClick
             })
             ,reload: new Ext.Action({
-                glyph: 0xf021
+                iconCls: 'fa fa-refresh'
                 ,itemId: 'reload'
                 ,scale: 'medium'
                 ,tooltip: L.Refresh
@@ -48,14 +47,14 @@ Ext.define('CB.notifications.View', {
             // ,preview: new Ext.Action({
             //     itemId: 'preview'
             //     ,scale: 'medium'
-            //     ,glyph: 0xf06e
+            //     ,iconCls: 'fa fa-eye'
             //     ,scope: this
             //     ,hidden: true
             //     ,handler: this.onPreviewClick
             // })
 
             ,close: new Ext.Action({
-                glyph: 0xf00d
+                iconCls: 'fa fa-close'
                 ,itemId: 'close'
                 ,scale: 'medium'
                 ,scope: this
@@ -489,6 +488,10 @@ Ext.define('CB.notifications.View', {
     }
 
     ,onLogin: function() {
+        if (App.popOutEdit) {
+            return;
+        }
+
         this.store.load();
 
         this.checkNotificationsTask.delay(1000 * 60 * 1); //1 minute

@@ -18,7 +18,7 @@ Ext.define('CB.object.plugin.Comments', {
 
             ,remove: new Ext.Action({
                 text: L.Delete
-                ,glyph: 0xf1f8
+                ,iconCls: 'fa fa-trash'
                 ,scope: this
                 ,handler: this.onRemoveClick
             })

@@ -4,7 +4,7 @@ Ext.define('CB.plugin.Search.Form', {
     extend: 'Ext.Panel'
     ,title: L.Search
     ,id: 'SearchTab'
-    ,glyph: 0xf002
+    ,iconCls: 'fa fa-search'
     ,closable: true
     ,scrollable: true
     ,tbarCssClass: 'x-panel-white'
@@ -16,7 +16,7 @@ Ext.define('CB.plugin.Search.Form', {
             search: new Ext.Button({
                 text: L.Search
                 ,iconAlign:'top'
-                ,glyph: 0xf002
+                ,iconCls: 'fa fa-search'
                 ,scale: 'large'
                 ,scope: this
                 ,handler: this.onSearchButtonClick

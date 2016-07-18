@@ -23,9 +23,8 @@ Ext.define('CB.TextEditWindow', {
 
         switch(this.config.editor) {
             case 'ace':
-                this.editor = new Ext.ux.AceEditor({
+                this.editor = new Jarvus.ace.Editor({
                     border: false
-
                 });
                 break;
 
@@ -68,21 +67,34 @@ Ext.define('CB.TextEditWindow', {
         this.setTitle(title);
         this.getHeader().setTitle(title);
 
-        this.editor.setValue(
+        var ed = this.editor.getAce
+            ? this.editor.getAce()
+            : this.editor;
+
+        ed.setValue(
             Ext.valueFrom(this.data.value, '')
-
-            /* need to clarify why json mode is not present in current ace distribution
-
-             ,{
-                mode: this.config.mode //set mode for ace editor
-            }/**/
         );
-        this.editor.focus(false, 350);
+        var options = Ext.valueFrom(this.config.editorOptions, {});
+        if(!Ext.isEmpty(this.config.highlighter)) {
+            options.mode = this.config.highlighter;
+        }
+
+        if (!Ext.isEmpty(options) && this.editor.getConfiguration) {
+            var cfg = this.editor.getConfiguration();
+            Ext.Object.each(
+                options
+                ,function(k, v, o) {
+                    cfg.setOption(k, v);
+                }
+                ,this
+            );
+        }
+        ed.focus(false, 350);
     }
 
     ,doSubmit: function(){
-        var ed = this.editor.editor
-                ? this.editor.editor
+        var ed = this.editor.getAce
+                ? this.editor.getAce()
                 : this.editor
             ,session = ed.getSession
                 ? ed.getSession()

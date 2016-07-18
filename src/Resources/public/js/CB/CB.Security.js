@@ -61,7 +61,7 @@ Ext.define('CB.SecurityWindow', {
             })
             ,removeChildPermissions: new Ext.Action({
                 text: L.RemoveChildPermissions
-                ,glyph: 0xf068
+                ,iconCls: 'fa fa-minus'
                 ,scope: this
                 ,handler: this.onRemoveChildPermissionsClick
             })
@@ -234,7 +234,7 @@ Ext.define('CB.SecurityWindow', {
 
         Ext.apply(this, {
             title: L.Security
-            ,glyph: 0xf084
+            ,iconCls: 'fa fa-key'
             ,autoHeight: true
             ,cls: 'x-panel-white'
             ,bodyStyle: 'background-color: white'
@@ -406,7 +406,7 @@ Ext.define('CB.SecurityWindow', {
                     id: null
                     ,user_group_id: d.id
                     ,name: d.name
-                    ,glyph: d.glyph
+                    ,iconCls: d.iconCls
                     ,allow: '0,0,0,0,0,0,0,0,0,0,0,0'
                     ,deny: '0,0,0,0,0,0,0,0,0,0,0,0'
                     ,phantom: true

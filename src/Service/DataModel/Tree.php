@@ -432,10 +432,11 @@ class Tree extends Base
     /**
      * copy a source record under given $pid
      * @param  array $sourceId
-     * @param  array $pid
+     * @param  int   $pid
+     * @param  int   $ownerId  - optional owner id
      * @return int   created record id
      */
-    public static function copy($sourceId, $pid)
+    public static function copy($sourceId, $pid, $ownerId = null)
     {
         $dbs = Cache::get('casebox_dbs');
 
@@ -480,7 +481,7 @@ class Tree extends Base
                 ,NULL
                 ,NULL
                 ,1
-                ,`oid`
+                ,COALESCE($4, `oid`)
                 ,`did`
                 ,`ddate`
                 ,`dstatus`
@@ -490,6 +491,7 @@ class Tree extends Base
                 $sourceId
                 ,$pid
                 ,User::getId()
+                ,$ownerId
             )
         );
 

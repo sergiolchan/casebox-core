@@ -12,7 +12,7 @@ Ext.define('CB.search.edit.Panel', {
         this.actions = {
             search: new Ext.Action({
                 text: L.Search
-                ,glyph: 0xf002
+                ,iconCls: 'fa fa-search'
                 ,itemId: 'search'
                 ,scale: 'medium'
                 ,tooltip: L.Search
@@ -20,7 +20,7 @@ Ext.define('CB.search.edit.Panel', {
                 ,handler: this.onSearchClick
             })
             ,tune: new Ext.Action({
-                glyph: 0xf1de
+                iconCls: 'fa fa-sliders'
                 ,itemId: 'tune'
                 ,scale: 'medium'
                 ,qtip: L.Tune
@@ -29,7 +29,7 @@ Ext.define('CB.search.edit.Panel', {
                 ,handler: this.onTuneClick
             })
             ,clear: new Ext.Action({
-                glyph: 0xf021
+                iconCls: 'fa fa-refresh'
                 ,itemId: 'clear'
                 ,scale: 'medium'
                 ,qtip: L.Clear
@@ -38,7 +38,7 @@ Ext.define('CB.search.edit.Panel', {
             })
 
             ,save: new Ext.Action({
-                glyph: 0xf00c
+                iconCls: 'fa fa-check'
                 ,itemId: 'save'
                 ,scale: 'medium'
                 ,text: L.Save
@@ -59,7 +59,7 @@ Ext.define('CB.search.edit.Panel', {
                 ,this.actions.tune
                 ,this.actions.clear
                 ,{
-                    glyph: 0xf142
+                    iconCls: 'fa fa-ellipsis-v'
                     ,itemId: 'more'
                     ,scale: 'medium'
                     ,scope: this

@@ -77,7 +77,7 @@ Ext.define('CB.browser.Tree', {
             })
 
             ,reload: new Ext.Action({
-                glyph: 0xf021
+                iconCls: 'fa fa-refresh'
                 ,text: L.Reload
                 ,disabled: true
                 ,scope: this
@@ -86,7 +86,7 @@ Ext.define('CB.browser.Tree', {
 
             ,'delete': new Ext.Action({
                 text: L.Delete
-                ,glyph: 0xf1f8
+                ,iconCls: 'fa fa-trash'
                 ,disabled: true
                 ,scope: this
                 ,handler: this.onDeleteClick
@@ -100,14 +100,14 @@ Ext.define('CB.browser.Tree', {
             })
 
             ,star: new Ext.Action({
-                glyph: 0xf005
+                iconCls: 'fa fa-star'
                 ,text: L.Star
                 ,scope: this
                 ,handler: this.onStarClick
             })
 
             ,unstar: new Ext.Action({
-                glyph: 0xf006
+                iconCls: 'fa fa-star-o'
                 ,text: L.Unstar
                 ,scope: this
                 ,handler: this.onUnstarClick
@@ -115,7 +115,7 @@ Ext.define('CB.browser.Tree', {
 
             ,permissions: new Ext.Action({
                 text: L.Permissions
-                ,glyph: 0xf084
+                ,iconCls: 'fa fa-key'
                 ,scope: this
                 ,disabled: true
                 ,handler: this.onPermissionsClick
@@ -147,7 +147,7 @@ Ext.define('CB.browser.Tree', {
                 ,expanded: true
                 ,editable: false
                 ,leaf: false
-                ,glyph: 0xf07b
+                ,iconCls: 'fa fa-folder'
             }
             ,rootConfig
         );
@@ -321,7 +321,7 @@ Ext.define('CB.browser.Tree', {
                 icon = getItemIcon(node.data);
             }
         }
-        node.set('iconCls', icon + ' fa-lg');
+        node.set('iconCls', icon);
 
         node.data.editable = false;
         node.draggable = (node.data.system === 0);
@@ -756,7 +756,7 @@ Ext.define('CB.browser.Tree', {
                 ,name: n.data.name
                 ,system: n.data.system
                 ,type: n.data.type
-                ,glyph: n.data.glyph
+                ,iconCls: n.data.iconCls
             }
             ,'copy'
         );
@@ -916,7 +916,6 @@ Ext.define('CB.browser.Tree', {
                 id: d.nid
                 ,name: d.name
                 ,iconCls: d.iconCls
-                ,glyph: d.glyph
                 ,pathText: d.path
                 ,path: n.getPath('nid', '/')
             };

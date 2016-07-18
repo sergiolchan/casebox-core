@@ -11,7 +11,6 @@ var clog = function(){
 
 // application main entry point
 Ext.onReady(function(){
-
     App = new Ext.util.Observable();
 
     App.controller = Ext.create({
@@ -65,7 +64,7 @@ Ext.onReady(function(){
         App.config = r.config;
         App.loginData = r.user;
 
-        App.loginData.glyph = 0xf007;
+        App.loginData.iconCls = 'fa fa-user';
 
         if(App.loginData.cfg.short_date_format) {
             App.dateFormat = App.loginData.cfg.short_date_format;
@@ -85,7 +84,6 @@ Ext.onReady(function(){
 
         App.windowManager = Ext.create({
             xtype: 'CBWindowManager'
-            ,statusBar: App.mainStatusBar //initialized by viewport component
         });
 
         var path = window.location.pathname.split('/');
@@ -270,7 +268,7 @@ function initApp() {
                             if(Ext.isEmpty(icon)) {
                                 icon = row.get('iconCls');
                             }
-                            r.push('<li class="lh16 icon-padding '+icon+'">'+row.get('name')+'</li>');
+                            r.push('<li class="lh16 icon-padding '+icon+'"> '+row.get('name')+'</li>');
                         }
                     }
                     return '<ul class="clean">'+r.join('')+'</ul>';
@@ -409,7 +407,6 @@ function initApp() {
                 rez = App.customRenderers.combo;
                 break;
 
-            case 'memo':
             case 'text':
                 rez = App.customRenderers.text;
                 break;
@@ -716,6 +713,7 @@ function initApp() {
                             ,queryMode: 'remote'
                             ,autoLoadOnValue: true
                             ,autoSelect: false
+                            ,collapseOnSelect: true
                             ,multiSelect: true
                             ,minChars: 2
                             // ,stacked: true
@@ -802,65 +800,70 @@ function initApp() {
 
                 break;
 
-            case 'memo':
-                var height = Ext.valueFrom(cfg.height, 50);
-                height = parseInt(height, 10);
-                if(e.grid) {
-                    var rowEl = e.grid.getView().getRow(e.row);
-                    if(rowEl) {
-                        var rowHeight = Ext.get(rowEl).getHeight() - 12;
-                        if(height < rowHeight) {
-                            height = rowHeight;
-                        }
-                    }
-                }
-
-                var edConfig = {
-                    enableKeyEvents: true
-                    ,height: height
-                    ,plugins: []
-                };
-
-                if (cfg.maxLength) {
-                    edConfig.maxLength = cfg.maxLength;
-                    edConfig.enforceMaxLength = true;
-                    edConfig.plugins.push({
-                        ptype: 'CBPluginFieldRemainingCharsHint'
-                    });
-                }
-
-                if(cfg.mentionUsers) {
-                    edConfig.plugins.push({
-                        ptype: 'CBPluginFieldDropDownList'
-                    });
-
-                }
-
-                rez = new Ext.form.TextArea(edConfig);
-                break;
 
             case 'text':
-                e.cancel = true;
-                rez = new CB.TextEditWindow({
-                    title: tr.get('title')
-                    ,editor: tr.get('cfg').editor
-                    ,mode: tr.get('cfg').mode
-                    ,data: {
-                        value: e.record.get('value')
-                        ,scope: e
-                        ,callback: function(w, v){
-                            this.originalValue = this.record.get('value');
-                            this.value = v;
-                            this.record.set('value', v);
-                            if(this.grid.onAfterEditProperty) {
-                                this.grid.onAfterEditProperty(this, this);
+                switch(cfg.editor) {
+                    case 'popup':
+                    case 'ace':
+                        e.cancel = true;
+                        rez = new CB.TextEditWindow({
+                            title: tr.get('title')
+                            ,editor: tr.get('cfg').editor
+                            ,editorOptions: tr.get('cfg').editorOptions
+                            ,data: {
+                                value: e.record.get('value')
+                                ,scope: e
+                                ,callback: function(w, v){
+                                    this.originalValue = this.record.get('value');
+                                    this.value = v;
+                                    this.record.set('value', v);
+                                    if(this.grid.onAfterEditProperty) {
+                                        this.grid.onAfterEditProperty(this, this);
+                                    }
+                                }
+                            }
+                        });
+                        rez.on('destory', e.grid.gainFocus, e.grid);
+                        rez.show();
+                        break;
+
+                    default:
+                        //inline editor
+                        var height = Ext.valueFrom(cfg.height, 50);
+                        height = parseInt(height, 10);
+                        if(e.grid) {
+                            var rowEl = e.grid.getView().getRow(e.row);
+                            if(rowEl) {
+                                var rowHeight = Ext.get(rowEl).getHeight() - 12;
+                                if(height < rowHeight) {
+                                    height = rowHeight;
+                                }
                             }
                         }
-                    }
-                });
-                rez.on('destory', e.grid.gainFocus, e.grid);
-                rez.show();
 
+                        var edConfig = {
+                            enableKeyEvents: true
+                            ,height: height
+                            ,plugins: []
+                        };
+
+                        if (cfg.maxLength) {
+                            edConfig.maxLength = cfg.maxLength;
+                            edConfig.enforceMaxLength = true;
+                            edConfig.plugins.push({
+                                ptype: 'CBPluginFieldRemainingCharsHint'
+                            });
+                        }
+
+                        if(cfg.mentionUsers) {
+                            edConfig.plugins.push({
+                                ptype: 'CBPluginFieldDropDownList'
+                            });
+
+                        }
+
+                        rez = new Ext.form.TextArea(edConfig);
+                }
                 break;
 
             case 'html':
@@ -885,7 +888,7 @@ function initApp() {
                 });
 
                 if(!Ext.isEmpty(e.grid)) {
-                    w.on('hide', e.grid.gainFocus, e.grid);
+                    rez.on('hide', e.grid.gainFocus, e.grid);
                 }
                 rez.show();
                 break;

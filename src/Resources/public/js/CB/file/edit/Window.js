@@ -26,14 +26,14 @@ Ext.define('CB.file.edit.Window', {
         Ext.apply(this.actions, {
             download: new Ext.Action({
                 text: L.Download
-                ,glyph: 0xf019
+                ,iconCls: 'fa fa-download'
                 ,scope: this
                 ,handler: this.onDownloadClick
             })
 
             ,restoreVersion: new Ext.Action({
                 text: L.Restore
-                ,glyph: 0xf112
+                ,iconCls: 'fa fa-mail-reply'
                 ,hidden: true
                 ,scope: this
                 ,handler: this.onRestoreVersionClick
@@ -73,7 +73,7 @@ Ext.define('CB.file.edit.Window', {
                 qtip: L.More
                 ,itemId: 'more'
                 ,arrowVisible: false
-                ,glyph: 0xf142
+                ,iconCls: 'fa fa-ellipsis-v'
                 ,menu: [
                     this.actions['delete']
                     ,this.actions.webdavlink

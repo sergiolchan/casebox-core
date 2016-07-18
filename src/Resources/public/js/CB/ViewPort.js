@@ -202,14 +202,6 @@ Ext.define('CB.ViewPort', {
             }
             ,items: []
         });
-
-        App.mainStatusBar = new CB.widget.TaskBar({
-                style:'border-top: 1px solid #aeaeae'
-                ,height: 25
-                ,trayItems: [
-                    {xtype: 'uploadwindowbutton'}
-                ]
-        });
     }
 
     /**
@@ -223,7 +215,7 @@ Ext.define('CB.ViewPort', {
                 ,itemId: 'togglelr'
                 ,pressed: true
                 ,enableToggle: true
-                ,glyph: 0xf0c9
+                ,iconCls: 'fa fa-bars'
                 ,scale: 'large'
                 ,scope: this
                 ,handler: this.toggleLeftRegion
@@ -233,7 +225,7 @@ Ext.define('CB.ViewPort', {
                 tooltip: L.Filter
                 ,itemId: 'togglefp'
                 ,enableToggle: true
-                ,glyph: 0xf0b0
+                ,iconCls: 'fa fa-filter'
                 ,scale: 'large'
                 ,scope: this
                 ,handler: this.onToggleFilterPanelClick
@@ -243,7 +235,7 @@ Ext.define('CB.ViewPort', {
                 tooltip: L.Notifications
                 ,itemId: 'toggleNotifications'
                 // ,enableToggle: true
-                ,glyph: 0xf0f3
+                ,iconCls: 'fa fa-bell'
                 ,cls: 'numbersButton'
                 ,text: ''
                 ,scale: 'large'
@@ -270,7 +262,7 @@ Ext.define('CB.ViewPort', {
                 qtip: L.New
                 ,itemId: 'create'
                 ,arrowVisible: false
-                ,glyph: 0xf067
+                ,iconCls: 'fa fa-plus'
                 ,disabled: true
                 ,scale: 'large'
                 ,menuAlign: 'tl-tr'
@@ -349,6 +341,7 @@ Ext.define('CB.ViewPort', {
         if(umIdx > -1) {
             um = App.mainTBar.items.getAt(umIdx);
             um.setIcon(App.config.photoPath + App.loginData.id + '.jpg?32=' + CB.DB.usersStore.getPhotoParam(App.loginData.id));
+            um.setTooltip(App.loginData.first_name + ' ' + App.loginData.last_name + ' (' + App.loginData.email + ')');
         }
 
         // adding available languages to setting menu
@@ -369,27 +362,10 @@ Ext.define('CB.ViewPort', {
         );
 
 
-        // creating menu config for available themes
-        // var themes = [];
-        // CB.DB.themes.each(
-        //     function(r){
-        //         themes.push({
-        //             text: r.get('name')
-        //             ,xtype: 'menucheckitem'
-        //             ,checked: (r.get('id') == App.loginData.theme)
-        //             ,data:{id: r.get('id')}
-        //             ,scope: this
-        //             ,handler: this.setUserTheme
-        //             ,group: 'theme'
-        //         });
-        //     }
-        //     ,this
-        // );
-
         um.menu.add(
             {
                 text: L.Account
-                ,glyph: 0xf007
+                ,iconCls: 'fa fa-user'
                 ,handler: function(){
                     App.windowManager.openWindow({
                         xtype: 'CBAccount'
@@ -402,9 +378,6 @@ Ext.define('CB.ViewPort', {
                 text: L.NotifySettings
                 ,scope: this
                 ,handler: this.onNotifySettingsClick
-            // },{
-            //     text: L.Theme
-            //     ,menu: themes
             },{
                 text: L.Language
                 ,hideOnClick: false
@@ -413,7 +386,7 @@ Ext.define('CB.ViewPort', {
             ,'-'
             ,{
                 text: L.Exit
-                ,glyph: 0xf08b
+                ,iconCls: 'fa fa-sign-out'
                 ,handler: this.logout, scope: this
             }
         );
@@ -569,7 +542,7 @@ Ext.define('CB.ViewPort', {
             ,tbar: [
                 '->'
                 ,{
-                    glyph: 0xf00d
+                    iconCls: 'fa fa-close'
                     ,itemId: 'close'
                     ,scale: 'medium'
                     ,scope: this

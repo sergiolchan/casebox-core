@@ -42,7 +42,7 @@ Ext.define('CB.Favorites.Panel', {
 
             ,unstar: new Ext.Action({
                 text: L.Unstar
-                ,glyph: 0xf006
+                ,iconCls: 'fa fa-star-o'
                 ,scope: this
                 ,handler: this.onUnstarClick
             })
@@ -56,7 +56,7 @@ Ext.define('CB.Favorites.Panel', {
         Ext.apply(this, {
             layout: 'fit'
             ,border: false
-            ,glyph: 0xf005
+            ,iconCls: 'fa fa-star'
             ,tabConfig: {
                 tooltip: L.Favorites
             }

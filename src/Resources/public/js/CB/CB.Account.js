@@ -73,7 +73,7 @@ Ext.define('CB.Account', {
         Ext.apply(
             this
             ,{
-                glyph: 0xf007
+                iconCls: 'fa fa-user'
                 ,layout: 'border'
                 ,items:[
                     this.menu
@@ -939,7 +939,7 @@ Ext.define('CB.TSVWindow', {
     ,autoWidth: true
     ,autoHeight: true
     ,border: false
-    ,glyph: 0xf084
+    ,iconCls: 'fa fa-key'
     ,layout: 'card'
 
     ,initComponent: function() {

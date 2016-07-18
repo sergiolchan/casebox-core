@@ -793,7 +793,7 @@
             </trans-unit>
             <trans-unit id="3007">
                 <source>ftObjects</source>
-                <target>Objects</target>
+                <target>Records</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3008">

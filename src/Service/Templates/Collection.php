@@ -26,7 +26,7 @@ class Collection
     /**
      * Load all templates from database
      *
-     * @param  boolean $reload reload even if already all loaded
+     * @param boolean $reload reload even if already all loaded
      *
      * @return void
      */
@@ -122,7 +122,7 @@ class Collection
     /**
      * Get template type by its id
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return string
      */

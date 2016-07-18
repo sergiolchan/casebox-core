@@ -1,0 +1,29 @@
+/* users list item */
+.users-list-item {
+    padding: 5px;
+}
+.users-list-item .text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 2px;
+    max-width: 322px;
+    white-space: nowrap;
+}
+.users-list-item .thumb {
+    display:block;
+    margin: 0 10px 0 5px;
+    width: 32px;
+    height: 32px;
+    float: left;
+}
+.users-list-item .info {
+    display:block;
+    float: right;
+    top: 0;
+    margin-left: 10px;
+}
+.users-list-item .descr {
+    display:block;
+    color: #777;
+    padding: 0;
+}

@@ -23,8 +23,8 @@ class SolrUpdateCommand extends ContainerAwareCommand
         $this
             ->setName('casebox:solr:update')
             ->setDescription('Update solr index.')
-            ->addOption('all', 'a', InputOption::VALUE_OPTIONAL, 'Reindex all items. Solr will be cleared and all records from tree table will be marked as updated.')
-            ->addOption('nolimit', 'l', InputOption::VALUE_OPTIONAL, 'Reindex script indexes, by default, a limited number of items.')
+            ->addOption('all', 'a', InputOption::VALUE_NONE, 'Reindex all items. Solr will be cleared and all records from tree table will be marked as updated.')
+            ->addOption('nolimit', 'l', InputOption::VALUE_NONE, 'Reindex script indexes, by default, a limited number of items.')
         ;
     }
 
@@ -42,15 +42,14 @@ class SolrUpdateCommand extends ContainerAwareCommand
         $system->bootstrap($container);
 
         $coreName = $container->getParameter('kernel.environment');
-        $all = $input->hasOption('all');
 
         $solr = new Client();
 
         $params = [
             'core' => $coreName,
-            'all' => $all ? true : null,
+            'all' => $input->getOption('all'),
             'cron_id' => null,
-            'nolimit' => $input->hasOption('nolimit') ? true : null,
+            'nolimit' => $input->getOption('nolimit'),
         ];
 
         $solr->updateTree($params);

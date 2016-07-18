@@ -1,0 +1,42 @@
+/* Remove dark background for modal wnd */
+body > .x-mask {
+    background-image: none;
+}
+
+/*override tree-icon size of triton theme */
+.x-tree-icon{
+    height: 16px;
+    width: 16px;
+    font-size: 1.33333em;
+    line-height: 0.75em;
+    vertical-align: -15%;
+}
+
+.x-menu-item-icon-default {
+    top: 10px;
+    font-size: 1.2em !important;
+}
+
+.x-menu-item-checkbox {
+    line-height: 1 !important;
+}
+.x-menu-item-checked .x-menu-item-icon-default.x-menu-group-icon {
+    background-image: none;
+}
+
+.x-btn-icon-el-default-toolbar-small{
+    font-size: 1.3em
+}
+.x-btn-icon-el-default-toolbar-medium {
+    font-size: 1.6em
+}
+
+.x-btn-icon-el-default-toolbar-large, .x-btn-icon-el-default-large {
+    font-size: 2em
+}
+
+/* toolbar overrides */
+.x-btn-default-toolbar-medium, .x-btn-default-toolbar-large {
+    border-width: 0;
+    background-color: transparent;
+}

@@ -20,7 +20,7 @@ Ext.define('CB.plugin.Search.Button', {
             ,itemId: 'pluginsearchbutton'
             ,arrowVisible: false
             // ,arrowAlign: 'bottom'
-            ,glyph: 0xf002
+            ,iconCls: 'fa fa-search'
             ,scale: 'large'
             ,allowDepress: false
             ,hidden: true
@@ -78,16 +78,13 @@ Ext.define('CB.plugin.Search.Button', {
 
         templates.each(
             function(t){
-                if(t.data.dstatus == '0') {
-                    menu.add({
-                        iconCls: t.data.iconCls
-                        ,glyph: t.data.glyph
-                        ,data: {template_id: t.data.id}
-                        ,text: t.data.title
-                        ,scope: this
-                        ,handler: this.onButtonClick
-                    });
-                }
+                menu.add({
+                    iconCls: t.data.iconCls
+                    ,data: {template_id: t.data.id}
+                    ,text: t.data.title
+                    ,scope: this
+                    ,handler: this.onButtonClick
+                });
             }
             ,this
         );

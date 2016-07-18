@@ -54,7 +54,7 @@ Ext.define('CB.WindowManager', {
             };
 
         Ext.copyTo(wndCfg, config, 'maximized,maximizable,minimizable,resizable,closable,border,bodyBorder,plain');
-
+        wndCfg.minimizable = false;
         wndCfg.id = 'oew-' +
             (Ext.isEmpty(config.id)
                 ? Ext.id()

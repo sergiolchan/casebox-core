@@ -1,10 +1,5 @@
 @charset "utf-8";
 
-table{
-    font-family: arial,verdana,sans-serif;
-    font-size: 12px;
-}
-
 /*.preview * {font-size: 13px}*/
 .preview th, .preview td { padding-left: 10px; padding-right: 10px; color: #000000 !important }
 .preview table { border-bottom: 1px solid lightgray }

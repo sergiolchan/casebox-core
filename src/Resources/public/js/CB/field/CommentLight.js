@@ -13,7 +13,7 @@ Ext.define('CB.field.CommentLight', {
             ,buttonOnly: true
             ,buttonText: ''
             ,buttonConfig: {
-                glyph: 0xf0c6
+                iconCls: 'fa fa-paperclip'
             }
             ,hidden: (Ext.isEmpty(this.params) || Ext.isEmpty(this.params.id))
             ,width: 24

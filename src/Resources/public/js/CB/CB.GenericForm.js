@@ -122,15 +122,15 @@ Ext.define('CB.GenericForm', {
 
         this.setTitle(App.shortenString(t, 35));
 
-        var i = Ext.valueFrom(this.data.glyph, Ext.valueFrom(this.glyph, ''));
-        if(Ext.isEmpty(i) && this.getGlyph ) {
-            i = this.getGlyph();
+        var i = Ext.valueFrom(this.data.iconCls, Ext.valueFrom(this.iconCls, ''));
+        if(Ext.isEmpty(i) && this.getIconCls ) {
+            i = this.getIconCls();
         }
 
-        this.setGlyph(i);
+        this.setIconCls(i);
     }
 
-    ,getIconClass: Ext.emptyFn // this function should be redefined for child classes to return a corresponding icon for the window
+    ,getIconCls: Ext.emptyFn // this function should be redefined for child classes to return a corresponding icon for the window
 
     ,processLoadResponse: function(f, e){
         this.getEl().unmask();

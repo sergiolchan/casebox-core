@@ -94,14 +94,6 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 'order' => 40
             ]
         ],
-        'hintIndexName' => [
-            'data' => [
-                '_title' => 'hintIndexName',
-                'en' => 'Hint translation index name',
-                'type' => 'varchar',
-                'order' => 50,
-            ]
-        ],
         'readOnly' => [
             'data' => [
                 '_title' => 'readOnly',
@@ -109,6 +101,7 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 'type' => 'combo',
                 'cfg' => [
                     'source' => 'yesno'
+                    ,'value' => -1
                 ],
                 'order' => 60
             ]
@@ -120,6 +113,7 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 'type' => 'combo',
                 'cfg' => [
                     'source' => 'yesno'
+                    ,'value' => -1
                 ],
                 'order' => 70
             ]
@@ -137,7 +131,10 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 '_title' => 'multiValued',
                 'en' => 'Multivalued',
                 'type' => 'combo',
-                'cfg' => '{"source":"yesno"}',
+                'cfg' => [
+                    'source' => "yesno",
+                    'value' => -1,
+                ],
                 'order' => 90
             ]
         ],
@@ -154,7 +151,10 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 '_title' => 'dependency',
                 'en' => 'Dependent field',
                 'type' => 'combo',
-                'cfg' => '{"source":"yesno"}',
+                'cfg' => [
+                    'source' => 'yesno',
+                    'value' => -1,
+                ],
                 'order' => 110
             ]
             ,'children' => [
@@ -179,7 +179,10 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 '_title' => 'indexed',
                 'en' => 'Indexed in solr',
                 'type' => 'combo',
-                'cfg' => '{"source":"yesno"}',
+                'cfg' => [
+                    'source' => 'yesno',
+                    'value' => -1
+                ],
                 'order' => 130
             ]
         ],
@@ -196,7 +199,10 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 '_title' => 'type',
                 'en' => 'Type',
                 'type' => 'combo',
-                'cfg' => '{"source":"fieldTypes"}',
+                'cfg' => [
+                    'source' => 'fieldTypes'
+                    ,'value' => 'varchar'
+                ],
                 'order' => 150
             ]
             ,'children' => [
@@ -206,10 +212,11 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'en' => 'Values scope',
                         'type' => 'combo',
                         'cfg' => [
-                            "source" => "objectFieldScopes",
                             "dependency" => [
                                 "pidValues" => ["_objects"]
-                            ]
+                            ],
+                            "source" => "objectFieldScopes",
+                            'value' => 'tree'
                         ],
                         'order' => 160
                     ]
@@ -217,12 +224,16 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'customIds' => [
                             'data' => [
                                 '_title' => 'customIds',
-                                'en' => 'Ids (comma separated)',
-                                'type' => 'varchar',
+                                'en' => 'Custom records',
+                                'type' => '_objects',
                                 'cfg' => [
                                     "dependency" => [
                                         "pidValues" => ["custom"]
                                     ]
+                                    ,"multiValued" => true
+                                    ,"editor" => "form"
+                                    ,"renderer" => 'listObjIcons'
+                                    ,"descendants" => true
                                 ],
                                 'order' => 165
                             ]
@@ -235,10 +246,11 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'en' => 'Descendants',
                         'type' => 'combo',
                         'cfg' => [
-                            "source" => "yesno",
                             "dependency" => [
                                 "pidValues" => ["_objects"]
-                            ]
+                            ],
+                            "source" => "yesno",
+                            "value" => -1,
                         ],
                         'order' => 170
                     ]
@@ -249,10 +261,11 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'en' => 'Values source',
                         'type' => 'combo',
                         'cfg' => [
-                            "source" => "objectFieldSources",
                             "dependency" => [
                                 "pidValues" => ["_objects", "combo"]
-                            ]
+                            ],
+                            "source" => "objectFieldSources",
+                            "value" => 'tree',
                         ],
                         'order' => 180
                     ]
@@ -261,11 +274,12 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                             'data' => [
                                 '_title' => 'facetName',
                                 'en' => 'Facet config name',
-                                'type' => 'varchar',
+                                'type' => 'combo',
                                 'cfg' => [
                                     "dependency" => [
                                         "pidValues" => ["facet"]
-                                    ],
+                                    ]
+                                    ,'source' => 'facetConfigNames'
                                 ],
                                 'order' => 185
                             ]
@@ -284,22 +298,6 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                                     ],
                                 ],
                                 'order' => 190
-                            ]
-                        ],
-                        'templateTypes' => [
-                            'data' => [
-                                '_title' => 'templateTypes',
-                                'en' => 'Filter value template types',
-                                'type' => '_objects',
-                                'cfg' => [
-                                    "multiValued" => true,
-                                    "editor" => "form",
-                                    "source" => "templateTypes",
-                                    "dependency" => [
-                                        "pidValues" => ["tree", "facet"]
-                                    ],
-                                ],
-                                'order' => 200
                             ]
                         ],
                         'solQuery' => [
@@ -324,7 +322,8 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                                     "validator" => 'json',
                                     "dependency" => [
                                         "pidValues" => ["tree", "facet"]
-                                    ],
+                                    ]
+                                    ,'height' => 100,
                                 ],
                                 'order' => 220
                             ]
@@ -355,19 +354,19 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                                 'order' => 240
                             ]
                         ],
-                        'customUrl' => [
-                            'data' => [
-                                '_title' => 'customUrl',
-                                'en' => 'Url',
-                                'type' => 'varchar',
-                                'cfg' => [
-                                    "dependency" => [
-                                        "pidValues" => ["custom"]
-                                    ],
-                                ],
-                                'order' => 250
-                            ]
-                        ],
+                        // 'customUrl' => [
+                        //     'data' => [
+                        //         '_title' => 'customUrl',
+                        //         'en' => 'Url',
+                        //         'type' => 'varchar',
+                        //         'cfg' => [
+                        //             "dependency" => [
+                        //                 "pidValues" => ["custom"]
+                        //             ],
+                        //         ],
+                        //         'order' => 250
+                        //     ]
+                        // ],
                         'customFn' => [
                             'data' => [
                                 '_title' => 'customFn',
@@ -402,10 +401,12 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'en' => 'Renderer',
                         'type' => 'combo',
                         'cfg' => [
-                            "source" => "objectFieldRenderers",
                             "dependency" => [
                                 "pidValues" => ["_objects"]
-                            ]
+                            ],
+                            "source" => "objectFieldRenderers",
+                            'value' => 'listObjIcons'
+
                         ],
                         'order' => 280
                     ]
@@ -416,10 +417,11 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'en' => 'Editor',
                         'type' => 'combo',
                         'cfg' => [
-                            "source" => "objectFieldEditors",
                             "dependency" => [
                                 "pidValues" => ["_objects"]
-                            ]
+                            ],
+                            "source" => "objectFieldEditors",
+                            "value" => "form"
                         ],
                         'order' => 290
                     ]
@@ -432,7 +434,8 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'cfg' => [
                             "dependency" => [
                                 "pidValues" => ["time"]
-                            ]
+                            ],
+                            'value' => 'H:i'
                         ],
                         'order' => 300
                     ]
@@ -443,52 +446,12 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'en' => 'Decimal precision',
                         'type' => 'int',
                         'cfg' => [
-                            "value" => 2,
                             "dependency" => [
                                 "pidValues" => ["float"]
-                            ]
+                            ],
+                            "value" => 2,
                         ],
                         'order' => 310
-                    ]
-                ],
-                'memoHeight' => [
-                    'data' => [
-                        '_title' => 'memoHeight',
-                        'en' => 'Height',
-                        'type' => 'int',
-                        'cfg' => [
-                            "dependency" => [
-                                "pidValues" => ["memo"]
-                            ]
-                        ],
-                        'order' => 320
-                    ]
-                ],
-                'memoMaxLength' => [
-                    'data' => [
-                        '_title' => 'memoMaxLength',
-                        'en' => 'Max length',
-                        'type' => 'int',
-                        'cfg' => [
-                            "dependency" => [
-                                "pidValues" => ["memo"]
-                            ]
-                        ],
-                        'order' => 330
-                    ]
-                ],
-                'memoMentionUsers' => [
-                    'data' => [
-                        '_title' => 'memoMentionUsers',
-                        'en' => 'Use prugin for mentioning users',
-                        'type' => 'combo',
-                        'cfg' => [
-                            "source" => "yesno",
-                            "dependency" => [
-                                "pidValues" => ["memo"]
-                            ]
-                        ],
-                        'order' => 340
                     ]
                 ],
                 'textEditor' => [
@@ -501,10 +464,100 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                             "dependency" => [
                                 "pidValues" => ["text"]
                             ]
+                            ,'value' => 'inline'
                         ],
-                        'order' => 350
+                        'order' => 320
+                    ]
+                    ,'children' => [
+                        'editorMode' => [
+                            'data' => [
+                                '_title' => 'editorMode',
+                                'en' => 'Mode',
+                                'type' => 'combo',
+                                'cfg' => [
+                                    "dependency" => [
+                                        "pidValues" => ["ace"]
+                                    ],
+                                    "source" => "aceModes",
+                                    "value" => "json",
+                                ],
+                                'order' => 330
+                            ]
+                        ],
+                        'editorTheme' => [
+                            'data' => [
+                                '_title' => 'editorTheme',
+                                'en' => 'Theme',
+                                'type' => 'combo',
+                                'cfg' => [
+                                    "dependency" => [
+                                        "pidValues" => ["ace"]
+                                    ],
+                                    "source" => "aceThemes",
+                                    "value" => "cobalt",
+                                ],
+                                'order' => 331
+                            ]
+                        ],
+                        'editorKeyBinding' => [
+                            'data' => [
+                                '_title' => 'editorKeyBinding',
+                                'en' => 'KeyBinding',
+                                'type' => 'combo',
+                                'cfg' => [
+                                    "dependency" => [
+                                        "pidValues" => ["ace"]
+                                    ],
+                                    "source" => "aceKeyBindings",
+                                    "value" => null,
+                                ],
+                                'order' => 332
+                            ]
+                        ],
+                        'editorFontSize' => [
+                            'data' => [
+                                '_title' => 'editorFontSize',
+                                'en' => 'Font size',
+                                'type' => 'int',
+                                'cfg' => [
+                                    "dependency" => [
+                                        "pidValues" => ["ace"]
+                                    ],
+                                ],
+                                'order' => 333
+                            ]
+                        ],
+
                     ]
                 ],
+
+                'editorHeight' => [
+                    'data' => [
+                        '_title' => 'editorHeight',
+                        'en' => 'Height',
+                        'type' => 'int',
+                        'cfg' => [
+                            "dependency" => [
+                                "pidValues" => ['text', 'html']
+                            ]
+                        ],
+                        'order' => 335
+                    ]
+                ],
+                'maxLength' => [
+                    'data' => [
+                        '_title' => 'maxLength',
+                        'en' => 'Max length',
+                        'type' => 'int',
+                        'cfg' => [
+                            "dependency" => [
+                                "pidValues" => ["text"]
+                            ]
+                        ],
+                        'order' => 340
+                    ]
+                ],
+
                 'geoPointEditor' => [
                     'data' => [
                         '_title' => 'geoPointEditor',
@@ -522,12 +575,13 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         'geoPointTilesUrl' => [
                             'data' => [
                                 '_title' => 'geoPointTilesUrl',
-                                'en' => 'Tiles url (https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png)',
+                                'en' => 'Tiles url',
                                 'type' => 'varchar',
                                 'cfg' => [
                                     "dependency" => [
                                         "pidValues" => ["form"]
-                                    ]
+                                    ],
+                                    'value' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                                 ],
                                 'order' => 370
                             ]
@@ -593,13 +647,14 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 'order' => 420
             ]
         ],
-        'editMode' => [
+        'placement' => [
             'data' => [
-                '_title' => 'editMode',
-                'en' => 'Editing mode',
+                '_title' => 'placement',
+                'en' => 'Placement',
                 'type' => 'combo',
                 'cfg' => [
-                    "source" => 'fieldEditModes'
+                    "source" => 'fieldPlacements',
+                    'value' => 'grid'
                 ],
                 'order' => 430
             ]
@@ -619,10 +674,10 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
             'data' => [
                 '_title' => 'cfg',
                 'en' => 'Manual configurations',
-                'type' => 'memo',
+                'type' => 'text',
                 'cfg' => [
                     "heigth" => 100,
-                    "editMode" => "standalone",
+                    "placement" => "below",
                     "validator" => "json",
                 ],
                 'order' => 450
@@ -674,22 +729,48 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
         $this->updateFieldsTemplate();
         $output->writeln('<info>[x] Fields template created/updated.</info>');
 
-        // $this->migrateTemplateFieldConfigs();
-        // $output->writeln('<info>[x] Template fields configs migrated to new structure.</info>');
+        $this->migrateTemplateFieldConfigs();
+        $output->writeln('<info>[x] Template fields configs migrated to new structure.</info>');
+
         return;
     }
 
     protected function updateFieldsTemplate()
     {
+        $fieldClass = new Objects\TemplateField();
         //rename solr_column_name field into solrField
         $id = Objects::getChildId($this->fieldTemplateId, 'solr_column_name');
         if ($id) {
-            $fieldClass = new Objects\TemplateField();
             $fieldClass->load($id);
             $d = $fieldClass->getData();
             $d['name'] = 'solrField';
             $d['data']['_title'] = 'solrField';
             $fieldClass->update($d);
+        }
+
+        $container = $this->getContainer();
+        $configService = $container->get('casebox_core.service.config');
+        $languages = $configService->get('languages');
+
+        //add hint fields
+        foreach ($languages as $idx => $l) {
+            $id = Objects::getChildId($this->fieldTemplateId, 'hint_' . $l);
+            if (empty($id)) {
+                $id = $fieldClass->create(
+                    [
+                        'id' => null,
+                        'pid' => $this->fieldTemplateId,
+                        'template_id' => $this->fieldTemplateId,
+                        'name' => 'hint_' . $l,
+                        'data' => [
+                            '_title' => 'hint_' . $l,
+                            'en' => 'Hint (' . $l .')',
+                            'type' => 'varchar',
+                            'order' => 50 + $idx*3,
+                        ]
+                    ]
+                );
+            }
         }
 
         // iterate and create/update fields
@@ -713,7 +794,6 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 $d['name'] = $key;
                 $d['data'] = array_merge($d['data'], $field['data']);
                 $fieldClass->update($d);
-
             } elseif (empty($field['updateOnly'])) {
                 $id = $fieldClass->create(
                     [
@@ -813,7 +893,6 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                                     'customIds' => implode(',', $scope)
                                 ]
                             ];
-
                         } else {
                             $data['type']['childs']['scope'] = $cfg['scope'];
                         }
@@ -872,7 +951,36 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                                 }
                                 break;
 
-                            default: //custom source name from CB.DB namespace
+                            case 'users':
+                                $data['type']['childs']['source'] = [
+                                    'value' => 'tree',
+                                    'childs' => [
+                                        'solrFq' => '["template_type:\"user\""]'
+                                    ]
+                                ];
+                                break;
+
+                            case 'groups':
+                                $data['type']['childs']['source'] = [
+                                    'value' => 'tree',
+                                    'childs' => [
+                                        'solrFq' => '["template_type:\"group\""]'
+                                    ]
+                                ];
+                                break;
+
+                            case 'usersgroups':
+                                $data['type']['childs']['source'] = [
+                                    'value' => 'tree',
+                                    'childs' => [
+                                        'solrFq' => '["template_type:(\"user\" OR \"group\")"]'
+                                    ]
+                                ];
+                                break;
+                                break;
+
+                            default:
+                                //custom source name from CB.DB namespace
 
                                 if (is_scalar($cfg['source'])) {
                                     $data['type']['childs']['source'] = [
@@ -933,19 +1041,19 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                 case 'memo':
                     $childs = [];
                     if (!empty($cfg['height'])) {
-                        $childs['memoHeight'] = $cfg['height'];
+                        $childs['editorHeight'] = $cfg['height'];
                     }
                     if (!empty($cfg['maxLength'])) {
-                        $childs['memoLength'] = $cfg['maxLength'];
-                    }
-                    if (!empty($cfg['mentionUsers'])) {
-                        $childs['memoMentionUsers'] = 1;
+                        $childs['maxLength'] = $cfg['maxLength'];
                     }
 
                     if (!empty($childs)) {
                         $data['type'] = [
-                            'value' => 'memo',
-                            'childs' => $childs
+                            'value' => 'text',
+                            'childs' => [
+                                'textEditor' => 'inline',
+                                'childs' => $childs,
+                            ]
                         ];
                     }
                     break;
@@ -986,7 +1094,6 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
                         }
                     }
                     break;
-
             }
             unset($cfg['scope']);
             unset($cfg['descendants']);
@@ -1006,10 +1113,10 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
             unset($cfg['mentionUsers']);
             unset($cfg['defaultLocation']);
 
-            if (!empty($cfg['editMode'])) {
-                $data['editMode'] = $cfg['editMode'];
+            if (!empty($cfg['placement'])) {
+                $data['placement'] = $cfg['placement'];
             }
-            unset($cfg['editMode']);
+            unset($cfg['placement']);
 
             if (!empty($cfg['validator'])) {
                 $data['validator'] = $cfg['validator'];

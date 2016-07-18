@@ -88,7 +88,7 @@
 
 /* object field, renderer=listObjIcons */
 ul.clean {list-style: none; margin: 0; padding: 0; }
-ul.clean li { list-style: none; margin: 0; padding: 0; }
+ul.clean li { list-style: none; margin: 0; padding: 0; display: block}
 .with-icons li {padding-left: 20px; white-space: nowrap}
 .fit-img {
     max-width: 100%;

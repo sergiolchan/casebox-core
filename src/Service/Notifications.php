@@ -180,7 +180,7 @@ class Notifications
         $logIds = array_unique($logIds);
 
         $recs = DM\Log::getRecords($logIds);
-        // $rez['data'].= var_export($recs, 1);
+
         foreach ($recs as $r) {
             $d = Util\jsonDecode($r['data']);
 

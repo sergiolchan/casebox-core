@@ -52,11 +52,11 @@ class StylesService
                 'type' => 'text/css',
                 'href' => '/js/ext/classic/theme-triton/resources/theme-triton-all.css',
             ],
-            'extjs-ace-styles' => [
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => '/js/extjs-ace/styles.css',
-            ],
+            // 'extjs-ace-styles' => [
+            //     'rel' => 'stylesheet',
+            //     'type' => 'text/css',
+            //     'href' => '/js/extjs-ace/styles.css',
+            // ],
             'caseboxindex' => [
                 'rel' => 'stylesheet',
                 'type' => 'text/css',

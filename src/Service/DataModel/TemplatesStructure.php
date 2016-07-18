@@ -85,8 +85,6 @@ class TemplatesStructure extends Base
             $data = Util\toJSONArray($r['data']);
             unset($r['data']);
 
-            //overwrite fields from templates table with values from objects.data
-            $r = array_merge($r, $data);
             $r['cfg'] = Util\toJSONArray($r['cfg']);
 
             $r['title'] = Util\detectTitle($data);
@@ -102,10 +100,24 @@ class TemplatesStructure extends Base
     {
         if (!empty($f['cfg']['showIn'])) {
             if ($f['cfg']['showIn'] == 'tabsheet') {
-                $f['cfg']['editMode'] = 'standalone';
+                $f['cfg']['placement'] = 'below';
             }
 
             unset($f['cfg']['showIn']);
+        }
+
+        if (!empty($f['cfg']['editMode'])) {
+            if ($f['cfg']['editMode'] == 'standalone') {
+                $f['cfg']['placement'] = 'below';
+            }
+
+            unset($f['cfg']['editMode']);
+        }
+
+        if (!empty($f['cfg']['mode'])) {
+                $f['cfg']['highlighter'] = $f['cfg']['mode'];
+
+            unset($f['cfg']['mode']);
         }
 
         switch ($f['type']) {
@@ -148,6 +160,31 @@ class TemplatesStructure extends Base
                 $f['type'] = 'combo';
                 $f['cfg']['source'] = 'timeUnits';
                 break;
+
+            case 'memo':
+                $f['type'] = 'text';
+                break;
+
+            case 'objects':
+                //replace users and groups sources
+                if (!empty($f['cfg']['source'])) {
+                    switch ($f['cfg']['source']) {
+                        case 'users':
+                            $f['cfg']['source'] = 'tree';
+                            $f['cfg']['fq'] = ["template_type:\"user\""];
+                            break;
+
+                        case 'groups':
+                            $f['cfg']['source'] = 'tree';
+                            $f['cfg']['fq'] = ["template_type:\"group\""];
+                            break;
+
+                        case 'usersgroups':
+                            $f['cfg']['source'] = 'tree';
+                            $f['cfg']['fq'] = ["template_type:(\"user\" OR \"group\")"];
+                            break;
+                    }
+                }
         }
 
         return $f;

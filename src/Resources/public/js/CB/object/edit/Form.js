@@ -227,7 +227,7 @@ Ext.define('CB.object.edit.Form', {
             var fields = [];
             this.grid.templateStore.each(
                 function(r) {
-                    if(r.get('cfg').editMode === 'standalone') {
+                    if(r.get('cfg').placement === 'below') {
                         var cfg = {
                             border: false
                             ,title: r.get('title')

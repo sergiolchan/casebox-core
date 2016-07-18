@@ -121,13 +121,11 @@ Ext.define('CB.FilterPanel', {
             this.activeFileterFacet.store.loadData([{id: -1, value: -1, name: L.ResetAll}], true);
             this.activeFileterFacet.setVisible(true);
             if(this.bindButton) {
-                // this.bindButton.setIconCls(this.bindButton.initialConfig.activeIconCls);
-                this.bindButton.setGlyph(this.bindButton.initialConfig.activeGlyph);
+                this.bindButton.setIconCls(this.bindButton.initialConfig.activeIconCls);
             }
         }else {
             if(this.bindButton) {
-                // this.bindButton.setIconCls(this.bindButton.initialConfig.iconCls);
-                this.bindButton.setGlyph(this.bindButton.initialConfig.glyph);
+                this.bindButton.setIconCls(this.bindButton.initialConfig.iconCls);
             }
         }
     }

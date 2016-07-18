@@ -59,55 +59,257 @@ CB.DB.fieldTypes = new Ext.data.ArrayStore({
 CB.DB.objectFieldScopes = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['tree', 'Tree'], ['project', 'Project (case)'], ['parent', 'Parent'], ['self', 'Self'], ['variable', 'Variable'], ['custom', 'Custom ids']]
+    ,data:  [[null, ''], ['tree', 'All'], ['project', 'Project (case)'], ['parent', 'Parent'], ['self', 'Self'], ['variable', 'Variable'], ['custom', 'Custom records']]
     ,getName: getStoreNames
 });
 
 CB.DB.objectFieldSources = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['tree', 'Tree'], ['users', 'Users'], ['groups', 'Groups'], ['usersgroups', 'Users and groups'], ['facet', 'Facet'], ['field', 'Field'], ['custom', 'Custom']]
+    ,data:  [[null, ''], ['tree', 'All'], ['facet', 'Facet'], ['field', 'Field'], ['custom', 'Custom']]
     ,getName: getStoreNames
 });
 
 CB.DB.objectFieldRenderers = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['list', 'List'], ['listObjIcons', 'List with object icons']]
+    ,data:  [[null, ''], ['list', 'List'], ['listObjIcons', 'List with object icons']]
     ,getName: getStoreNames
 });
 
 CB.DB.objectFieldEditors = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['combo', 'combo'], ['form', 'form'], ['text', 'text'], ['tagField', 'tagField']]
+    ,data:  [[null, ''], ['combo', 'Dropdown'], ['form', 'Popup'], ['tagField', 'Tag field']] //, ['text', 'text']
     ,getName: getStoreNames
 });
 
 CB.DB.textFieldEditors = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['textarea', 'textarea'], ['ace', 'Ace editor']]
+    ,data:  [[null, ''], ['inline', 'Inline'], ['popup', 'Popup'], ['ace', 'Ace editor popup']]
     ,getName: getStoreNames
 });
 
 CB.DB.geoPointFieldEditors = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['text', 'text'], ['form', 'Leaflet window']]
+    ,data:  [[null, ''], ['text', 'text'], ['form', 'Leaflet window']]
     ,getName: getStoreNames
 });
-CB.DB.fieldEditModes = new Ext.data.ArrayStore({
+CB.DB.fieldPlacements = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['grid', 'in grid'], ['standalone', 'Standalone']]
+    ,data:  [[null, ''], ['grid', 'In grid'], ['below', 'Below']]
     ,getName: getStoreNames
 });
 CB.DB.fieldValidators = new Ext.data.ArrayStore({
     idIndex: 0
     ,model: 'Generic2'
-    ,data:  [[null, '-'], ['json', 'json'], ['geoPoint', 'geoPoint']]
+    ,data:  [[null, ''], ['json', 'json'], ['geoPoint', 'geoPoint']]
     ,getName: getStoreNames
+});
+
+CB.DB.aceModes = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data:  [
+        [null, ''],
+        ['abap', 'ABAP'],
+        ['abc', 'ABC'],
+        ['actionscript', 'ActionScript'],
+        ['ada', 'ADA'],
+        ['apache_conf', 'Apache Conf'],
+        ['asciidoc', 'AsciiDoc'],
+        ['assembly_x86', 'Assembly x86'],
+        ['autohotkey', 'AutoHotKey'],
+        ['batchfile', 'BatchFile'],
+        ['c_cpp', 'C and C++'],
+        ['c9search', 'C9Search'],
+        ['cirru', 'Cirru'],
+        ['clojure', 'Clojure'],
+        ['cobol', 'Cobol'],
+        ['coffee', 'CoffeeScript'],
+        ['coldfusion', 'ColdFusion'],
+        ['csharp', 'C#'],
+        ['css', 'CSS'],
+        ['curly', 'Curly'],
+        ['d', 'D'],
+        ['dart', 'Dart'],
+        ['diff', 'Diff'],
+        ['dockerfile', 'Dockerfile'],
+        ['dot', 'Dot'],
+        ['dummy', 'Dummy'],
+        ['dummysyntax', 'DummySyntax'],
+        ['eiffel', 'Eiffel'],
+        ['ejs', 'EJS'],
+        ['elixir', 'Elixir'],
+        ['elm', 'Elm'],
+        ['erlang', 'Erlang'],
+        ['forth', 'Forth'],
+        ['ftl', 'FreeMarker'],
+        ['gcode', 'Gcode'],
+        ['gherkin', 'Gherkin'],
+        ['gitignore', 'Gitignore'],
+        ['glsl', 'Glsl'],
+        ['gobstones', 'Gobstones'],
+        ['golang', 'Go'],
+        ['groovy', 'Groovy'],
+        ['haml', 'HAML'],
+        ['handlebars', 'Handlebars'],
+        ['haskell', 'Haskell'],
+        ['haxe', 'haXe'],
+        ['html', 'HTML'],
+        ['html_elixir', 'HTML (Elixir)'],
+        ['html_ruby', 'HTML (Ruby)'],
+        ['ini', 'INI'],
+        ['io', 'Io'],
+        ['jack', 'Jack'],
+        ['jade', 'Jade'],
+        ['java', 'Java'],
+        ['javascript', 'JavaScript'],
+        ['json', 'JSON'],
+        ['jsoniq', 'JSONiq'],
+        ['jsp', 'JSP'],
+        ['jsx', 'JSX'],
+        ['julia', 'Julia'],
+        ['latex', 'LaTeX'],
+        ['lean', 'Lean'],
+        ['less', 'LESS'],
+        ['liquid', 'Liquid'],
+        ['lisp', 'Lisp'],
+        ['livescript', 'LiveScript'],
+        ['logiql', 'LogiQL'],
+        ['lsl', 'LSL'],
+        ['lua', 'Lua'],
+        ['luapage', 'LuaPage'],
+        ['lucene', 'Lucene'],
+        ['makefile', 'Makefile'],
+        ['markdown', 'Markdown'],
+        ['mask', 'Mask'],
+        ['matlab', 'MATLAB'],
+        ['maze', 'Maze'],
+        ['mel', 'MEL'],
+        ['mushcode', 'MUSHCode'],
+        ['mysql', 'MySQL'],
+        ['nix', 'Nix'],
+        ['nsis', 'NSIS'],
+        ['objectivec', 'Objective-C'],
+        ['ocaml', 'OCaml'],
+        ['pascal', 'Pascal'],
+        ['perl', 'Perl'],
+        ['pgsql', 'pgSQL'],
+        ['php', 'PHP'],
+        ['powershell', 'Powershell'],
+        ['praat', 'Praat'],
+        ['prolog', 'Prolog'],
+        ['properties', 'Properties'],
+        ['protobuf', 'Protobuf'],
+        ['python', 'Python'],
+        ['r', 'R'],
+        ['razor', 'Razor'],
+        ['rdoc', 'RDoc'],
+        ['rhtml', 'RHTML'],
+        ['rst', 'RST'],
+        ['ruby', 'Ruby'],
+        ['rust', 'Rust'],
+        ['sass', 'SASS'],
+        ['scad', 'SCAD'],
+        ['scala', 'Scala'],
+        ['scheme', 'Scheme'],
+        ['scss', 'SCSS'],
+        ['sh', 'SH'],
+        ['sjs', 'SJS'],
+        ['smarty', 'Smarty'],
+        ['snippets', 'snippets'],
+        ['soy_template', 'Soy Template'],
+        ['space', 'Space'],
+        ['sql', 'SQL'],
+        ['sqlserver', 'SQLServer'],
+        ['stylus', 'Stylus'],
+        ['svg', 'SVG'],
+        ['swift', 'Swift'],
+        ['tcl', 'Tcl'],
+        ['tex', 'Tex'],
+        ['text', 'Text'],
+        ['textile', 'Textile'],
+        ['toml', 'Toml'],
+        ['twig', 'Twig'],
+        ['typescript', 'Typescript'],
+        ['vala', 'Vala'],
+        ['vbscript', 'VBScript'],
+        ['velocity', 'Velocity'],
+        ['verilog', 'Verilog'],
+        ['vhdl', 'VHDL'],
+        ['wollok', 'Wollok'],
+        ['xml', 'XML'],
+        ['xquery', 'XQuery'],
+        ['yaml', 'YAML'],
+        ['django', 'Django']
+    ]
+    ,getName: getStoreNames
+});
+
+CB.DB.aceThemes = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    //,fields: ["id","name"]
+    ,data: [
+        [null, ''],
+        ['light', '------ Light themes ------'],
+        ['chrome', 'Chrome'],
+        ['clouds', 'Clouds'],
+        ['crimson_editor', 'Crimson Editor'],
+        ['dawn', 'Dawn'],
+        ['dreamweaver', 'Dreamweaver'],
+        ['eclipse', 'Eclipse'],
+        ['github', 'GitHub'],
+        ['iplastic', 'IPlastic'],
+        ['solarized_light', 'Solarized Light'],
+        ['textmate', 'TextMate'],
+        ['tomorrow', 'Tomorrow'],
+        ['xcode', 'XCode'],
+        ['kuroir', 'Kuroir'],
+        ['katzenmilch', 'KatzenMilch'],
+        ['sqlserver', 'SQL Server'],
+        ['dark', '------ Dark themes ------'],
+        ['ambiance', 'Ambiance'],
+        ['chaos', 'Chaos'],
+        ['clouds_midnight', 'Clouds Midnight'],
+        ['cobalt', 'Cobalt'],
+        ['idle_fingers', 'idle Fingers'],
+        ['kr_theme', 'krTheme'],
+        ['merbivore', 'Merbivore'],
+        ['merbivore_soft', 'Merbivore Soft'],
+        ['mono_industrial', 'Mono Industrial'],
+        ['monokai', 'Monokai'],
+        ['pastel_on_dark', 'Pastel on dark'],
+        ['solarized_dark', 'Solarized Dark'],
+        ['terminal', 'Terminal'],
+        ['tomorrow_night', 'Tomorrow Night'],
+        ['tomorrow_night_blue', 'Tomorrow Night Blue'],
+        ['tomorrow_night_bright', 'Tomorrow Night Bright'],
+        ['tomorrow_night_eighties', 'Tomorrow Night 80s'],
+        ['twilight', 'Twilight'],
+        ['vibrant_ink', 'Vibrant Ink']
+    ]
+});
+
+CB.DB.aceKeyBindings = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    ,data: [
+        [null, ''],
+        ['vim', 'Vim'],
+        ['emacs', 'Emacs']
+    ]
+});
+
+CB.DB.facetConfigNames = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    //,fields: ["id","name"]
+    ,data: {{facetConfigNames|raw}}
 });
 
 CB.DB.reminderTypes = new Ext.data.ArrayStore({

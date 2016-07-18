@@ -713,8 +713,8 @@ class Objects
             return $rez;
         }
 
-        $rez['success'] = true;
         $rez['data'] = DM\Tree::getBasicInfo($id);
+        $rez['success'] = !empty($rez['data']);
 
         return $rez;
     }

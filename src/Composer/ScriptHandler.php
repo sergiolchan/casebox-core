@@ -4,7 +4,7 @@ namespace Casebox\CoreBundle\Composer;
 
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 
 /**
  * Class ScriptHandler
@@ -21,7 +21,7 @@ class ScriptHandler
         'symfony-web-dir' => 'web',
     ];
 
-    protected static function getOptions(CommandEvent $event)
+    protected static function getOptions(Event $event)
     {
         $options = array_merge(static::$options, $event->getComposer()->getPackage()->getExtra());
 
@@ -40,7 +40,7 @@ class ScriptHandler
         return isset($options['symfony-var-dir']) && is_dir($options['symfony-var-dir']);
     }
 
-    protected static function hasDirectory(CommandEvent $event, $configName, $path, $actionName)
+    protected static function hasDirectory(Event $event, $configName, $path, $actionName)
     {
         if (!is_dir($path)) {
             $event->getIO()->write(
@@ -62,12 +62,12 @@ class ScriptHandler
     /**
      * Returns a relative path to the directory that contains the `console` command.
      *
-     * @param CommandEvent $event      The command event.
-     * @param string       $actionName The name of the action
+     * @param Event  $event      The command event.
+     * @param string $actionName The name of the action
      *
      * @return string|null The path to the console directory, null if not found.
      */
-    protected static function getConsoleDir(CommandEvent $event, $actionName)
+    protected static function getConsoleDir(Event $event, $actionName)
     {
         $options = static::getOptions($event);
 
@@ -118,12 +118,12 @@ class ScriptHandler
     }
 
     /**
-     * @param CommandEvent $event
-     * @param string       $consoleDir
-     * @param string       $cmd
-     * @param int          $timeout
+     * @param Event  $event
+     * @param string $consoleDir
+     * @param string $cmd
+     * @param int    $timeout
      */
-    protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)
+    protected static function executeCommand(Event $event, $consoleDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(static::getPhp(false));
         $phpArgs = implode(' ', array_map('escapeshellarg', static::getPhpArguments()));
@@ -153,9 +153,9 @@ class ScriptHandler
     /**
      * Export Casebox assets
      *
-     * @param $event CommandEvent A instance
+     * @param $event Event A instance
      */
-    public static function buildAssets(CommandEvent $event)
+    public static function buildAssets(Event $event)
     {
         $consoleDir = static::getConsoleDir($event, 'clear the cache');
 
@@ -171,7 +171,7 @@ class ScriptHandler
      *
      * @param $event CommandEvent A instance
      */
-    public static function buildTranslations(CommandEvent $event)
+    public static function buildTranslations(Event $event)
     {
         $consoleDir = static::getConsoleDir($event, 'clear the cache');
 

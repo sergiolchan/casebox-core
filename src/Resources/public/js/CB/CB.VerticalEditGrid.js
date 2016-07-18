@@ -30,7 +30,7 @@ Ext.define('CB.VerticalEditGrid', {
         var viewCfg = {
             autoFill: false
             ,deferInitialRefresh: false
-            ,stripeRows: true
+            ,stripeRows: false
             ,markDirty: false
             ,getRowClass: function( record, index, rowParams, store ){
                 var rez = '';
@@ -102,7 +102,6 @@ Ext.define('CB.VerticalEditGrid', {
                 scope: this
                 ,keypress:  function(e){
                     if( (e.getKey() == e.ENTER) && (!e.hasModifier())) {
-                        clog('here');
                         this.onFieldTitleDblClick();
                     }
                 }
@@ -148,30 +147,35 @@ Ext.define('CB.VerticalEditGrid', {
                     return v;
                 }
 
-                var tr = n.data.templateRecord;
+                var tr = n.data.templateRecord,
+                    cfg = tr.get('cfg');
 
                 if(tr.get('type') === 'H'){
                     meta.css ='vgh';
-                    if (tr.get('cfg').style) {
-                        meta.tdStyle = tr.get('cfg').style;
+                    if (cfg.style) {
+                        meta.tdStyle = cfg.style;
                     }
 
                 } else {
                     meta.css = 'bgcLG vaT';
                     meta.style = 'margin-left: ' + (n.getDepth()-1) + '0px';
-                    if(tr.get('cfg').readOnly === true) {
+                    if(cfg.readOnly === true) {
                         meta.css += ' cG';
                     }
 
-                    if(tr.get('cfg').required && Ext.isEmpty(record.data.value)) {
+                    if(cfg.required && Ext.isEmpty(record.data.value)) {
                         meta.css += ' cRequired';
                         v += ' *';
                     }
 
                 }
 
-                if(!Ext.isEmpty(tr.get('cfg').hint)) {
-                    meta.tdAttr = ' title="'+tr.get('cfg').hint+'"';
+                var hint = Ext.valueFrom(
+                    cfg['hint_' + App.loginData.language]
+                    ,Ext.valueFrom(cfg.hint, cfg.hint_en)
+                );
+                if(!Ext.isEmpty(hint)) {
+                    meta.tdAttr = ' title="' + Ext.String.htmlEncode(hint) + '"';
                 }
 
                 /* setting icon for duplicate fields /**/
@@ -529,8 +533,8 @@ Ext.define('CB.VerticalEditGrid', {
                 )
             );
         }
-        this.store.resumeEvents();
         this.store.add(records);
+        this.store.resumeEvents();
 
         return true;
     }
@@ -554,7 +558,7 @@ Ext.define('CB.VerticalEditGrid', {
 
         return (
             (r.get('type') !== 'G') &&
-            (r.get('cfg').editMode !== 'standalone') &&
+            (r.get('cfg').placement !== 'below') &&
             (node.data.visible !== false)
         );
     }
@@ -585,9 +589,6 @@ Ext.define('CB.VerticalEditGrid', {
         if(context.field !== 'value') {
             return;
         }
-
-        clog('delete context.grid.pressedSpecialKey');
-        delete context.grid.pressedSpecialKey;
 
         var pw = this.findParentByType(CB.GenericForm, false)
             || this.refOwner
@@ -686,8 +687,6 @@ Ext.define('CB.VerticalEditGrid', {
             });
 
             navModel.setPosition(cell.rowIdx, cell.colIdx);
-
-            // navModel.focusPosition(cell);
         }
 
         return rez;
@@ -715,22 +714,26 @@ Ext.define('CB.VerticalEditGrid', {
             ,this.addKeyMaps
             ,this
         );
+        comp.on(
+            'specialkey'
+            ,this.onCellEditingSpecialKey
+            ,this
+        );
     }
 
     /**  doesnt work in Ext 6 **/
-    ,onCellEditingSpecialKey: function(ed, field, e) {
+    ,onCellEditingSpecialKey: function(field, e) {
         var key = e.getKey();
-
         switch(key) {
             case e.TAB:
-                ed.completeEdit();
+                this.editingPlugin.completeEdit();
 
-                var pos = ed.grid.gainFocus('next');
+                var pos = this.gainFocus('next');
 
                 if(pos) {
                     e.stopEvent();
 
-                    this.startEditByPosition({
+                    this.editingPlugin.startEditByPosition({
                         row: pos.rowIdx
                         ,column: pos.colIdx
                     });
@@ -739,8 +742,7 @@ Ext.define('CB.VerticalEditGrid', {
 
             case e.ENTER:
             case e.ESC:
-                clog('set ed.grid.pressedSpecialKey', key, ed.grid);
-                ed.grid.pressedSpecialKey = key;
+                this.editingPlugin.completeEdit();
                 break;
         }
 
@@ -819,16 +821,8 @@ Ext.define('CB.VerticalEditGrid', {
             this.getView().refresh();
         } else {
             this.fireEvent('restorescroll', this);
-            // this.gainFocus();
         }
-
-        // //the grid shouldnt be focused all the time,
-        // //the user can click outside of the grid
-        // clog(this, this.pressedSpecialKey, editor, editor.grid.pressedSpecialKey);
-        // if(this.pressedSpecialKey) {
-        //     clog('call gainFocus;');
-        //     this.gainFocus();
-        // }
+        Ext.Function.defer(this.gainFocus, 20, this);
     }
 
     ,getFieldValue: function(field_id, duplication_id){

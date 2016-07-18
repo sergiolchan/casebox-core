@@ -7,7 +7,7 @@ Ext.define('CB.ChangePasswordWindow', {
     ,autoWidth: true
     ,autoHeight: true
     ,border: false
-    ,glyph: 0xf084
+    ,iconCls: 'fa fa-key'
 
     ,initComponent: function() {
         var items = [];
@@ -99,7 +99,7 @@ Ext.define('CB.ChangePasswordWindow', {
                 ,buttons: [
                     {
                         text: Ext.MessageBox.buttonText.ok
-                        ,glyph: 0xf00c
+                        ,iconCls: 'fa fa-check'
                         ,formBind: true
                         ,type: 'submit'
                         ,scope: this
@@ -116,7 +116,7 @@ Ext.define('CB.ChangePasswordWindow', {
                         }
                     },{
                         text: L.Cancel
-                        ,glyph: 0xf00d
+                        ,iconCls: 'fa fa-close'
                         ,handler: this.destroy
                         ,scope: this
                     }

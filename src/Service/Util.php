@@ -756,6 +756,8 @@ function detectTitle(&$arr)
     $rez = @coalesce(
         $arr[$l],
         $arr['title_'.$l],
+        $arr['en'],
+        $arr['title_en'],
         $arr['title'],
         $arr['_title'],
         $arr['name'],
@@ -814,7 +816,6 @@ function sortRecordsArray(&$records, $sortProperty, $sortDirection = 'asc', $sor
 
     if ($assoc) {
         uasort($records, $sorter);
-
     } else {
         usort($records, $sorter);
     }

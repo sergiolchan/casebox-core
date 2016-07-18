@@ -42,7 +42,7 @@ Ext.define('CB.browser.view.Charts', {
         this.sortButton = new Ext.Button({
             itemId: 'chartsSortButton'
             ,scale: 'medium'
-            ,glyph: 0xf160
+            ,iconCls: 'fa fa-sort-amount-asc'
             ,style: 'margin-left: 10px'
             ,text: ''
             ,menu: [

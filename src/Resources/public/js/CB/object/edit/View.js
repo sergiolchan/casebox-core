@@ -77,7 +77,8 @@ Ext.define('CB.object.edit.View', {
         this.actions = {
             edit: new Ext.Action({
                 text: L.Edit
-                ,glyph: 0xf040
+                ,iconCls: 'fa fa-pencil'
+                ,scale: 'medium'
                 ,hidden: true
                 ,scope: this
                 ,handler: this.onEditClick
@@ -85,61 +86,76 @@ Ext.define('CB.object.edit.View', {
 
             ,save: new Ext.Action({
                 text: L.Save
-                ,glyph: 0xf0c7
-                // ,disabled: true
+                ,iconCls: 'fa fa-check'
+                ,scale: 'medium'
                 ,hidden: true
                 ,scope: this
                 ,handler: this.onSaveClick
             })
 
-            ,cancel: new Ext.Action({
-                text: L.Cancel
-                ,glyph: 0xf00d
-                // ,hidden: true
+            ,back: new Ext.Action({
+                iconCls: 'fa  fa-reply'
+                ,tooltip: L.Back
+                ,scale: 'medium'
+                ,scope: this
+                ,handler: this.onCancelClick
+            })
+            ,close: new Ext.Action({
+                tooltip: L.Close
+                ,iconCls: 'fa fa-close'
+                ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onCancelClick
             })
 
             ,'delete': new Ext.Action({
                 text: L.Delete
+                ,iconCls: 'fa fa-trash'
+                // ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onDeleteClick
             })
 
             ,refresh: new Ext.Action({
-                glyph: 0xf021
+                text: L.Reload
+                ,iconCls: 'fa fa-refresh'
+                // ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onRefreshClick
             })
 
             ,rename: new Ext.Action({
                 text: L.Rename
+                ,iconCls: 'fa fa-i-cursor'
+                // ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onRenameClick
             })
 
             ,star: new Ext.Action({
-                glyph: 0xf005
+                iconCls: 'fa fa-star'
                 ,qtip: L.Star
                 ,itemId: 'star'
+                // ,scale: 'medium'
                 ,hidden: true
                 ,scope: this
                 ,handler: this.onStarClick
             })
 
             ,unstar: new Ext.Action({
-                glyph: 0xf006
+                iconCls: 'fa fa-star-o'
                 ,qtip: L.Unstar
                 ,itemId: 'unstar'
+                // ,scale: 'medium'
                 ,hidden: true
                 ,scope: this
                 ,handler: this.onUnstarClick
             })
 
             ,showInfoPanel: new Ext.Action({
-                glyph: 0xf129
-                ,enableToggle: true
-                ,pressed: true
+                text: L.Details
+                ,iconCls: 'fa fa-info'
+                // ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onShowInfoPanelClick
             })
@@ -147,14 +163,16 @@ Ext.define('CB.object.edit.View', {
             ,permalink: new Ext.Action({
                 text: L.Permalink
                 ,itemId: 'permalink'
+                ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onPermalinkClick
             })
 
             ,popout: new Ext.Action({
-                glyph: 0xf08e
+                iconCls: 'fa fa-external-link'
                 ,itemId: 'popout'
                 ,scope: this
+                ,scale: 'medium'
                 ,hidden: (App.popOutEdit === true)
                 ,handler: this.onPopOutClick
             })
@@ -162,7 +180,7 @@ Ext.define('CB.object.edit.View', {
             ,notifyOn: new Ext.Action({
                 text: L.NotifyOn
                 ,hidden: true
-                ,glyph: 0xf0f3
+                ,iconCls: 'fa fa-bell'
                 ,itemId: 'notifyOn'
                 ,scope: this
                 ,handler: this.onSubscriptionButtonClick
@@ -171,7 +189,7 @@ Ext.define('CB.object.edit.View', {
             ,notifyOff: new Ext.Action({
                 text: L.NotifyOff
                 ,hidden: true
-                ,glyph: 0xf1f6
+                ,iconCls: 'fa fa-bell-slash'
                 ,itemId: 'notifyOff'
                 ,scope: this
                 ,handler: this.onSubscriptionButtonClick
@@ -186,46 +204,49 @@ Ext.define('CB.object.edit.View', {
     ,getToolbarButtons: function() {
         if(this.templateType == 'time_tracking') {
             return [
-                this.actions.edit
+                this.actions.back
+                ,this.actions.edit
                 ,this.actions.save
-                ,this.actions.cancel
-                ,'->'
                 ,new Ext.Button({
-                    qtip: L.More
+                    text: L.More + ' &hellip;'
                     ,itemId: 'more'
                     ,arrowVisible: false
-                    ,glyph: 0xf142
+                    ,scale: 'medium'
                     ,menu: [
                         this.actions['delete']
                     ]
                 })
+                ,'->'
+                ,this.actions.close
             ];
         }
 
         return [
-            this.actions.edit
+            this.actions.back
+            ,this.actions.edit
             ,this.actions.save
-            ,this.actions.cancel
-            ,'->'
-            ,this.actions.star
-            ,this.actions.unstar
-            ,this.actions.refresh
-            ,this.actions.popout
+            // ,this.actions.star
+            // ,this.actions.unstar
             ,new Ext.Button({
-                qtip: L.More
+                text: L.More  + ' &hellip;'
                 ,itemId: 'more'
                 ,arrowVisible: false
-                ,glyph: 0xf142
+                ,scale: 'medium'
                 ,menu: [
-                    this.actions['delete']
-                    ,this.actions.rename
+                    this.actions.refresh
                     ,this.actions.permalink
+                    ,'-'
+                    ,this.actions['delete']
+                    ,this.actions.rename
+                    ,this.actions.showInfoPanel
                     ,'-'
                     ,this.actions.notifyOn
                     ,this.actions.notifyOff
                 ]
             })
-            ,this.actions.showInfoPanel
+            ,'->'
+            ,this.actions.popout
+            ,this.actions.close
         ];
     }
 
@@ -238,6 +259,7 @@ Ext.define('CB.object.edit.View', {
             xtype: 'panel'
             ,border: false
             ,autoHeight: true
+            ,padding: 10
             ,items: []
         });
 
@@ -258,6 +280,7 @@ Ext.define('CB.object.edit.View', {
         this.gridContainer = Ext.create('CB.object.plugin.ObjectProperties', {
             border: false
             ,autoHeight: true
+            ,padding: 20
             ,items: []
         });
 
@@ -666,7 +689,7 @@ Ext.define('CB.object.edit.View', {
             this.grid.templateStore.each(
                 function(r) {
                     var config = r.get('cfg');
-                    if(config.editMode === 'standalone') {
+                    if(config.placement === 'below') {
                         var cfg = {
                             border: false
                             ,isTemplateField: true
@@ -751,15 +774,11 @@ Ext.define('CB.object.edit.View', {
         if(this.viewMode === 'preview') {
             this.actions.edit.show();
             this.actions.save.hide();
-            // this.actions.cancel.hide();
 
             this.actions.rename.show();
         } else {
             this.actions.edit.hide();
             this.actions.save.show();
-            // this.actions.save.setDisabled(!this._isDirty);
-            // this.actions.cancel.show();
-
             this.actions.rename.hide();
         }
 
@@ -1029,7 +1048,7 @@ Ext.define('CB.object.edit.View', {
         var ip = this.queryById('infoPanel');
 
         if(ip) {
-            ip.setVisible(b.pressed);
+            ip.setVisible(!ip.isVisible());
         }
     }
 
@@ -1253,7 +1272,6 @@ Ext.define('CB.object.edit.View', {
                 id: ld.id
                 ,name: ld.name
                 ,iconCls: ld.iconCls
-                ,glyph: ld.glyph
                 ,path: '/' + ld.pids + '/' + ld.id
                 ,pathText: ld.path
             };

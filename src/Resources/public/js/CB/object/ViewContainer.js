@@ -101,7 +101,7 @@ Ext.define('CB.object.ViewContainer', {
         this.actions = {
 
             edit: new Ext.Action({
-                glyph: 0xf040
+                iconCls: 'fa fa-pencil'
                 ,itemId: 'edit'
                 ,text: L.Edit
                 ,disabled: true
@@ -113,7 +113,7 @@ Ext.define('CB.object.ViewContainer', {
             ,download: new Ext.Action({
                 text: L.Download
                 ,itemId: 'download'
-                ,glyph: 0xf019
+                ,iconCls: 'fa fa-download'
                 ,hidden: true
                 ,scale: 'medium'
                 ,scope: this
@@ -121,7 +121,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,fitImage: new Ext.Action({
-                glyph: 0xf0b2
+                iconCls: 'fa fa-arrows-alt'
                 ,itemId: 'fitImage'
                 ,hidden: true
                 ,enableToggle: true
@@ -132,7 +132,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,completeTask: new Ext.Action({
-                glyph: 0xf00c
+                iconCls: 'fa fa-check'
                 ,itemId: 'completetask'
                 ,text: L.Done
                 ,hidden: true
@@ -142,7 +142,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,preview: new Ext.Action({
-                glyph: 0xf06e
+                iconCls: 'fa fa-eye'
                 ,itemId: 'preview'
                 ,enableToggle: true
                 ,qtip: L.Preview
@@ -153,7 +153,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,openExternal: new Ext.Action({
-                glyph: 0xf08e
+                iconCls: 'fa fa-external-link'
                 ,itemId: 'openExternal'
                 ,scale: 'medium'
                 ,hidden: true
@@ -162,7 +162,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,close: new Ext.Action({
-                glyph: 0xf00d
+                iconCls: 'fa fa-close'
                 ,itemId: 'close'
                 ,scale: 'medium'
                 ,scope: this
@@ -170,7 +170,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,star: new Ext.Action({
-                glyph: 0xf005
+                iconCls: 'fa fa-star'
                 ,qtip: L.Star
                 ,itemId: 'star'
                 ,scale: 'medium'
@@ -180,7 +180,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,unstar: new Ext.Action({
-                glyph: 0xf006
+                iconCls: 'fa fa-star-o'
                 ,qtip: L.Unstar
                 ,itemId: 'unstar'
                 ,scale: 'medium'
@@ -191,7 +191,7 @@ Ext.define('CB.object.ViewContainer', {
 
             ,notifyOn: new Ext.Action({
                 text: L.NotifyOn
-                ,glyph: 0xf0f3
+                ,iconCls: 'fa fa-bell'
                 ,itemId: 'notifyOn'
                 ,scope: this
                 ,handler: this.onSubscriptionButtonClick
@@ -199,7 +199,7 @@ Ext.define('CB.object.ViewContainer', {
 
             ,notifyOff: new Ext.Action({
                 text: L.NotifyOff
-                ,glyph: 0xf1f6
+                ,iconCls: 'fa fa-bell-slash'
                 ,itemId: 'notifyOff'
                 ,scope: this
                 ,handler: this.onSubscriptionButtonClick
@@ -217,7 +217,7 @@ Ext.define('CB.object.ViewContainer', {
         //define button configs
         this.menuItemConfigs = {
             reload: {
-                glyph: 0xf021
+                iconCls: 'fa fa-refresh'
                 ,itemId: 'reload'
                 ,text: L.Refresh
                 ,scope: this
@@ -225,7 +225,7 @@ Ext.define('CB.object.ViewContainer', {
             }
 
             ,completetask: {
-                glyph: 0xf00c
+                iconCls: 'fa fa-check'
                 ,itemId: 'completetask'
                 ,scale: 'medium'
                 ,text: L.Done
@@ -309,7 +309,7 @@ Ext.define('CB.object.ViewContainer', {
             ,new Ext.Button({
                 itemId: 'more'
                 ,arrowVisible: false
-                ,glyph: 0xf142
+                ,iconCls: 'fa fa-ellipsis-v'
                 ,scale: 'medium'
                 ,menu: []
             })
@@ -394,6 +394,7 @@ Ext.define('CB.object.ViewContainer', {
         var el = this.getLayout().activeItem.getEl();
 
         if(!el || !el.isVisible(true)) {
+            this.clear();
             this.lastLoadData = objectData;
             return;
         }
@@ -1114,7 +1115,7 @@ Ext.define('CB.object.ViewContainer', {
             ,d = {
                 id: ld.id
                 ,name: ld.name
-                ,glyph: ld.glyph
+                ,iconCls: ld.iconCls
                 ,path: '/' + ld.pids + '/' + ld.id
                 ,pathText: ld.path
             };

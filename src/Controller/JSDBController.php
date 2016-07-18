@@ -81,6 +81,13 @@ class JSDBController extends Controller
 
         $data['templatesIconSet'] = Util\jsonEncode($ti);
 
+        $fc = $configService->get('facet_configs');
+        $fcn = [[null, '']];
+        foreach ($fc as $k => $v) {
+            $fcn[] = [$k, $k];
+        }
+        $data['facetConfigNames'] = Util\jsonEncode($fcn);
+
         /* languages */
         $coreLanguage = $configService->get('language');
         $coreLanguages = $configService->get('languagesUI');

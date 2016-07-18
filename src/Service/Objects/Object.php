@@ -269,7 +269,6 @@ class Object
                 if (empty($rez[$fieldName])) {
                     if (isset($p[$fieldName])) {
                         $rez[$fieldName] = $p[$fieldName];
-
                     } elseif (!empty($p['data'][$fieldName])) {
                         $rez[$fieldName] = $p['data'][$fieldName];
                     }
@@ -350,7 +349,6 @@ class Object
                     }
                 }
             }
-
         }
 
         $sd['wu'] = array_unique($sd['wu']);
@@ -512,7 +510,6 @@ class Object
                     'mentioned' => $this->lastMentionedUserIds,
                 ]
             );
-
         } else {
             $this->logAction(
                 'update',
@@ -733,7 +730,6 @@ class Object
                     if (!empty($values[0]['value'])) {
                         $rez[$sfn] = $values[0]['value'];
                     }
-
                 } elseif (!empty($f['cfg']['faceting']) || //backward compatible check
                     !empty($f['cfg']['indexed'])
                 ) {
@@ -773,7 +769,6 @@ class Object
                                 } else {
                                     $finalValue[] = $value;
                                 }
-
                             }
                         }
 
@@ -790,7 +785,6 @@ class Object
                         )."\n";
                     }
                 }
-
             }
 
             if (!empty($children)) {
@@ -870,7 +864,7 @@ class Object
     /**
      * Prepare a given value for solr according to its type
      *
-     * @param string $type  (checkbox,combo,date,datetime,float,html,int,memo,_objects,text,time,timeunits,string)
+     * @param string $type  (combo,date,datetime,float,html,int,_objects,text,time,string)
      * @param string $value
      *
      * @return string
@@ -917,7 +911,6 @@ class Object
             case 'combo':
             case 'int':
             case '_objects':
-
                 $arr = Util\toNumericArray($value);
                 $value = [];
 
@@ -932,7 +925,6 @@ class Object
 
                 if (empty($value)) {
                     $value = null;
-
                 } elseif (sizeof($value) == 1) {
                     // set just value if 1 element array
                     $value = array_shift($value);
@@ -942,7 +934,6 @@ class Object
             case 'html':
                 $value = strip_tags($value);
                 break;
-
         }
 
         return $value;
@@ -982,7 +973,6 @@ class Object
             }
 
             $rez = $values;
-
         } while (!empty($fields) && !empty($tf['type']) && ($tf['type'] == '_objects'));
 
         return $rez;
@@ -1281,7 +1271,6 @@ class Object
             } elseif ($a['idx'] > $b['idx']) {
                 return 1;
             }
-
         } elseif (!empty($this->template)) {
             $o1 = $this->template->getFieldOrder($a['name']);
             $o2 = $this->template->getFieldOrder($b['name']);
@@ -1359,7 +1348,6 @@ class Object
 
                 if ($templateField['type'] == 'H') {
                     $prevHeaderField = $templateField;
-
                 } else {
                     $headerField = (empty($headers[$fn]))
                         ? false
@@ -1595,7 +1583,6 @@ class Object
             if (!empty($r)) {
                 $pid = $r['pid'];
             }
-
         } else {
             /* pid security check */
             if (!Security::canWrite($pid)) {
@@ -1710,7 +1697,6 @@ class Object
             if (!empty($r)) {
                 $pid = $r['pid'];
             }
-
         } else {
             if (!Security::canWrite($pid)) {
                 return false;
@@ -1772,7 +1758,6 @@ class Object
         }
 
         foreach ($fieldsArray as $fn => $fv) {
-
             //if dont need to encode special chars then process only html fields
             if ($htmlEncode == false) {
                 $templateField = $template->getField($fn);
@@ -1788,7 +1773,6 @@ class Object
             if ($this->isFieldValue($fv)) {
                 if (is_string($fv)) {
                     $fieldsArray[$fn] = $this->filterFieldValue($fv, $purify, $htmlEncode);
-
                 } elseif (is_array($fv) && !empty($fv['value'])) {
                     $fieldsArray[$fn]['value'] = $this->filterFieldValue($fv['value'], $purify, $htmlEncode);
                     if (!empty($fv['childs'])) {
@@ -1799,7 +1783,6 @@ class Object
                 for ($i = 0; $i < sizeof($fv); $i++) {
                     if (is_string($fv[$i])) {
                         $fieldsArray[$fn][$i] = $this->filterFieldValue($fv[$i], $purify, $htmlEncode);
-
                     } elseif (is_array($fv[$i]) && !empty($fv[$i]['value'])) {
                         $fieldsArray[$fn][$i]['value'] = $this->filterFieldValue($fv[$i]['value'], $purify, $htmlEncode);
                         if (!empty($fv[$i]['childs'])) {
@@ -1864,7 +1847,7 @@ class Object
                 continue;
             }
 
-            if (@$tf['cfg']['editMode'] == 'standalone') {
+            if (@$tf['cfg']['placement'] == 'below') {
                 $group = 'bottom';
             } else {
                 $group = 'body';
@@ -2036,7 +2019,6 @@ class Object
 
             if (empty($params['new'])) {
                 $params['new'] = &$this;
-
             } else {
                 $obj = &$params['new'];
             }
@@ -2077,7 +2059,6 @@ class Object
 
         if (!empty($sysData['lastAction'])) {
             $rez = $sysData['lastAction'];
-
         } else {
             if (!empty($sysData['lastComment'])) {
                 $rez = [

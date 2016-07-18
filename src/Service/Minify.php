@@ -81,6 +81,8 @@ class Minify
                 'css/preview.css',
                 'css/activity-stream-view.css',
                 'css/charts.css',
+                'css/drop-down-list.css',
+                'css/triton-theme-overrides.css',
             ],
 
             'csspreview' => [
@@ -210,7 +212,6 @@ class Minify
                 'js/CB/widget/DataSorter.js',
                 'js/CB/widget/LeafletPanel.js',
                 'js/CB/widget/LeafletWindow.js',
-                'js/CB/widget/TaskBar.js',
                 'js/CB/widget/block/Base.js',
                 'js/CB/widget/block/Chart.js',
                 'js/CB/widget/block/Grid.js',

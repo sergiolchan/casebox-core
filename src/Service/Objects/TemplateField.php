@@ -46,47 +46,6 @@ class TemplateField extends Object
     }
 
     /**
-     * load template custom data
-     */
-    protected function loadCustomData()
-    {
-        parent::loadCustomData();
-
-        $r = DM\Objects::read($this->id);
-
-        if (!empty($r)) {
-            $oldCfg = @$r['data']['cfg'];
-            $r['data']['cfg'] = Util\toJSONArray($oldCfg);
-            $r['data'] = DM\TemplatesStructure::replaceBackwardCompatibleFieldOptions($r['data']);
-
-            // if no changes made then assign old cfg value
-            if (Util\toJSONArray($oldCfg) == $r['data']['cfg']) {
-                $r['data']['cfg'] = $oldCfg;
-            } else { // encoding json reformats the string
-                $r['data']['cfg'] = Util\jsonEncode($r['data']['cfg']);
-            }
-        } else {
-            //read from templates_structure if object not present in tree
-            // for backward compatibility
-            $r = DM\TemplatesStructure::read($this->id);
-        }
-
-        if (!empty($r)) {
-            if (isset($r['cfg'])) {
-                $r['cfg'] = Util\toJSONArray($r['cfg']);
-            }
-            $r['title'] = Util\detectTitle($r['data']);
-
-            $this->data = array_merge($this->data, $r);
-        } else {
-            Cache::get('symfony.container')->get('logger')->error(
-                'Template field load error: no field found with id = ' . $this->id
-            );
-            // throw new \Exception("Template field load error: no field found with id = ".$this->id);
-        }
-    }
-
-    /**
      * update objects custom data
      * @return boolean
      */
@@ -115,6 +74,9 @@ class TemplateField extends Object
     {
         $rez = parent::collectModelData();
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        $languages = $configService->get('languages');
+
         $ld = $this->getAssocLinearData();
 
         if (!empty($ld['type'][0]['value'])) {
@@ -134,8 +96,14 @@ class TemplateField extends Object
             ? []
             : Util\toJSONArray($rez['cfg']);
 
-        if (!empty($ld['cfg'][0]['value'])) {
-            $cfg = array_merge($cfg, Util\toJSONArray($ld['cfg'][0]['value']));
+        if (!empty($ld['hint'][0]['value'])) {
+            $cfg['hint'] = $ld['hint'][0]['value'];
+        }
+
+        foreach ($languages as $l) {
+            if (!empty($ld['hint_' . $l][0]['value'])) {
+                $cfg['hint_' . $l] = $ld['hint_' . $l][0]['value'];
+            }
         }
 
         if (!empty($ld['readOnly'][0]['value'])) {
@@ -240,20 +208,37 @@ class TemplateField extends Object
             $cfg['decimalPrecision'] = $ld['floatPrecision'][0]['value'];
         }
 
-        if (!empty($ld['memoHeight'][0]['value'])) {
-            $cfg['height'] = $ld['memoHeight'][0]['value'];
-        }
-
-        if (!empty($ld['memoLength'][0]['value'])) {
-            $cfg['maxLength'] = $ld['memoLength'][0]['value'];
-        }
-
-        if (!empty($ld['memoMentionUsers'][0]['value'])) {
+        if (!empty($ld['memoMentionUsers'][0]['value'])) {//obsolete, manual "plugins" config should be used
             $cfg['mentionUsers'] = ($ld['memoMentionUsers'][0]['value'] == 1);
         }
 
         if (!empty($ld['textEditor'][0]['value'])) {
             $cfg['editor'] = $ld['textEditor'][0]['value'];
+        }
+
+        $editorOptions = [];
+        if (!empty($ld['editorMode'][0]['value'])) {
+            $editorOptions['mode'] = 'ace/mode/' . $ld['editorMode'][0]['value'];
+        }
+        if (!empty($ld['editorTheme'][0]['value'])) {
+            $editorOptions['theme'] = 'ace/theme/' . $ld['editorTheme'][0]['value'];
+        }
+        if (!empty($ld['editorKeyBinding'][0]['value'])) {
+            $editorOptions['keyboardHandler'] = 'ace/keyboard/' . $ld['editorKeyBinding'][0]['value'];
+        }
+        if (!empty($ld['editorFontSize'][0]['value'])) {
+            $editorOptions['fontSize'] = $ld['editorFontSize'][0]['value'];
+        }
+        if (!empty($editorOptions)) {
+            $cfg['editorOptions'] = $editorOptions;
+        }
+
+        if (!empty($ld['editorHeight'][0]['value'])) {
+            $cfg['height'] = $ld['editorHeight'][0]['value'];
+        }
+
+        if (!empty($ld['maxLength'][0]['value'])) {
+            $cfg['maxLength'] = $ld['maxLength'][0]['value'];
         }
 
         if (!empty($ld['geoPointEditor'][0]['value'])) {
@@ -281,12 +266,16 @@ class TemplateField extends Object
             $cfg['defaultLocation'] = $defaultLocation;
         }
 
-        if (!empty($ld['editMode'][0]['value'])) {
-            $cfg['editMode'] = $ld['editMode'][0]['value'];
+        if (!empty($ld['placement'][0]['value'])) {
+            $cfg['placement'] = $ld['placement'][0]['value'];
         }
 
         if (!empty($ld['validator'][0]['value'])) {
             $cfg['validator'] = $ld['validator'][0]['value'];
+        }
+
+        if (!empty($ld['cfg'][0]['value'])) {
+            $cfg = array_merge($cfg, Util\toJSONArray($ld['cfg'][0]['value']));
         }
 
         $rez['cfg'] = Util\jsonEncode($cfg);

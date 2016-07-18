@@ -1,9 +1,9 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Plugins;
 
 use Casebox\CoreBundle\Service\Cache;
-use \Casebox\CoreBundle\Service\Browser;
+use Casebox\CoreBundle\Service\DataModel as DM;
+use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Util;
 
 /**
@@ -14,7 +14,7 @@ class SystemFolders
     /**
      * Create system folders specified in created objects template config as system_folders property
      *
-     * @param  object $o
+     * @param object $o
      *
      * @return void
      */
@@ -23,9 +23,9 @@ class SystemFolders
         if (!is_object($o)) {
             return;
         }
-        
+
         $template = $o->getTemplate();
-        
+
         if (empty($template)) {
             return;
         }
@@ -41,31 +41,40 @@ class SystemFolders
             return;
         }
 
-        $p = [
-            'sourceIds' => [],
-            'targetId' => $o->getData()['id'],
-        ];
-
-        $browserActionsClass = new Browser\Actions();
-
         $dbs = Cache::get('casebox_dbs');
+
+        $ownerId = User::getId();
+        $pid = $o->getData()['id'];
+        $copyIds = [];
 
         $res = $dbs->query(
             'SELECT id
              FROM tree
              WHERE pid in ('.implode(',', $folderIds).') AND dstatus = 0'
         );
-        
+
         while ($r = $res->fetch()) {
-            $p['sourceIds'][] = $r['id'];
+            $copyIds[] = ['id' => $r['id'], 'pid' => $pid];
         }
-        
+
         unset($res);
 
-        // $browserActionsClass->copy($p);
+        while (!empty($copyIds)) {
+            $r = array_shift($copyIds);
+            $newId = DM\Tree::copy($r['id'], $r['pid'], $ownerId);
+            DM\Objects::copy($r['id'], $newId);
 
-        $browserActionsClass->objectsClass = new \Casebox\CoreBundle\Service\Objects();
-
-        $browserActionsClass->doRecursiveAction('copy', $p['sourceIds'], $p['targetId']);
+            //collect children of copied element and add them to the end
+            $res = $dbs->query(
+                'SELECT id
+                FROM tree
+                WHERE pid = $1 AND dstatus = 0',
+                $r['id']
+            );
+            while ($r = $res->fetch()) {
+                $copyIds[] = ['id' => $r['id'], 'pid' => $newId];
+            }
+            unset($res);
+        }
     }
 }

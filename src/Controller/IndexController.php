@@ -192,7 +192,7 @@ class IndexController extends Controller
 
         return $this->render('CaseboxCoreBundle::edit.html.twig', $vars);
     }
-    
+
     /**
      * @Route("/c/{coreName}/view/{id}/", name="app_core_file_view", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
@@ -232,7 +232,6 @@ class IndexController extends Controller
                 if (is_array($preview)) {
                     if (!empty($preview['processing'])) {
                         $result .= '&#160';
-
                     } else {
                         $top = '';
                         if (!empty($top)) {
@@ -254,7 +253,7 @@ class IndexController extends Controller
                         }
                     }
                 }
-            break;
+                break;
 
             default:
                 $preview = array();

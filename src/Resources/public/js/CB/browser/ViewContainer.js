@@ -6,7 +6,7 @@ Ext.define('CB.browser.ViewContainer', {
     ,xtype: 'CBBrowserViewContainer'
 
     ,title: 'Browser'
-    ,glyph: 0xf07b
+    ,iconCls: 'fa fa-folder'
     ,closable: true
     ,border: false
     ,layout:'card'
@@ -31,13 +31,15 @@ Ext.define('CB.browser.ViewContainer', {
             edit: new Ext.Action({
                 text: L.Edit
                 ,tooltip: L.Edit
+                ,iconCls: 'fa fa-pencil'
                 ,itemId: 'edit'
+                ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onEditClick
             })
 
             ,reload: new Ext.Action({
-                glyph: 0xf021
+                iconCls: 'fa fa-refresh'
                 ,itemId: 'reload'
                 ,scale: 'medium'
                 ,tooltip: L.Reload
@@ -46,7 +48,7 @@ Ext.define('CB.browser.ViewContainer', {
             })
 
             ,contextReload: new Ext.Action({
-                glyph: 0xf021
+                iconCls: 'fa fa-refresh'
                 ,text: L.Reload
                 ,scope: this
                 ,handler: this.onReloadClick
@@ -57,7 +59,7 @@ Ext.define('CB.browser.ViewContainer', {
                 ,tooltip: L.Upload
                 ,itemId: 'upload'
                 ,scale: 'medium'
-                ,glyph: 0xf093
+                ,iconCls: 'fa fa-upload'
                 ,scope: this
                 ,handler: this.onUploadClick
             })
@@ -67,7 +69,7 @@ Ext.define('CB.browser.ViewContainer', {
                 ,tooltip: L.Download
                 ,itemId: 'download'
                 ,scale: 'medium'
-                ,glyph: 0xf019
+                ,iconCls: 'fa fa-download'
                 ,hidden: true
                 ,disabled: true
                 ,hideParent: false
@@ -118,7 +120,7 @@ Ext.define('CB.browser.ViewContainer', {
                 text: L.Delete
                 ,tooltip: L.Delete
                 ,itemId: 'delete'
-                ,glyph: 0xf1f8
+                ,iconCls: 'fa fa-trash'
                 ,scale: 'medium'
                 ,hidden: true
                 ,disabled: true
@@ -129,27 +131,27 @@ Ext.define('CB.browser.ViewContainer', {
 
             ,contextRename: new Ext.Action({
                 text: L.Rename
-                ,glyph: 0xf246
+                ,iconCls: 'fa fa-i-cursor'
                 ,scope: this
                 ,handler: this.onRenameClick
             })
 
             ,contextExport: new Ext.Action({
-                glyph: 0xf0ce
+                iconCls: 'fa fa-table'
                 ,text: L.Export
                 ,scope: this
                 ,handler: this.onExportClick
             })
 
             ,star: new Ext.Action({
-                glyph: 0xf005
+                iconCls: 'fa fa-star'
                 ,text: L.Star
                 ,scope: this
                 ,handler: this.onStarClick
             })
 
             ,unstar: new Ext.Action({
-                glyph: 0xf006
+                iconCls: 'fa fa-star-o'
                 ,text: L.Unstar
                 ,scope: this
                 ,handler: this.onUnstarClick
@@ -158,7 +160,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,restore: new Ext.Action({
                 text: L.Restore
                 ,itemId: 'restore'
-                ,glyph: 0xf112
+                ,iconCls: 'fa fa-mail-reply'
                 ,scale: 'medium'
                 ,hidden: true
                 ,disabled: true
@@ -170,7 +172,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,permissions: new Ext.Action({
                 text: L.Permissions
                 ,itemId: 'permissions'
-                ,glyph: 0xf084
+                ,iconCls: 'fa fa-key'
                 ,scope: this
                 ,disabled: true
                 ,handler: this.onPermissionsClick
@@ -179,7 +181,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,preview: new Ext.Action({
                 itemId: 'preview'
                 ,scale: 'medium'
-                ,glyph: 0xf06e
+                ,iconCls: 'fa fa-eye'
                 ,scope: this
                 ,hidden: true
                 ,disabled: true
@@ -259,7 +261,7 @@ Ext.define('CB.browser.ViewContainer', {
                 qtip: L.Views
                 ,itemId: 'apps'
                 ,arrowVisible: false
-                ,glyph: 0xf00a
+                ,iconCls: 'fa fa-th'
                 ,scale: 'medium'
                 ,menu: []
             })
@@ -267,7 +269,7 @@ Ext.define('CB.browser.ViewContainer', {
                 qtip: L.New
                 ,text: L.New
                 ,itemId: 'create'
-                ,glyph: 0xf055
+                ,iconCls: 'fa fa-plus-circle'
                 ,disabled: true
                 ,scale: 'medium'
                 ,menu: [
@@ -278,8 +280,8 @@ Ext.define('CB.browser.ViewContainer', {
             ,new Ext.Button(this.actions.download)
             ,new Ext.Button({
                 text: L.Clipboard
-                ,itemId: 'edit'
-                ,glyph: 0xf0ea
+                ,itemId: 'clipboard'
+                ,iconCls: 'fa fa-clipboard'
                 ,scale: 'medium'
                 ,menu: [
                     this.actions.cut
@@ -290,12 +292,13 @@ Ext.define('CB.browser.ViewContainer', {
             })
             ,new Ext.Button(this.actions.preview)
             ,new Ext.Button(this.actions.restore)
+            ,new Ext.Button(this.actions.edit)
             ,new Ext.Button(this.actions['delete'])
             ,new Ext.Button({
                 qtip: L.More
                 ,itemId: 'more'
                 ,arrowVisible: false
-                ,glyph: 0xf142
+                ,iconCls: 'fa fa-ellipsis-v'
                 ,scale: 'medium'
                 ,menu: this.tbarMoreMenu
             })
@@ -477,7 +480,6 @@ Ext.define('CB.browser.ViewContainer', {
                         b.menu.add({
                             text: c.title
                             ,iconCls: c.iconCls
-                            ,glyph: c.glyph
                             ,scope: this
                             ,viewIndex: idx
                             ,handler: this.onCardItemChangeClick
@@ -742,6 +744,7 @@ Ext.define('CB.browser.ViewContainer', {
         this.fireEvent('activeviewchange', this, activeView);
         if (activeView == this.gridView) {
             this.reloadView();
+            this.objectPanel.onShowEvent();
         }
     }
 
@@ -1190,6 +1193,7 @@ Ext.define('CB.browser.ViewContainer', {
 
         if(Ext.isEmpty(selection)) {
             this.actions.edit.setDisabled(true);
+            this.actions.edit.hide();
             this.actions.cut.setDisabled(true);
             this.actions.copy.setDisabled(true);
 
@@ -1243,6 +1247,9 @@ Ext.define('CB.browser.ViewContainer', {
             } else {
                 this.actions.download.hide();
             }
+
+            this.actions.edit.setDisabled(false);
+            this.actions.edit.show();
 
             this.actions['delete'].setDisabled(inRecycleBin);
 
@@ -1527,7 +1534,6 @@ Ext.define('CB.browser.ViewContainer', {
                 ,system: selection[i].system
                 ,type: selection[i].type
                 ,iconCls: selection[i].iconCls
-                ,glyph: selection[i].glyph
             });
         }
 
@@ -1778,7 +1784,6 @@ Ext.define('CB.browser.ViewContainer', {
                 id: d.nid
                 ,name: d.name
                 ,iconCls: d.iconCls
-                ,glyph: d.glyph
                 ,pathText: this.folderProperties.pathtext
                 ,path: this.folderProperties.path + '/' + d.nid
             };
