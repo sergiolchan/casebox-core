@@ -18,22 +18,6 @@ Ext.define('CB.browser.view.grid.toolbar.Paging', {
         this.setCustomItems();
 
         me.callParent();
-
-        //move display info and spacer before custom buttons
-        // var i = me.items.last();
-        // me.items.remove(i);
-        // me.items.insert(5, i);
-
-        // i = me.items.last();
-        // me.items.remove(i);
-        // me.items.insert(6, i);
-
-
-        // enable bubble for event of export button
-        this.enableBubble('exportrecords');
-
-        // update columns combo on grid reconfiguration
-        // this.ownerCt.on('reconfigure', this.onGridReconfigure, this);
     }
 
     ,getCustomizedPaginItems: function() {
@@ -52,12 +36,4 @@ Ext.define('CB.browser.view.grid.toolbar.Paging', {
     ,setCustomItems: function() {
         var me = this;
     }
-
-    ,onGridReconfigure: function(grid, store, columns, oldStore, oldColumns, eOpts) {
-        clog('columns', arguments);
-    }
-
-    // ,onExportClick: function(b, e) {
-    //     this.fireEvent('exportrecords', this, e);
-    // }
 });

@@ -17,7 +17,8 @@ Ext.define('CB.VerticalSearchEditGrid', {
         this.callParent(arguments);
 
         Ext.apply(this, {
-            stateId: 'vseg'
+            hideHeaders: false
+            ,stateId: 'vseg'
         });
     }
 

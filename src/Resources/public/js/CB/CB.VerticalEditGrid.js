@@ -24,6 +24,7 @@ Ext.define('CB.VerticalEditGrid', {
             this.helperTree = new CB.VerticalEditGridHelperTree();
         }
 
+        this.initActions();
         this.initRenderers();
         this.initColumns();
 
@@ -98,6 +99,7 @@ Ext.define('CB.VerticalEditGrid', {
             ,columns: Ext.apply([], this.gridColumns) //leave default column definitions intact
             ,selType: 'cellmodel'
             ,header: false
+            ,hideHeaders: true
             ,listeners: {
                 scope: this
                 ,keypress:  function(e){
@@ -130,6 +132,28 @@ Ext.define('CB.VerticalEditGrid', {
         this.callParent(arguments);
     }
 
+    ,initActions: function () {
+        this.actions = {
+            duplicate: new Ext.Action({
+                text: L.addDuplicateField
+                ,itemId: 'duplicate'
+                ,scope: this
+                ,handler: this.onDuplicateFieldClick
+            })
+            ,removeDuplicate: new Ext.Action({
+                text: L.delDuplicateField
+                ,itemId: 'removeDuplicate'
+                ,scope: this
+                ,handler: this.onDeleteDuplicateFieldClick
+            })
+            ,manageField: new Ext.Action({
+                text: L.ManageField
+                ,itemId: 'manageField'
+                ,scope: this
+                ,handler: this.onManageFieldClick
+            })
+        };
+    }
     ,initRenderers: function () {
         this.renderers = {
             H: function(){ return '';}
@@ -368,20 +392,17 @@ Ext.define('CB.VerticalEditGrid', {
         if(!this.titlePopupMenu) {
             this.titlePopupMenu = new Ext.menu.Menu({
                 items: [
-                    {
-                        text: L.addDuplicateField
-                        ,scope: this
-                        ,handler: this.onDuplicateFieldClick
-                    },{
-                        text: L.delDuplicateField
-                        ,scope: this
-                        ,handler: this.onDeleteDuplicateFieldClick
-                    }
+                    this.actions.duplicate,
+                    this.actions.removeDuplicate,
+                    '-',
+                    this.actions.manageField
                 ]
             });
         }
-        this.titlePopupMenu.items.getAt(0).setDisabled(!this.helperTree.canDuplicate(r.get('id')));
-        this.titlePopupMenu.items.getAt(1).setDisabled(this.helperTree.isFirstDuplicate(r.get('id')));
+        var canDuplicate = this.helperTree.canDuplicate(r.get('id'));
+        this.actions.duplicate.setHidden(!canDuplicate);
+        this.actions.removeDuplicate.setHidden(!canDuplicate || !this.helperTree.isFirstDuplicate(r.get('id')));
+        this.titlePopupMenu.items.getAt(2).setHidden(!canDuplicate); //hide divider
         this.titlePopupMenu.showAt(e.getXY());
     }
 
@@ -741,8 +762,11 @@ Ext.define('CB.VerticalEditGrid', {
                 break;
 
             case e.ENTER:
-            case e.ESC:
                 this.editingPlugin.completeEdit();
+                break;
+
+            case e.ESC:
+                this.editingPlugin.cancelEdit();
                 break;
         }
 
@@ -893,6 +917,12 @@ Ext.define('CB.VerticalEditGrid', {
         this.fireEvent('restorescroll', this);
 
         this.fireEvent('change');
+    }
+
+    ,onManageFieldClick: function(b, e) {
+        var r = this.store.getAt(this.popupForRow)
+            ,n = this.helperTree.getNode(r.get('id'));
+        App.windowManager.openObjectWindowById(n.data.nid, {'view': 'edit'});
     }
 
     /**

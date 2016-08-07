@@ -101,7 +101,6 @@ class Template extends Object
             unset($r['pid']);
 
             $this->data = array_merge($this->data, $r);
-
         } else {
             throw new \Exception("Template load error: no template found with id = " . $this->id);
         }
@@ -292,7 +291,6 @@ class Template extends Object
 
             if (isset($value['value'])) {
                 $value = $value['value'];
-
             } else {
                 $value = null;
             }
@@ -418,10 +416,11 @@ class Template extends Object
                         break;
 
                     case 'templatesIconSet':
+                    case 'templatesIconCls':
                         $id = array_shift($ids);
                         if (!empty($id)) {
                             $value[] = $html
-                                ? '<span class="' . $id . '"></span> ' . $id
+                                ? '<span class="' . $id . '"> ' . $id . '</span>'
                                 : $id;
                         }
 
@@ -526,7 +525,6 @@ class Template extends Object
                         }
                         $value .= ':' . $s;
                     }
-
                 } else {
                     $date = \DateTime::createFromFormat($format, $value);
 

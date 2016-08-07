@@ -3213,6 +3213,47 @@
                 <source>Print</source>
                 <target>Print</target>
             </trans-unit>
+
+            <trans-unit id="5000">
+                <source>Location</source>
+                <target>Location</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>Config</source>
+                <target>Config</target>
+            </trans-unit>
+            <trans-unit id="5002">
+                <source>Versions</source>
+                <target>Versions</target>
+            </trans-unit>
+            <trans-unit id="5003">
+                <source>Manage</source>
+                <target>Manage</target>
+            </trans-unit>
+            <trans-unit id="5004">
+                <source>by</source>
+                <target>by</target>
+            </trans-unit>
+            <trans-unit id="5005">
+                <source>ManageField</source>
+                <target>Manage field</target>
+            </trans-unit>
+            <trans-unit id="5006">
+                <source>Back</source>
+                <target>Back</target>
+            </trans-unit>
+            <trans-unit id="5007">
+                <source>AutosizeHeaderColumn</source>
+                <target>Autosize header column</target>
+            </trans-unit>
+            <trans-unit id="5008">
+                <source>IncreaseHeaderColumnWidth</source>
+                <target>Increase header column width</target>
+            </trans-unit>
+            <trans-unit id="5009">
+                <source>DecreaseHeaderColumnWidth</source>
+                <target>Decrease header column width</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

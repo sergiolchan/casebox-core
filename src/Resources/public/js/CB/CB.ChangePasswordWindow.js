@@ -134,7 +134,6 @@ Ext.define('CB.ChangePasswordWindow', {
         this.callParent(arguments);
     }
     ,onSubmitSuccess: function(r, e){
-        clog('success', arguments);
         this.fireEvent('passwordchanged');
         this.destroy();
     }

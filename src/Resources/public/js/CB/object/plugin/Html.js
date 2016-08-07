@@ -51,7 +51,7 @@ Ext.define('CB.object.plugin.Html', {
 
             switch(action) {
                 case 'node-view':
-                    App.controller.openObjectWindowById(el.getAttribute('data-node-id'));
+                    App.windowManager.openObjectWindowById(el.getAttribute('data-node-id'));
                     break;
 
                 case 'select-path':

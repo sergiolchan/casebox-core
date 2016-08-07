@@ -33,8 +33,6 @@ Ext.define('CB.object.ViewContainer', {
                     ,this.BC.get('completetask')
                     ,'->'
                     ,this.BC.get('preview')
-                    ,this.BC.get('star')
-                    ,this.BC.get('unstar')
                     ,this.BC.get('more')
                     ,'-'
                     ,this.BC.get('openExternal')
@@ -89,8 +87,6 @@ Ext.define('CB.object.ViewContainer', {
         App.mainViewPort.on('objectsdeleted', this.onObjectsDeleted, this);
         App.on('objectchanged', this.onObjectChanged, this);
         App.on('objectsaction', this.onObjectsAction, this);
-
-        App.Favorites.on('change', this.onFavoritesChange, this);
     }
 
     /**
@@ -103,7 +99,7 @@ Ext.define('CB.object.ViewContainer', {
             edit: new Ext.Action({
                 iconCls: 'fa fa-pencil'
                 ,itemId: 'edit'
-                ,text: L.Edit
+                ,tooltip: L.Edit
                 ,disabled: true
                 ,scale: 'medium'
                 ,scope: this
@@ -111,7 +107,7 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,download: new Ext.Action({
-                text: L.Download
+                tooltip: L.Download
                 ,itemId: 'download'
                 ,iconCls: 'fa fa-download'
                 ,hidden: true
@@ -142,7 +138,8 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,preview: new Ext.Action({
-                iconCls: 'fa fa-eye'
+                tooltip: L.Preview
+                ,iconCls: 'fa fa-eye'
                 ,itemId: 'preview'
                 ,enableToggle: true
                 ,qtip: L.Preview
@@ -162,31 +159,12 @@ Ext.define('CB.object.ViewContainer', {
             })
 
             ,close: new Ext.Action({
-                iconCls: 'fa fa-close'
+                tooltip: L.Close
+                ,iconCls: 'fa fa-close'
                 ,itemId: 'close'
                 ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onCloseClick
-            })
-
-            ,star: new Ext.Action({
-                iconCls: 'fa fa-star'
-                ,qtip: L.Star
-                ,itemId: 'star'
-                ,scale: 'medium'
-                ,hidden: true
-                ,scope: this
-                ,handler: this.onStarClick
-            })
-
-            ,unstar: new Ext.Action({
-                iconCls: 'fa fa-star-o'
-                ,qtip: L.Unstar
-                ,itemId: 'unstar'
-                ,scale: 'medium'
-                ,hidden: true
-                ,scope: this
-                ,handler: this.onUnstarClick
             })
 
             ,notifyOn: new Ext.Action({
@@ -302,8 +280,6 @@ Ext.define('CB.object.ViewContainer', {
             ,new Ext.Button(this.actions.openExternal)
             ,new Ext.Button(this.actions.fitImage)
             ,new Ext.Button(this.actions.completeTask)
-            ,new Ext.Button(this.actions.star)
-            ,new Ext.Button(this.actions.unstar)
             ,new Ext.Button(this.actions.preview)
 
             ,new Ext.Button({
@@ -612,9 +588,6 @@ Ext.define('CB.object.ViewContainer', {
             ti.tbar['more'] = {};
         }
 
-        ti.tbar.star = {};
-        ti.tbar.unstar = {};
-
         var subscription = Ext.valueFrom(this.loadedData.subscription, 'ignore');
 
         this.actions.notifyOn.setHidden(subscription === 'watch');
@@ -638,9 +611,6 @@ Ext.define('CB.object.ViewContainer', {
             ,this
         );
 
-        this.onFavoritesChange();
-
-        this.updateCreateMenu();
     }
 
     /**
@@ -1107,32 +1077,6 @@ Ext.define('CB.object.ViewContainer', {
     ,processSetOwnership: function(r, e) {
         if(r && r.success) {
             App.fireEvent('objectchanged', this.loadedData, this);
-        }
-    }
-
-    ,onStarClick: function(b, e) {
-        var ld = this.loadedData
-            ,d = {
-                id: ld.id
-                ,name: ld.name
-                ,iconCls: ld.iconCls
-                ,path: '/' + ld.pids + '/' + ld.id
-                ,pathText: ld.path
-            };
-
-        App.Favorites.setStarred(d);
-    }
-
-    ,onUnstarClick: function(b, e) {
-        App.Favorites.setUnstarred(this.loadedData.id);
-    }
-
-    ,onFavoritesChange: function() {
-        if(this.loadedData) {
-            var isStarred = App.Favorites.isStarred(this.loadedData.id);
-
-            this.actions.star.setHidden(isStarred);
-            this.actions.unstar.setHidden(!isStarred);
         }
     }
 }

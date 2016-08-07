@@ -40,7 +40,6 @@ Ext.define('CB.object.edit.View', {
                 scope: this
                 ,'change': this.onChange
                 ,'afterrender': this.onAfterRender
-                // ,'beforeclose': this.onBeforeClose
 
                 ,'openpreview': this.onOpenPreviewEvent
                 ,'openproperties': this.onOpenPreviewEvent
@@ -60,13 +59,10 @@ Ext.define('CB.object.edit.View', {
         this.callParent(arguments);
 
         Ext.Direct.on('exception', this.onAppException, this);
-
-        App.Favorites.on('change', this.onFavoritesChange, this);
     }
 
     ,onBeforeDestroy: function() {
         Ext.Direct.un('exception', this.onAppException, this);
-        App.Favorites.un('change', this.onFavoritesChange, this);
     }
 
     /**
@@ -76,7 +72,7 @@ Ext.define('CB.object.edit.View', {
     ,initActions: function() {
         this.actions = {
             edit: new Ext.Action({
-                text: L.Edit
+                tooltip: L.Edit
                 ,iconCls: 'fa fa-pencil'
                 ,scale: 'medium'
                 ,hidden: true
@@ -85,7 +81,7 @@ Ext.define('CB.object.edit.View', {
             })
 
             ,save: new Ext.Action({
-                text: L.Save
+                tootip: L.Save
                 ,iconCls: 'fa fa-check'
                 ,scale: 'medium'
                 ,hidden: true
@@ -94,8 +90,8 @@ Ext.define('CB.object.edit.View', {
             })
 
             ,back: new Ext.Action({
-                iconCls: 'fa  fa-reply'
-                ,tooltip: L.Back
+                tooltip: L.Back
+                ,iconCls: 'fa  fa-reply'
                 ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onCancelClick
@@ -132,30 +128,10 @@ Ext.define('CB.object.edit.View', {
                 ,handler: this.onRenameClick
             })
 
-            ,star: new Ext.Action({
-                iconCls: 'fa fa-star'
-                ,qtip: L.Star
-                ,itemId: 'star'
-                // ,scale: 'medium'
-                ,hidden: true
-                ,scope: this
-                ,handler: this.onStarClick
-            })
-
-            ,unstar: new Ext.Action({
-                iconCls: 'fa fa-star-o'
-                ,qtip: L.Unstar
-                ,itemId: 'unstar'
-                // ,scale: 'medium'
-                ,hidden: true
-                ,scope: this
-                ,handler: this.onUnstarClick
-            })
-
             ,showInfoPanel: new Ext.Action({
-                text: L.Details
+                tooltip: L.Details
                 ,iconCls: 'fa fa-info'
-                // ,scale: 'medium'
+                ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onShowInfoPanelClick
             })
@@ -175,6 +151,32 @@ Ext.define('CB.object.edit.View', {
                 ,scale: 'medium'
                 ,hidden: (App.popOutEdit === true)
                 ,handler: this.onPopOutClick
+            })
+
+            ,autosizeHeaderWidth: new Ext.Action({
+                text: L.AutosizeHeaderColumn
+                ,iconCls: 'fa fa-arrows-h'
+                ,itemId: 'autosizeH'
+                ,scope: this
+                ,handler: this.onAutosizeHeaderButtonClick
+            })
+
+            ,increaseHeaderWidth: new Ext.Action({
+                text: L.IncreaseHeaderColumnWidth
+                ,iconCls: 'fa fa-long-arrow-right'
+                ,itemId: 'increaseH'
+                ,hideOnClick: false
+                ,scope: this
+                ,handler: this.onIncreaseHeaderWidthButtonClick
+            })
+
+            ,decreaseHeaderWidth: new Ext.Action({
+                text: L.DecreaseHeaderColumnWidth
+                ,iconCls: 'fa fa-long-arrow-left'
+                ,itemId: 'decreaseH'
+                ,hideOnClick: false
+                ,scope: this
+                ,handler: this.onDecreaseHeaderWidthButtonClick
             })
 
             ,notifyOn: new Ext.Action({
@@ -202,6 +204,8 @@ Ext.define('CB.object.edit.View', {
      * @return array
      */
     ,getToolbarButtons: function() {
+        this.menuHeaderResizeSeparator = new Ext.menu.Separator();
+
         if(this.templateType == 'time_tracking') {
             return [
                 this.actions.back
@@ -214,6 +218,11 @@ Ext.define('CB.object.edit.View', {
                     ,scale: 'medium'
                     ,menu: [
                         this.actions['delete']
+
+                        ,this.menuHeaderResizeSeparator
+                        ,this.actions.autosizeHeaderWidth
+                        ,this.actions.increaseHeaderWidth
+                        ,this.actions.decreaseHeaderWidth
                     ]
                 })
                 ,'->'
@@ -225,26 +234,31 @@ Ext.define('CB.object.edit.View', {
             this.actions.back
             ,this.actions.edit
             ,this.actions.save
-            // ,this.actions.star
-            // ,this.actions.unstar
             ,new Ext.Button({
                 text: L.More  + ' &hellip;'
                 ,itemId: 'more'
                 ,arrowVisible: false
                 ,scale: 'medium'
+                ,scope: this
+                ,handler: this.onMoreButtonClick
                 ,menu: [
                     this.actions.refresh
                     ,this.actions.permalink
                     ,'-'
                     ,this.actions['delete']
                     ,this.actions.rename
-                    ,this.actions.showInfoPanel
+
+                    ,this.menuHeaderResizeSeparator
+                    ,this.actions.autosizeHeaderWidth
+                    ,this.actions.increaseHeaderWidth
+                    ,this.actions.decreaseHeaderWidth
                     ,'-'
                     ,this.actions.notifyOn
                     ,this.actions.notifyOff
                 ]
             })
             ,'->'
+            ,this.actions.showInfoPanel
             ,this.actions.popout
             ,this.actions.close
         ];
@@ -255,13 +269,6 @@ Ext.define('CB.object.edit.View', {
      * @return void
      */
     ,initContainerItems: function() {
-        this.titleContainer = Ext.create({
-            xtype: 'panel'
-            ,border: false
-            ,autoHeight: true
-            ,padding: 10
-            ,items: []
-        });
 
         this.complexFieldContainer = Ext.create({
             xtype: 'form'
@@ -323,8 +330,7 @@ Ext.define('CB.object.edit.View', {
                     ,align: 'stretch'
                 }
                 ,items: [
-                    this.titleContainer
-                    ,this.gridContainer
+                    this.gridContainer
                     ,this.complexFieldContainer
                     ,{
                         itemId: 'infoPanel'
@@ -359,8 +365,7 @@ Ext.define('CB.object.edit.View', {
                     //     ,align: 'stretch'
                     // }
                     ,items: [
-                        this.titleContainer
-                        ,this.gridContainer
+                        this.gridContainer
                         ,this.complexFieldContainer
                     ]
                 }, {
@@ -460,11 +465,6 @@ Ext.define('CB.object.edit.View', {
 
         this.initContainerItems();
 
-        //create and add title view
-        this.titleView = new CB.object.TitleView();
-        this.titleContainer.add(this.titleView);
-        this.titleContainer.setVisible(this.templateType !== 'time_tracking');
-
         this.add(this.getLayoutItems());
 
         this.doLoad();
@@ -553,7 +553,7 @@ Ext.define('CB.object.edit.View', {
         this.data = Ext.apply(Ext.valueFrom(this.data, {}), objProperties);
         this.data.from = 'window';
 
-        this.titleView.update(this.data);
+        // this.titleView.update(this.data);
 
         delete r.data.objectProperties;
         delete r.data.thumb;
@@ -602,7 +602,7 @@ Ext.define('CB.object.edit.View', {
             this.data.data = {};
         }
 
-        this.titleView.update(this.data);
+        // this.titleView.update(this.data);
 
         r.data.from = 'window';
         this.pluginsContainer.loadedParams = r.data;
@@ -784,8 +784,6 @@ Ext.define('CB.object.edit.View', {
 
         this.actions['delete'].setDisabled(!Ext.isNumeric(this.data.id));
         this.actions.popout.setHidden(App.popOutEdit === true);
-
-        this.onFavoritesChange();
     }
 
     /**
@@ -833,6 +831,45 @@ Ext.define('CB.object.edit.View', {
         var subscription = Ext.valueFrom(commonParams.subscription, 'ignore');
         this.actions.notifyOn.setHidden(subscription === 'watch');
         this.actions.notifyOff.setHidden(subscription === 'ignore');
+    }
+
+    ,onMoreButtonClick: function(b, e) {
+        var gridVisible = !Ext.isEmpty(this.grid);
+
+        this.menuHeaderResizeSeparator.setHidden(!gridVisible);
+        this.actions.autosizeHeaderWidth.setHidden(!gridVisible);
+        this.actions.increaseHeaderWidth.setHidden(!gridVisible);
+        this.actions.decreaseHeaderWidth.setHidden(!gridVisible);
+    }
+
+    ,onAutosizeHeaderButtonClick: function(b, e) {
+        if(this.grid) {
+            var col = this.grid.headerCt.child('[dataIndex="title"]');
+
+            if(col) {
+                col.autoSize();
+            }
+        }
+    }
+
+    ,onIncreaseHeaderWidthButtonClick: function(b, e) {
+        if(this.grid) {
+            var col = this.grid.headerCt.child('[dataIndex="title"]');
+
+            if(col) {
+                col.setWidth(col.getWidth() + 10);
+            }
+        }
+    }
+
+    ,onDecreaseHeaderWidthButtonClick: function(b, e) {
+        if(this.grid) {
+            var col = this.grid.headerCt.child('[dataIndex="title"]');
+
+            if(col) {
+                col.setWidth(col.getWidth() - 10);
+            }
+        }
     }
 
     ,onSubscriptionButtonClick: function(b, e) {
@@ -1238,7 +1275,9 @@ Ext.define('CB.object.edit.View', {
                 ,callback: function(r, e) {
                     this.data.name = r.data.newName;
 
-                    this.titleView.update(this.data);
+                    if (this.titleView) {
+                        this.titleView.update(this.data);
+                    }
                 }
             };
 
@@ -1266,30 +1305,6 @@ Ext.define('CB.object.edit.View', {
         this.onClose();
     }
 
-    ,onStarClick: function(b, e) {
-        var ld = this.data
-            ,d = {
-                id: ld.id
-                ,name: ld.name
-                ,iconCls: ld.iconCls
-                ,path: '/' + ld.pids + '/' + ld.id
-                ,pathText: ld.path
-            };
-
-        App.Favorites.setStarred(d);
-    }
-
-    ,onUnstarClick: function(b, e) {
-        App.Favorites.setUnstarred(this.data.id);
-    }
-
-    ,onFavoritesChange: function() {
-        var isStarred = App.Favorites.isStarred(this.data.id);
-
-        this.actions.star.setHidden(isStarred);
-        this.actions.unstar.setHidden(!isStarred);
-    }
-
     ,onTimeSpentClick: function(cmp) {
         this.pluginsContainer.onTimeSpentClick(cmp);
     }
@@ -1300,8 +1315,9 @@ Ext.define('CB.object.edit.View', {
 
     ,getViewInfo: function() {
         return {
-            path: '-1'
-            ,pathtext: Ext.valueFrom(this.data.name, L.Edit)
+            // path: '-1'
+            // ,pathtext: Ext.valueFrom(this.data.name, L.Edit)
+            objectData: this.data
         };
     }
 

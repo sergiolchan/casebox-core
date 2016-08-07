@@ -16,11 +16,12 @@ Ext.define('CB.browser.ViewContainer', {
     }
 
     ,defaultToolbarItems: [
-        '->'
+        'more'
+        ,'filter'
+        ,'->'
         ,'reload'
         ,'apps'
         ,'-'
-        ,'more'
     ]
 
     ,initComponent: function(){
@@ -29,13 +30,30 @@ Ext.define('CB.browser.ViewContainer', {
 
         this.actions = {
             edit: new Ext.Action({
-                text: L.Edit
-                ,tooltip: L.Edit
+                tooltip: L.Edit
                 ,iconCls: 'fa fa-pencil'
                 ,itemId: 'edit'
                 ,scale: 'medium'
                 ,scope: this
                 ,handler: this.onEditClick
+            })
+
+            ,contextEdit: new Ext.Action({
+                text: L.Edit
+                ,tooltip: L.Edit
+                ,iconCls: 'fa fa-pencil'
+                ,itemId: 'contextEdit'
+                ,scope: this
+                ,handler: this.onEditClick
+            })
+
+            ,filter: new Ext.Action({
+                iconCls: 'fa fa-filter'
+                ,itemId: 'filter'
+                ,scale: 'medium'
+                ,tooltip: L.Filter
+                ,scope: this
+                ,handler: this.onFilterToggleClick
             })
 
             ,reload: new Ext.Action({
@@ -55,8 +73,7 @@ Ext.define('CB.browser.ViewContainer', {
             })
 
             ,upload: new Ext.Action({
-                text: L.Upload
-                ,tooltip: L.Upload
+                tooltip: L.Upload
                 ,itemId: 'upload'
                 ,scale: 'medium'
                 ,iconCls: 'fa fa-upload'
@@ -65,14 +82,24 @@ Ext.define('CB.browser.ViewContainer', {
             })
 
             ,download: new Ext.Action({
-                text: L.Download
-                ,tooltip: L.Download
+                tooltip: L.Download
                 ,itemId: 'download'
                 ,scale: 'medium'
                 ,iconCls: 'fa fa-download'
                 ,hidden: true
                 ,disabled: true
                 ,hideParent: false
+                ,scope: this
+                ,handler: this.onDownloadClick
+            })
+
+            ,contextDownload: new Ext.Action({
+                text: L.Download
+                ,tooltip: L.Download
+                ,itemId: 'contextDownload'
+                ,iconCls: 'fa fa-download'
+                ,hidden: true
+                ,disabled: true
                 ,scope: this
                 ,handler: this.onDownloadClick
             })
@@ -117,14 +144,24 @@ Ext.define('CB.browser.ViewContainer', {
             })
 
             ,'delete': new Ext.Action({
-                text: L.Delete
-                ,tooltip: L.Delete
+                tooltip: L.Delete
                 ,itemId: 'delete'
                 ,iconCls: 'fa fa-trash'
                 ,scale: 'medium'
                 ,hidden: true
                 ,disabled: true
                 ,hideParent: false
+                ,scope: this
+                ,handler: this.onDeleteClick
+            })
+
+            ,contextDelete: new Ext.Action({
+                text: L.Delete
+                ,tooltip: L.Delete
+                ,itemId: 'contextDelete'
+                ,iconCls: 'fa fa-trash'
+                ,hidden: true
+                ,disabled: true
                 ,scope: this
                 ,handler: this.onDeleteClick
             })
@@ -258,7 +295,7 @@ Ext.define('CB.browser.ViewContainer', {
 
         this.buttonCollection.addAll([
             new Ext.Button({
-                qtip: L.Views
+                tootip: L.Views
                 ,itemId: 'apps'
                 ,arrowVisible: false
                 ,iconCls: 'fa fa-th'
@@ -266,8 +303,7 @@ Ext.define('CB.browser.ViewContainer', {
                 ,menu: []
             })
             ,new Ext.Button({
-                qtip: L.New
-                ,text: L.New
+                tootip: L.New
                 ,itemId: 'create'
                 ,iconCls: 'fa fa-plus-circle'
                 ,disabled: true
@@ -275,11 +311,12 @@ Ext.define('CB.browser.ViewContainer', {
                 ,menu: [
                 ]
             })
+            ,new Ext.Button(this.actions.filter)
             ,new Ext.Button(this.actions.reload)
             ,new Ext.Button(this.actions.upload)
             ,new Ext.Button(this.actions.download)
             ,new Ext.Button({
-                text: L.Clipboard
+                tootip: L.Clipboard
                 ,itemId: 'clipboard'
                 ,iconCls: 'fa fa-clipboard'
                 ,scale: 'medium'
@@ -295,10 +332,10 @@ Ext.define('CB.browser.ViewContainer', {
             ,new Ext.Button(this.actions.edit)
             ,new Ext.Button(this.actions['delete'])
             ,new Ext.Button({
-                qtip: L.More
+                text: L.More + ' &hellip;'
                 ,itemId: 'more'
                 ,arrowVisible: false
-                ,iconCls: 'fa fa-ellipsis-v'
+                // ,iconCls: 'fa fa-ellipsis-v'
                 ,scale: 'medium'
                 ,menu: this.tbarMoreMenu
             })
@@ -633,6 +670,7 @@ Ext.define('CB.browser.ViewContainer', {
         if(buttonsArray === null) {
             buttonsArray = this.defaultToolbarItems;
         }
+
         //add more button
         if(buttonsArray.indexOf('more') < 0) {
             buttonsArray.push('more');
@@ -675,7 +713,6 @@ Ext.define('CB.browser.ViewContainer', {
         }
 
         this.updateToolbarButtons();
-        this.viewToolbar.hideInutilSeparators();
 
         //resume toolbar layout
         this.viewToolbar.suspendLayout = false;
@@ -750,6 +787,10 @@ Ext.define('CB.browser.ViewContainer', {
 
     ,onObjectViewCancelOrSaveEvent: function(cmp) {
         this.getLayout().setActiveItem(Ext.valueFrom(this.requestedView, this.gridView));
+    }
+
+    ,onFilterToggleClick: function(){
+        this.fireEvent('filtertoggle');
     }
 
     ,onReloadClick: function(){
@@ -986,9 +1027,7 @@ Ext.define('CB.browser.ViewContainer', {
             recs
             ,function(r){
                 var cfg = Ext.valueFrom(r.get('cfg'), {});
-                r.data.iconCls = Ext.isEmpty(cfg.iconCls)
-                    ? getItemIcon(r.data)
-                    : cfg.iconCls;
+                r.data.iconCls = getItemIcon(r.data);
             }
             ,this
         );
@@ -1035,6 +1074,10 @@ Ext.define('CB.browser.ViewContainer', {
         }
 
         if ((!Ext.isEmpty(params1.query) || !Ext.isEmpty(params2.query)) && (params1.query != params2.query)) {
+            return false;
+        }
+
+        if ((!Ext.isEmpty(params1.searchIn) || !Ext.isEmpty(params2.searchIn)) && (params1.searchIn != params2.searchIn)) {
             return false;
         }
 
@@ -1194,16 +1237,22 @@ Ext.define('CB.browser.ViewContainer', {
         if(Ext.isEmpty(selection)) {
             this.actions.edit.setDisabled(true);
             this.actions.edit.hide();
+            this.actions.contextEdit.setDisabled(true);
+            this.actions.contextEdit.hide();
             this.actions.cut.setDisabled(true);
             this.actions.copy.setDisabled(true);
 
             this.actions.download.setDisabled(true);
             this.actions.download.hide();
+            this.actions.contextDownload.setDisabled(true);
+            this.actions.contextDownload.hide();
             this.actions.contextPreview.setDisabled(true);
             this.actions.contextPreview.hide();
 
             this.actions['delete'].setDisabled(true);
             this.actions['delete'].hide();
+            this.actions.contextDelete.setDisabled(true);
+            this.actions.contextDelete.hide();
 
             this.actions.webdavlink.setDisabled(true);
             this.actions.webdavlink.hide();
@@ -1241,23 +1290,30 @@ Ext.define('CB.browser.ViewContainer', {
             }
 
             this.actions.download.setDisabled(!canDownload);
+            this.actions.contextDownload.setDisabled(!canDownload);
 
             if(canDownload) {
                 this.actions.download.show();
+                this.actions.contextDownload.show();
             } else {
                 this.actions.download.hide();
+                this.actions.contextDownload.hide();
             }
 
             this.actions.edit.setDisabled(false);
             this.actions.edit.show();
+            this.actions.contextEdit.setDisabled(false);
+            this.actions.contextEdit.show();
 
             this.actions['delete'].setDisabled(inRecycleBin);
+            this.actions.contextDelete.setDisabled(inRecycleBin);
 
             this.actions.webdavlink.setDisabled(firstObjType !== 'file');
             this.actions.webdavlink.setHidden(firstObjType !== 'file' || (firstFileEditor !== 'webdav'));
 
             if(!inRecycleBin && inGridView) {
                 this.actions['delete'].show();
+                this.actions.contextDelete.show();
             }
 
             this.actions.permissions.setDisabled(isNaN(firstObjId));
@@ -1662,9 +1718,9 @@ Ext.define('CB.browser.ViewContainer', {
 
             this.contextMenu = new Ext.menu.Menu({
                 items: [
-                    this.actions.edit
+                    this.actions.contextEdit
                     ,this.actions.contextPreview
-                    ,this.actions.download
+                    ,this.actions.contextDownload
                     ,'-'
                     ,this.actions.cut
                     ,this.actions.copy
@@ -1672,7 +1728,7 @@ Ext.define('CB.browser.ViewContainer', {
                     ,this.actions.pasteShortcut
                     ,'-'
                     ,this.actions.contextReload
-                    ,this.actions['delete']
+                    ,this.actions.contextDelete
                     ,this.actions.contextRename
                     ,this.actions.star
                     ,this.actions.unstar

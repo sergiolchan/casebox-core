@@ -191,6 +191,9 @@ Ext.define('CB.browser.view.Pivot',{
             ,[
                 'PVrowsCombo'
                 ,'PVcolsCombo'
+                ,'-'
+                ,'more'
+                ,'filter'
                 ,'->'
                 ,'PVStatsLabel'
                 ,'PVStatsButton'
@@ -201,8 +204,6 @@ Ext.define('CB.browser.view.Pivot',{
                 ,'-'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }

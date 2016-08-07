@@ -94,3 +94,109 @@ ul.clean li { list-style: none; margin: 0; padding: 0; display: block}
     max-width: 100%;
     max-height: 100%;
 }
+
+/* default icon color per file extensions */
+.icon-color-7z,
+.icon-color-ace,
+.icon-color-bz2,
+.icon-color-cab,
+.icon-color-rar,
+.icon-color-zip{
+    color: #FF9100;
+}
+.icon-color-wma,
+.icon-color-mpga,
+.icon-color-mp3,
+.icon-color-mp4a,
+.icon-color-oga,
+.icon-color-au{
+    color: #C33EBD;
+}
+.icon-color-css,
+.icon-color-html,
+.icon-color-java,
+.icon-color-js,
+.icon-color-json,
+.icon-color-tex,
+.icon-color-xhtml,
+.icon-color-xml{
+    color: #FFA500;
+}
+.icon-color-csv,
+.icon-color-xlsm,
+.icon-color-xlsx,
+.icon-color-xltx,
+.icon-color-ods,
+.icon-color-ots{
+    color: #40CAE1;
+}
+.icon-color-bmp,
+.icon-color-dwg,
+.icon-color-xif,
+.icon-color-gif,
+.icon-color-jpeg,
+.icon-color-jpg,
+.icon-color-jpe,
+.icon-color-odi,
+.icon-color-oti,
+.icon-color-png,
+.icon-color-psd,
+.icon-color-tif,
+.icon-color-tiff{
+    color: #517FA6;
+}
+.icon-color-pdf,
+.icon-color-djvu,
+.icon-color-epub{
+    color: #B02B2C;
+}
+.icon-color-pptx,
+.icon-color-ppsx,
+.icon-color-potx,
+.icon-color-ppt,
+.icon-color-ppam,
+.icon-color-pptm,
+.icon-color-ppsm,
+.icon-color-odc,
+.icon-color-otc,
+.icon-color-odp,
+.icon-color-otp{
+    color: #D24625;
+}
+.icon-color-texinfo,
+.icon-color-txt{
+    color: #000000;
+}
+.icon-color-3gp,
+.icon-color-3g2,
+.icon-color-avi,
+.icon-color-swf,
+.icon-color-f4v,
+.icon-color-m4v,
+.icon-color-wmv,
+.icon-color-mpeg,
+.icon-color-mp4,
+.icon-color-ogv,
+.icon-color-movie,
+.icon-color-vcd{
+    color: #42C0FB;
+}
+.icon-color-docm,
+.icon-color-dotm,
+.icon-color-docx,
+.icon-color-dotx,
+.icon-color-doc,
+.icon-color-wri,
+.icon-color-odt,
+.icon-color-odm,
+.icon-color-ott,
+.icon-color-rtf,
+.icon-color-rtx {
+    color: #286bcc
+}
+.icon-color-pdf {
+    color: #B02B2C
+}
+.icon-color-eml {
+    color: #FFA500
+}

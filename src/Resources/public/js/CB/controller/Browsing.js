@@ -19,6 +19,7 @@ Ext.define('CB.controller.Browsing', {
     ,onAppInit: function() {
         var vp = App.mainViewPort
             ,bc = vp.breadcrumb
+            ,tv = vp.titleView
             ,sf = vp.searchField
             ,tree = App.mainTree
             ,vc = App.explorer
@@ -35,6 +36,7 @@ Ext.define('CB.controller.Browsing', {
 
         //breadcumb
         this.breadcrumb = bc;
+        this.titleView = tv;
 
         //view container (VC)
         this.VC = vc;
@@ -174,7 +176,7 @@ Ext.define('CB.controller.Browsing', {
     ,onVCViewLoaded: function(viewContainer, view) {
         var info = view.getViewInfo();
 
-        this.updateBreadcrumbData(info.path, info.pathtext);
+        this.onVCActiveViewInfoUpdated(viewContainer, view);
 
         this.VC.updateCreateMenuItems(this.VP.buttons.create);
 
@@ -228,7 +230,15 @@ Ext.define('CB.controller.Browsing', {
     ,onVCActiveViewInfoUpdated: function(viewContainer, view) {
         var info = view.getViewInfo();
 
-        this.updateBreadcrumbData(info.path, info.pathtext);
+        if(info.objectData) {
+            this.breadcrumb.hide();
+            this.titleView.show();
+            this.titleView.update(info.objectData);
+        } else {
+            this.titleView.hide();
+            this.breadcrumb.show();
+            this.updateBreadcrumbData(info.path, info.pathtext);
+        }
     }
 
     //Notifications view methods
@@ -270,14 +280,14 @@ Ext.define('CB.controller.Browsing', {
 
 
     //Search field methods
-    ,onSFSearch: function(query, editor, event){
+    ,onSFSearch: function(data, editor, event){
         if(!this.isCommentInputEmpty()) {
             this.confirmDiscardComent(this.onSFSearch, arguments);
             return;
         }
 
         editor.clear();
-        query = String(query).trim();
+        query = String(data.query).trim();
 
         if(Ext.isEmpty(query)) {
             return;
@@ -287,13 +297,14 @@ Ext.define('CB.controller.Browsing', {
             query = query.substr(1).trim();
             if(!isNaN(query)) {
                 // this.locateObject(query);
-                this.openObjectWindowById(query);
+                App.windowManager.openObjectWindowById(query);
                 return;
             }
         }
 
         this.VC.setParams({
             query: query
+            ,searchIn: data.searchIn
             ,descendants: !Ext.isEmpty(query)
         });
 
@@ -470,32 +481,6 @@ Ext.define('CB.controller.Browsing', {
     }
 
     /**
-     * loads basic data for given object id and try to open its window if found
-     * @param  int id
-     * @return void
-     */
-    ,openObjectWindowById: function (id) {
-        if(!Ext.isNumeric(id)) {
-            return;
-        }
-
-        CB_Objects.getBasicInfoForId(
-            id
-            ,function(r, e) {
-                if(!r || (r.success !== true)) {
-                    Ext.Msg.alert(
-                        L.Error
-                        ,L.RecordIdNotFound.replace('{id}', '#' + r.id)
-                    );
-                    return;
-                }
-                App.windowManager.openObjectWindow(r.data);
-            }
-            ,this
-        );
-    }
-
-    /**
     * open path on active explorer tabsheet or in default eplorer tabsheet
     *
     * this function will not reset explorer navigation params (filters, search query, descendants)
@@ -503,7 +488,6 @@ Ext.define('CB.controller.Browsing', {
     * for backward compatibility params could be specified as (path, params)
     */
     ,openPath: function(params){
-
         if(!Ext.isObject(params)) {
             var path = Ext.valueFrom(Ext.clone(arguments[0]), '/');
             params = Ext.valueFrom(Ext.clone(arguments[1]), {});
@@ -511,6 +495,10 @@ Ext.define('CB.controller.Browsing', {
         } else {
             params = Ext.valueFrom(params, {});
 
+        }
+
+        if(Ext.isEmpty(params.id)) {
+            params.id = params.path.split('/').pop();
         }
 
         params.locatingObject = Ext.valueFrom(params.locatingObject, false);

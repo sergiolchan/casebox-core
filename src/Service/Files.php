@@ -4,6 +4,7 @@ namespace Casebox\CoreBundle\Service;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\DataModel as DM;
+use Casebox\CoreBundle\Service\PreviewExtractor;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Process\Process;
@@ -134,7 +135,7 @@ class Files
             'tmp_name' => tempnam($configService->get('incomming_files_dir'), 'cbup'),
             'date' => date('Y-m-d'),
             'name' => $data['name'],
-            'type' => $data['type'],
+            'type' => @$data['type'],
         ];
 
         file_put_contents($content['tmp_name'], $p['data']);
@@ -175,21 +176,31 @@ class Files
             }
 
             $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+            $fileName = $configService->get('files_dir') . $content['path'] . DIRECTORY_SEPARATOR . $content['id'];
 
-            header('Content-Description: File Transfer');
-            header('Content-Type: '.$content['type'].'; charset=UTF-8');
-            if ($asAttachment || ($content['type'] !== 'application/pdf')) {
-                // Purify filename for cases when we have a wrong filename in the system already
-                header('Content-Disposition: attachment; filename="'.Purify::filename($r['name']).'"');
+            if (file_exists($fileName)) {
+                //replace any other db content type for pdfs with application/pdf (sometimes it is binary/octet-stream)
+                if (strtolower(substr($r['name'], -4)) == '.pdf') {
+                    $r['type'] = 'application/pdf';
+                }
+
+                header('Content-Description: File Transfer');
+                header('Content-Type: '.$content['type'].'; charset=UTF-8');
+                if ($asAttachment || ($content['type'] !== 'application/pdf')) {
+                    // Purify filename for cases when we have a wrong filename in the system already
+                    header('Content-Disposition: attachment; filename="'.Purify::filename($r['name']).'"');
+                }
+
+                header('Content-Transfer-Encoding: binary');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: '.$content['size']);
+                readfile($fileName);
+            } else {
+                header('HTTP/1.0 404 Not Found');
+                header("Location: /img/fileNotFound.png");
             }
-
-            header('Content-Transfer-Encoding: binary');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: '.$content['size']);
-            readfile($configService->get('files_dir').$content['path'].DIRECTORY_SEPARATOR.$content['id']);
-
         } else {
             throw new \Exception(self::trans('Object_not_found'));
         }
@@ -405,7 +416,6 @@ class Files
                         [$agoTime, $user],
                         $data['text']
                     );
-
                 }
 
                 $subdirId = $pid;
@@ -440,7 +450,11 @@ class Files
             if (!empty($id)) {
                 $r = DM\FilesContent::read($id);
                 // Give affirmative result only if the corresponding file content exists
-                $p[$k] = file_exists($filesDir.$r['path'].DIRECTORY_SEPARATOR.$r['id']) ? $r['id'] : null;
+                if (file_exists($filesDir . $r['path'] . DIRECTORY_SEPARATOR . $r['id'])) {
+                    $p[$k] = $r['id'];
+                } else {
+                    $p[$k] = null;
+                }
             } else {
                 unset($p[$k]);
             }
@@ -791,7 +805,6 @@ class Files
 
             if (!empty($r)) {
                 $pid = $r['id'];
-
             } else {
                 $pid = DM\Tree::create(
                     [
@@ -847,12 +860,14 @@ class Files
         }
         $md5 = $this->getFileMD5($f);
 
+        $replaceNotExistingContentId = false;
         $contentId = DM\FilesContent::toId($md5, 'md5');
-
         if (!empty($contentId)) {
             $content = DM\FilesContent::read($contentId);
             if (file_exists($filePath.$content['path'].'/'.$content['id'])) {
                 $f['content_id'] = $content['id'];
+            } else {
+                $replaceNotExistingContentId = $contentId;
             }
         }
 
@@ -873,14 +888,20 @@ class Files
             ? date('Y/m/d', filemtime($f['tmp_name']))
             : date('Y/m/d', $date);
 
-        $f['content_id'] = DM\FilesContent::create(
-            [
-                'size' => $f['size'],
-                'type' => $f['type'],
-                'path' => $storage_subpath,
-                'md5' => $md5,
-            ]
-        );
+        $data = [
+            'size' => $f['size']
+            ,'type' => $f['type']
+            ,'path' => $storage_subpath
+            ,'md5' => $md5
+        ];
+
+        if (!$replaceNotExistingContentId) {
+            $f['content_id'] = DM\FilesContent::create($data);
+        } else {
+            $data['id'] = $replaceNotExistingContentId;
+            DM\FilesContent::update($data);
+            $f['content_id'] = $data['id'];
+        }
 
         @mkdir($filePath.$storage_subpath.'/', 0777, true);
 
@@ -973,7 +994,6 @@ class Files
 
                 case 3:
                     return ['html' => self::trans('ErrorCreatingPreview')];
-
             }
         }
 
@@ -1046,22 +1066,16 @@ class Files
             case 'html':
             case 'dhtml':
             case 'xhtml':
-                // @todo - To be refactored. Remove 'file_put_contents' function after refactoring.
-                file_put_contents($previewFilename, '<pre>Processing...</pre>');
-                /*
-                require_once LIB_DIR.'PreviewExtractor.php';
                 $content = file_get_contents($fn);
                 $pe = new PreviewExtractor();
                 $content = $pe->purify(
                     $content,
                     [
-                        'URI.Base' => '/'.$coreName.'/',
+                        'URI.Base' => '/c/'.$coreName.'/',
                         'URI.MakeAbsolute' => true,
                     ]
                 );
                 file_put_contents($previewFilename, $content);
-                //copy($fn, $previewFilename);
-                */
                 break;
 
             case 'txt':
@@ -1146,7 +1160,6 @@ class Files
                     'filename' => $rez['filename'],
                 ]
             );
-
         } else {
             DM\FilePreviews::create(
                 [

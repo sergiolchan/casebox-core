@@ -25,6 +25,32 @@ class FilesVersions extends Base
     );
 
     /**
+     * get versions count for a file
+     * @param  int $fileId
+     * @return int
+     */
+    public static function getCount($fileId)
+    {
+        $rez = 0;
+
+        $dbs = Cache::get('casebox_dbs');
+
+        $res = $dbs->query(
+            'SELECT count(*) `count`
+            FROM files_versions v
+            WHERE v.file_id = $1',
+            $fileId
+        );
+
+        if ($r = $res->fetch()) {
+            $rez = $r['count'];
+        }
+        unset($res);
+
+        return $rez;
+    }
+
+    /**
      * get versions data for a file
      * @param  int   $fileId
      * @return array
@@ -93,9 +119,9 @@ class FilesVersions extends Base
 
     /**
      * get oldest version ids after a given skipCount
-     * @param  int     $fileId
-     * @param string $md5
-     * @return array   | false
+     * @param  int    $fileId
+     * @param  string $md5
+     * @return array  | false
      */
     public static function getVersionByMD5($fileId, $md5)
     {

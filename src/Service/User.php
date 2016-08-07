@@ -181,14 +181,26 @@ class User
 
         $filesConfig = $this->configService->get('files');
 
+        //define default webdaf file extensions
+        $webdavFiles = 'docx,doc,docm,dotx,dotm,dot,rtf,mpp,vsd,vss,vst,vdx,vsx,'+
+            'vtx,xlsx,xlsm,xlsb,xls,xltx,xltm,xlt,xlam,xla,xsn,one,onepkg,oft,' +
+            'pptx,pptm,ppt,potx,potm,pot,thmx,ppsx,ppsm,pps,ppa,pub';
+
         if (empty($filesConfig['edit']['webdav'])) {
-            $webdavFiles = $this->configService->get('webdav_files');
+            $webdavFiles = $this->configService->get('webdav_files', $webdavFiles);
         } else {
             $webdavFiles = $filesConfig['edit']['webdav'];
         }
 
         $filesEdit = empty($filesConfig['edit']) ? [] : $filesConfig['edit'];
         $filesEdit['webdav'] = $webdavFiles;
+
+        if (empty($filesEdit['text'])) {
+            $filesEdit['text'] = "bat,csv,js,json,log,php,txt,xml";
+        }
+        if (empty($filesEdit['html'])) {
+            $filesEdit['html'] = "htm,html,xthml";
+        }
 
         // transform element values in array of file extensions
         foreach ($filesEdit as $k => $v) {
@@ -213,6 +225,7 @@ class User
                 'default_object_edit_mode' => $this->configService->get('default_object_edit_mode', 'view'),
                 'template_info_column' => $this->configService->get('template_info_column'),
                 'leftRibbonButtons' => $this->configService->get('leftRibbonButtons'),
+                'defaultIconCls' => $this->configService->get('defaultIconCls'),
             ],
             'user' => $userData,
         ];
@@ -223,7 +236,6 @@ class User
         $root = $this->configService->get('rootNode');
         if (is_null($root)) {
             $root = Browser::getRootProperties(Browser::getRootFolderId())['data'];
-
         } else {
             $root = Util\toJSONArray($root);
             if (isset($root['id'])) {
@@ -1132,14 +1144,11 @@ class User
 
         if ($idOrData === false) { //use current logged users
             $id = static::getId();
-
         } elseif (is_numeric($idOrData)) { //id specified
             $id = $idOrData;
-
         } elseif (is_array($idOrData) && !empty($idOrData['id']) && is_numeric($idOrData['id'])) {
             $id = $idOrData['id'];
             $data = $idOrData;
-
         } else {
             return '';
         }
@@ -1171,7 +1180,6 @@ class User
                             $image->writeImage($photoFile32);
                             $rez = $photoFile32;
                         } catch (\Exception $e) {
-
                         }
                     } else {
                         $rez = $photoFile32;
@@ -1202,14 +1210,11 @@ class User
 
         if ($idOrData === false) { // use current logged users
             $id = static::getId();
-
         } elseif (is_numeric($idOrData)) { // id specified
             $id = $idOrData;
-
         } elseif (is_array($idOrData) && !empty($idOrData['id']) && is_numeric($idOrData['id'])) {
             $id = $idOrData['id'];
             $data = $idOrData;
-
         } else {
             return '';
         }

@@ -252,7 +252,6 @@ Ext.define('CB.widget.block.Chart', {
         }
 
         this.chartData = rez;
-        clog('rez',rez);
 
         this.changeCharts(rez.charts);
 

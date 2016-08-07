@@ -15,9 +15,36 @@ Ext.define('CB.WindowManager', {
 
         this.callParent(arguments);
     }
+    /**
+     * loads basic data for given object id and try to open its window if found
+     * @param  int id
+     * @return void
+     */
+    ,openObjectWindowById: function (id, options) {
+        if(!Ext.isNumeric(id)) {
+            return;
+        }
 
+        CB_Objects.getBasicInfoForId(
+            id
+            ,function(r, e) {
+                if(!r || (r.success !== true)) {
+                    Ext.Msg.alert(
+                        L.Error
+                        ,L.RecordIdNotFound.replace('{id}', '#' + r.id)
+                    );
+                    return;
+                }
+                this.openObjectWindow(Ext.apply(Ext.valueFrom(options, {}), r.data));
+            }
+            ,this
+        );
+    }
+
+    /**
+     * at least template should be defined in config
+     */
     ,openObjectWindow: function(config) {
-        //at least template should be defined in config
         if(Ext.isEmpty(config)) {
             return;
         }
@@ -36,15 +63,19 @@ Ext.define('CB.WindowManager', {
             return this.openObjectPopOutWindow(config);
         }
 
-        var mode = Ext.valueFrom(config.mode, App.config.default_object_edit_mode);
+        var mode = Ext.valueFrom(config.mode, App.config.default_object_edit_mode)
+            ,templateType = CB.DB.templates.getType(config.template_id);
 
         if (mode == 'view') {
-            return this.openObjectEditView(config);
+            if(templateType == 'file') {
+                return this.openFileEditView(config);
+            } else {
+                return this.openObjectEditView(config);
+            }
         }
 
         //prepare and opening window
-        var templateType = CB.DB.templates.getType(config.template_id)
-            ,wndCfg = {
+        var wndCfg = {
                 xtype: (templateType === 'file'
                     ? 'CBFileEditWindow'
                     : 'CBObjectEditWindow'
@@ -203,5 +234,31 @@ Ext.define('CB.WindowManager', {
         ev.load(config);
         App.explorer.getLayout().setActiveItem(ev);
 
+    }
+
+    ,openFileEditView: function(config) {
+        this.activeFileView = new CB.file.edit.View({
+            closeAction: 'destroy'
+            ,onClose: function() {
+                this.close();
+            }
+            ,listeners: {
+                scope: this
+                ,beforeclose: function(panel, eOpts) {
+                    App.mainViewPort.remove(panel); //, {destroy: true}
+                    App.mainViewPort.items.each(function (i) {
+                        i.show();
+                    });
+                    delete this.fileView;
+                }
+            }
+        });
+
+        App.mainViewPort.items.each(function (i) {
+            i.hide();
+        });
+
+        App.mainViewPort.add(this.activeFileView);
+        this.activeFileView.load(config);
     }
 });

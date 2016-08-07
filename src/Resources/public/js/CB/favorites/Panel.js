@@ -105,29 +105,38 @@ Ext.define('CB.Favorites.Panel', {
 
     ,setStarred: function(data){
         if(!this.isStarred(data.id)) {
-            Ext.Msg.prompt(
-                L.Star
-                ,L.SetStarNameMsg
-                ,function(b, name) {
-                    if(b === 'ok') {
-                        data.name = name;
-
-                        var d = {
-                            node_id: data.id
-                            ,data: data
-                        };
-
-                        CB_Favorites.create(
-                            d
-                            ,this.processSetStarred
-                            ,this
-                        );
-                    }
+            CB_Favorites.create(
+                {
+                    node_id: data.id
+                    ,data: data
                 }
+                ,this.processSetStarred
                 ,this
-                ,false
-                ,data.name
             );
+
+            // Ext.Msg.prompt(
+            //     L.Star
+            //     ,L.SetStarNameMsg
+            //     ,function(b, name) {
+            //         if(b === 'ok') {
+            //             data.name = name;
+
+            //             var d = {
+            //                 node_id: data.id
+            //                 ,data: data
+            //             };
+
+            //             CB_Favorites.create(
+            //                 d
+            //                 ,this.processSetStarred
+            //                 ,this
+            //             );
+            //         }
+            //     }
+            //     ,this
+            //     ,false
+            //     ,data.name
+            // );
         } else {
             Ext.Msg.alert(
                 L.Star

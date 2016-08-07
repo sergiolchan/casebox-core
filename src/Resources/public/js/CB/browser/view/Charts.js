@@ -44,7 +44,7 @@ Ext.define('CB.browser.view.Charts', {
             ,scale: 'medium'
             ,iconCls: 'fa fa-sort-amount-asc'
             ,style: 'margin-left: 10px'
-            ,text: ''
+            ,tooltip: L.Sort
             ,menu: [
                 {
                     text: L.SortByNameAsc
@@ -173,6 +173,9 @@ Ext.define('CB.browser.view.Charts', {
             ,[
                 'facetscombo'
                 ,'chartsSortButton'
+                ,'-'
+                ,'more'
+                ,'filter'
                 ,'->'
                 // ,'linechart'
                 ,'barchart'
@@ -185,8 +188,6 @@ Ext.define('CB.browser.view.Charts', {
                 ,'-'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }

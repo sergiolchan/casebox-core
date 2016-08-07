@@ -506,6 +506,8 @@ Ext.define('CB.browser.view.Calendar', {
                 ,'calprev'
                 ,'calnext'
                 ,'caltitle'
+                ,'-'
+                ,'more'
                 ,'->'
                 ,'coloringCombo'
                 ,'dayview'
@@ -514,8 +516,6 @@ Ext.define('CB.browser.view.Calendar', {
                 ,'-'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
 

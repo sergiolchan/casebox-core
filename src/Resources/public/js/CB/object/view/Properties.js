@@ -125,7 +125,7 @@ Ext.define('CB.object.view.Properties', {
 
     ,clear: function(){
         this.callParent(arguments);
-        this.update('<div class="x-preview-mask">' + L.SelectPreviewItem + '</div>');
+        this.update('<div class="p10 x-preview-mask">' + L.SelectPreviewItem + '</div>');
     }
 
     ,getCommentComponent: function() {

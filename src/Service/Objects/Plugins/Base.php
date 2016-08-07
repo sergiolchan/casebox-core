@@ -89,7 +89,6 @@ class Base
 
         if (!empty($vcfg['fn'])) {
             $rez = $this->getFunctionResult($vcfg['fn']);
-
         } elseif (!empty($vcfg['fields'])) {
             if (!empty($obj)) {
                 foreach ($vcfg['fields'] as $fn => $fv) {
@@ -181,6 +180,11 @@ class Base
     protected function getFunctionResult($fn)
     {
         $t = explode('.', $fn);
+
+        if (!class_exists($t[0])) {
+            return [];
+        }
+
         $class = new $t[0];
         $method = $t[1];
 

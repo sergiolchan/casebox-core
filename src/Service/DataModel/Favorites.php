@@ -50,6 +50,36 @@ class Favorites extends Base
         return $rez;
     }
 
+    /**
+     * check if a given node id is in favorites for current user
+     * @param  varchar $id (could be also an id of a virtual node)
+     * @return boolean
+     */
+    public static function isFavorite($id)
+    {
+        $rez = false;
+
+        $dbs = Cache::get('casebox_dbs');
+
+        $res = $dbs->query(
+            'SELECT *
+            FROM ' . static::getTableName() .
+            ' WHERE user_id = $1' .
+            ' AND node_id = $2',
+            [
+                \Casebox\CoreBundle\Service\User::getId(),
+                $id
+            ]
+        );
+
+        while ($r = $res->fetch()) {
+            $rez = true;
+        }
+        unset($res);
+
+        return $rez;
+    }
+
     public static function deleteByNodeId($nodeId, $userId = false)
     {
         if ($userId == false) {

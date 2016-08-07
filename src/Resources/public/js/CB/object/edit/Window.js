@@ -22,16 +22,7 @@ Ext.define('CB.object.edit.Window', {
         this.data = Ext.apply({}, this.config.data);
         delete this.data.html;
 
-
-        this.editView = Ext.create('CBObjectEditView', {
-            data: this.data
-            ,listeners: {
-                scope: this
-                ,loaded: this.onViewLoaded
-                ,objectsaved: this.onObjectSavedOrClickedEvent
-                ,cancelclick: this.onObjectSavedOrClickedEvent
-            }
-        });
+        this.initView();
 
         this.updateWindowTitle();
 
@@ -51,6 +42,18 @@ Ext.define('CB.object.edit.Window', {
         this.callParent(arguments);
 
         this.editView.load(this.data);
+    }
+
+    ,initView: function () {
+        this.editView = Ext.create('CBObjectEditView', {
+            data: this.data
+            ,listeners: {
+                scope: this
+                ,loaded: this.onViewLoaded
+                ,objectsaved: this.onObjectSavedOrClickedEvent
+                ,cancelclick: this.onObjectSavedOrClickedEvent
+            }
+        });
     }
 
     ,onShowWindow: function(c) {
@@ -85,7 +88,6 @@ Ext.define('CB.object.edit.Window', {
     }
 
     ,onObjectSavedOrClickedEvent: function() {
-        clog('onObjectSavedOrClickedEvent');
         this.close();
     }
 });

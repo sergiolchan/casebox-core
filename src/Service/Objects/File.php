@@ -130,29 +130,30 @@ class File extends Object
     protected function updateCustomData()
     {
         parent::updateCustomData();
+        $data = [
+            'id' => $this->id
+            ,'date' => @$this->data['date']
+            ,'name' => @$this->data['name']
+            ,'cid' => @$this->data['cid']
+            ,'uid' => User::getId()
+        ];
 
-        $updated = DM\Files::update(
-            array(
-                'id' => $this->id
-                ,'content_id' => @$this->data['content_id']
-                ,'date' => @$this->data['date']
-                ,'name' => @$this->data['name']
-                ,'cid' => @$this->data['cid']
-                ,'uid' => User::getId()
-            )
-        );
+        //dont update content_id field if empty because the update
+        //can follow from metadata updating of the file that does not countain the content_id
+        if (!empty($this->data['content_id'])) {
+            $data['content_id'] = $this->data['content_id'];
+        }
 
-        //create record if doesnt exist yet
-        if (!$updated) {
-            DM\Files::create(
-                array(
-                    'id' => $this->id
-                    ,'content_id' => @$this->data['content_id']
-                    ,'date' => @$this->data['date']
-                    ,'name' => @$this->data['name']
-                    ,'cid' => @$this->data['cid']
-                )
-            );
+        if (empty($data['id']) || !DM\Files::exists($data['id'])) {
+            //create record if doesnt exist yet
+            unset($data['uid']);
+            if (empty($data['content_id'])) {
+                $data['content_id'] = null;
+            }
+
+            DM\Files::create($data);
+        } else {
+            DM\Files::update($data);
         }
     }
 

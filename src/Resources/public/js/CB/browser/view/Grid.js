@@ -431,11 +431,12 @@ Ext.define('CB.browser.view.Grid', {
                 ,'-'
                 ,'edit'
                 ,'delete'
+                ,'-'
+                ,'more'
+                ,'filter'
                 ,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }

@@ -55,7 +55,7 @@ Ext.define('CB.controller.History', {
             return;
         }
 
-        var activeWindow = this.getActiveWindow();
+        var activeWindow = Ext.valueFrom(App.windowManager.activeFileView, this.getActiveWindow());
 
         //if we have an active window - try to close it
         if(!Ext.isEmpty(activeWindow)) {
@@ -63,7 +63,11 @@ Ext.define('CB.controller.History', {
 
             window.location = event.oldURL;
 
-            activeWindow.close();
+            if(activeWindow.onCancelClick) {
+                activeWindow.onCancelClick();
+            } else {
+                activeWindow.close();
+            }
 
         } else {//react to the changed hash
             var hash = event.newURL.split('#')[1]

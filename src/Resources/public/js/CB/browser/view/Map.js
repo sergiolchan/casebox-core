@@ -53,11 +53,11 @@ Ext.define('CB.browser.view.Map',{
         this.refOwner.fireEvent(
             'settoolbaritems'
             ,[
-                '->'
+                'more'
+                ,'filter'
+                ,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }
@@ -101,11 +101,11 @@ Ext.define('CB.browser.view.Map',{
         this.fireEvent(
             'settoolbaritems'
             ,[
-                '->'
+                'more'
+                ,'filter'
+                ,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
 

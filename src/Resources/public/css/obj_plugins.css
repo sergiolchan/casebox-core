@@ -114,6 +114,7 @@ background-color: #FFFFCC;
 .block-plugin-comments .comment div.show-all {
     display: none;
     height: 6px;
+    text-align: center;
 }
 
 .block-plugin-comments .comment-big div.show-all {
@@ -186,7 +187,7 @@ cursor: hand;
 }
 
 .plugins-panel .obj-plugin {
-    margin-bottom: 30px;
+    margin: 0 10px 30px 10px;
 }
 
 
@@ -285,11 +286,65 @@ cursor: hand;
     margin-bottom: 20px;
 }
 
-.obj-plugin-title {
-    margin: 0 !important;
-}
-
 .taskview h2 {
     font-size: 14px;
     overflow: hidden;
+}
+
+.obj-plugin-title {
+    margin: 0 ;
+}
+
+.obj-plugin-title .obj-header {
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+.obj-plugin-title .obj-header td {
+    vertical-align: top;
+}
+
+.obj-plugin-title .title-text-nowrap {
+    display: block;
+    overflow: hidden;
+    max-height: 16px;
+    word-break: break-all;
+}
+.obj-plugin-title .title-text-nowrap .obj-fav {
+    float: right;
+}
+
+.obj-plugin-title .obj-header .info {
+    font-size: 12px;
+    color: #444;
+    padding: 2px 1px;
+    margin-top: 4px;
+}
+
+.obj-plugin-title .obj-icon {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-right: 7px;
+    font-size: 2.5em;
+    text-align: center;
+    padding-top: 2px;
+}
+
+.obj-plugin-title .obj-fav {
+    margin-left: 6px;
+    font-size: 1.2em;
+}
+
+.obj-plugin-title .edit-config {
+    float: right;
+    top: 0;
+    margin: 0 15px 0 6pc;
+    font-size: 1.2em;
+    color: inherit;
+}
+
+.obj-plugin-title .obj-fav:hover, .obj-plugin-title .edit-config:hover {
+    color: orange;
+    text-decoration: none
 }

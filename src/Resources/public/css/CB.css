@@ -65,3 +65,29 @@ table.item-props  a.path, table.duplicates  a.path {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .7);
 }
 
+.toggle-left-panel {
+    position: absolute;
+    top: 16px;
+    right: 0;
+    height: 20px;
+    width: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.6em;
+    /*padding-right: 10px;*/
+}
+
+.zoomer {
+  margin: auto;
+  border: 1px solid lightgray;
+  padding: 10px;
+  height: 99%;
+}
+
+/*Editing Text inline in grid should not visually move the field/value*/
+pre {
+    margin: 0;
+    font-family: inherit;
+    line-height: 20px;
+}
+

@@ -23,19 +23,6 @@ Ext.define('CB.object.edit.Form', {
             }
         });
 
-        this.titleView = new Ext.DataView({
-            autoHeight: true
-            ,hidden: (this.hideTitle === true)
-            ,cls: 'obj-plugin-title'
-            ,tpl: [
-                '<tpl for=".">'
-                ,'<div class="obj-header">{[ Ext.util.Format.htmlEncode(Ext.valueFrom(values.name, \'\')) ]}</div>'
-                ,'</tpl>'
-            ]
-            ,itemSelector: 'div'
-            ,data: {}
-        });
-
         this.fieldsZone = new Ext.form.FormPanel({
             title: L.Fields
             ,header: false
@@ -55,8 +42,7 @@ Ext.define('CB.object.edit.Form', {
                 ,style: 'margin: 0 0 15px 0'
             }
             ,items: [
-                this.titleView
-                ,{
+                {
                     xtype: 'panel'
                     ,autoHeight: true
                     ,border: false
@@ -157,8 +143,6 @@ Ext.define('CB.object.edit.Form', {
             this.data.data = {};
         }
 
-        this.titleView.update(this.data);
-
         this.objectsStore.proxy.extraParams = {
             id: r.data.id
             ,template_id: r.data.template_id
@@ -174,7 +158,7 @@ Ext.define('CB.object.edit.Form', {
             : 'CBVerticalEditGrid';
 
         if(this.lastgGridType != gridType) {
-            this.items.getAt(1).removeAll(true);
+            this.items.getAt(0).removeAll(true);
             this.grid = Ext.create(
                 gridType
                 ,{
@@ -210,7 +194,7 @@ Ext.define('CB.object.edit.Form', {
             );
             this.lastgGridType = gridType;
 
-            this.items.getAt(1).add(this.grid);
+            this.items.getAt(0).add(this.grid);
         }
 
         this.grid.reload();
@@ -450,10 +434,11 @@ Ext.define('CB.object.edit.Form', {
 
     ,clear: function(){
         this.data = {};
-        this.titleView.update(this.data);
+
         if(this.grid) {
             this.grid.hide();
         }
+
         this.fieldsZone.removeAll(true);
         this._isDirty = false;
         this.fireEvent('clear', this);

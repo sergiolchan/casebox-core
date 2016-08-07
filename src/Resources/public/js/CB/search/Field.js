@@ -23,7 +23,15 @@ Ext.define('CB.search.Field', {
             ,scope: 'this'
             ,handler: 'onTrigger2Click'
         }
+        ,options: {
+            cls: 'x-form-trigger'
+            ,scope: 'this'
+            ,handler: 'onOptionsTriggerClick'
+            ,weight: -1
+        }
     }
+
+    ,searchIn: ['name', 'content']
 
     ,initComponent : function(){
         Ext.apply(this, {
@@ -67,6 +75,11 @@ Ext.define('CB.search.Field', {
         }
     }
 
+    ,clear: function(){
+        this.setValue('');
+        this.triggers.clear.hide();
+    }
+
     ,onTrigger1Click : function(e){
         if(Ext.isEmpty(this.getValue())) {
             return;
@@ -74,15 +87,89 @@ Ext.define('CB.search.Field', {
 
         this.setValue('');
         this.triggers.clear.hide();
-        this.fireEvent('search', '', e);
+        this.fireEvent('search', {query: ''}, e);
     }
 
     ,onTrigger2Click : function(e){
-        this.fireEvent('search', this.getValue(), this, e);
+        this.fireEvent(
+            'search'
+            ,{
+                query: this.getValue()
+                ,searchIn: this.searchIn
+            }
+            ,this
+            ,e
+        );
     }
 
-    ,clear: function(){
-        this.setValue('');
-        this.triggers.clear.hide();
+    ,onOptionsTriggerClick : function(e){
+        if(!this.optionsMenu) {
+            var menuItems = [{
+                text: L.Title
+                ,xtype: 'menucheckitem'
+                ,checked: true
+                ,searchIn: 'name'
+                ,scope: this
+                ,handler: this.onTotggleSearchIn
+            },{
+                text: L.Content
+                ,xtype: 'menucheckitem'
+                ,checked: true
+                ,searchIn: 'content'
+                ,scope: this
+                ,handler: this.onTotggleSearchIn
+            },{
+                text: L.Advanced
+                ,disabled: true
+                ,scope: this
+                // ,handler: this.onAdvancedClick
+            },'-'
+
+            ];
+
+            //add search templates
+            var templates = CB.DB.templates.query('type', 'search');
+
+            templates.each(
+                function(t){
+                    menuItems.push({
+                        iconCls: t.data.iconCls
+                        ,data: {template_id: t.data.id}
+                        ,text: t.data.title
+                        ,scope: this
+                        ,handler: this.onSearchTemplateButtonClick
+                    });
+                }
+                ,this
+            );
+
+            this.optionsMenu = new Ext.menu.Menu({items: menuItems});
+        }
+        this.optionsMenu.showAt(e.getXY());
+    }
+
+    ,onTotggleSearchIn: function(item, e) {
+        if(item.checked) {
+            Ext.Array.include(this.searchIn, item.searchIn);
+        } else {
+            Ext.Array.remove(this.searchIn, item.searchIn);
+        }
+    }
+
+    ,onSearchTemplateButtonClick: function(b, e) {
+        //load default search template if not already loaded
+        var config = {
+                xtype: 'CBSearchEditWindow'
+                ,id: 'sew' + b.config.data.template_id
+            };
+
+        config.data = Ext.apply({}, b.config.data);
+
+        var w  = App.windowManager.openWindow(config);
+        if(!w.existing) {
+            w.alignTo(App.mainViewPort.getEl(), 'bl-bl?');
+        }
+
+        delete w.existing;
     }
 });

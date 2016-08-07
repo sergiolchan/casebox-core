@@ -313,13 +313,11 @@ Ext.define('CB.browser.Tree', {
         node.data.system = Ext.Number.from(node.data.system, 0);
         node.set('text', node.data.name);
 
-        var icon = node.data.iconCls;
-        if(Ext.isEmpty(icon)) {
-            if(node.data.cfg && node.data.cfg.iconCls){
-                icon = node.data.cfg.iconCls;
-            } else {
-                icon = getItemIcon(node.data);
-            }
+        var icon;
+        if(node.data.cfg && node.data.cfg.iconCls){
+            icon = Ext.valueFrom(App.config.defaultIconCls, '') + ' ' + node.data.cfg.iconCls;
+        } else {
+            icon = getItemIcon(node.data);
         }
         node.set('iconCls', icon);
 

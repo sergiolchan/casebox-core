@@ -12,8 +12,7 @@ Ext.define('CB.ViewPort', {
 
         Ext.apply(this, {
             items: {
-                lbar: App.mainLBar
-                ,layout: 'fit'
+                layout: 'fit'
                 ,border: false
                 ,items: [
                     {
@@ -58,46 +57,7 @@ Ext.define('CB.ViewPort', {
 
         this.initButtons();
 
-        var items = [ {
-                xtype: 'panel'
-                ,border: false
-                ,style: 'border-bottom: 1px solid #5f5f5f'
-                ,bodyStyle: 'background: transparent'
-                ,height: 49
-                ,items: [
-                    this.buttons.toggleLeftRegion
-                ]
-            }
-            ,this.buttons.create
-            ,this.buttons.toggleFilterPanel
-        ];
-
-        //add config buttons if present
-        if(Ext.isObject(App.config.leftRibbonButtons)) {
-            Ext.iterate(
-                App.config.leftRibbonButtons
-                ,function(k, cfg) {
-                    cfg.scale = 'large';
-                    cfg.scope = this;
-                    cfg.handler = this.onLeftRibbonButtonClick;
-                    items.push(cfg);
-                }
-                ,this
-            );
-        }
-
-        //application main left bar (left docked)
-        App.mainLBar = new Ext.Toolbar({
-            cls: 'ribbon-black'
-            ,autoWidth: true
-            ,dock: 'left'
-            ,items: items
-            ,plugins: [{
-                ptype: 'CBPluginSearchButton'
-            }]
-        });
-
-        //main left panel where the tree is added
+        //main left panel for tree and filters
         App.mainLPanel = new Ext.Panel({
             region: 'west'
             ,layout: 'card'
@@ -132,7 +92,15 @@ Ext.define('CB.ViewPort', {
                 ,border: false
                 ,style: 'background: #f4f4f4; text-align: center; border-bottom: 1px solid #5f5f5f !important'
                 ,bodyStyle: 'background: #f4f4f4'
-                ,html: '<img src="/logo.png" style="padding: 9px" />'
+                ,html: '<img src="/logo.png" style="padding: 9px" />' +
+                    '<div class="toggle-left-panel fa fa-caret-left" style="margin-right: 8px"></div>'
+                ,listeners: {
+                    scope: this
+                    ,afterrender: function(cmp, eOpts) {
+                        var el = cmp.body.down('div.toggle-left-panel');
+                        el.on('click', this.toggleLeftRegion, this);
+                    }
+                }
             })
             ,getState: function(){
                 var rez = {
@@ -144,11 +112,19 @@ Ext.define('CB.ViewPort', {
             }
         });
 
+        App.Favorites = Ext.create('CB.Favorites.Panel');
+
         // prepare components for main top toolbar
         this.breadcrumb = Ext.create({
             xtype: 'CBBreadcrumb'
             ,cls: 'fs18'
             ,flex: 1
+        });
+        this.titleView = Ext.create('CB.object.TitleView', {
+            flex: 1
+            ,allowTitleWrap: false
+            ,hidden: true
+            ,floatingDetails: true
         });
 
         this.searchField = Ext.create({
@@ -164,7 +140,26 @@ Ext.define('CB.ViewPort', {
             height: 50
             ,style:'background: #f4f4f4; border: 0;'
             ,items: [
-                this.breadcrumb
+                {
+                    xtype: 'panel'
+                    ,border: false
+                    ,style: 'background: #f4f4f4; text-align: center'
+                    ,bodyStyle: 'background: #f4f4f4;margin-top:-9px'
+                    ,width: 10
+                    ,height: 34
+                    ,hidden: true
+                    ,bodyPadding: 0
+                    ,html: '<div class="toggle-left-panel fa fa-caret-right"></div>'
+                    ,listeners: {
+                        scope: this
+                        ,afterrender: function(cmp, eOpts) {
+                            var el = cmp.body.down('div.toggle-left-panel');
+                            el.on('click', this.toggleLeftRegion, this);
+                        }
+                    }
+                }
+                ,this.breadcrumb
+                ,this.titleView
                 ,this.searchField
                 ,this.buttons.toggleNotificationsView
                 ,{
@@ -181,6 +176,7 @@ Ext.define('CB.ViewPort', {
 
             ]
         });
+        App.toggleLeftPanelRightArrow = App.mainTBar.items.getAt(0);
 
         App.mainTabPanel = new Ext.TabPanel({
             tabWidth: 205
@@ -210,28 +206,7 @@ Ext.define('CB.ViewPort', {
      */
     ,initActions: function() {
         this.actions = {
-            toggleLeftRegion: new Ext.Action({
-                tooltip: L.Back
-                ,itemId: 'togglelr'
-                ,pressed: true
-                ,enableToggle: true
-                ,iconCls: 'fa fa-bars'
-                ,scale: 'large'
-                ,scope: this
-                ,handler: this.toggleLeftRegion
-            })
-
-            ,toggleFilterPanel: new Ext.Action({
-                tooltip: L.Filter
-                ,itemId: 'togglefp'
-                ,enableToggle: true
-                ,iconCls: 'fa fa-filter'
-                ,scale: 'large'
-                ,scope: this
-                ,handler: this.onToggleFilterPanelClick
-            })
-
-            ,toggleNotificationsView: new Ext.Action({
+            toggleNotificationsView: new Ext.Action({
                 tooltip: L.Notifications
                 ,itemId: 'toggleNotifications'
                 // ,enableToggle: true
@@ -255,9 +230,7 @@ Ext.define('CB.ViewPort', {
         this.initActions();
 
         this.buttons = {
-            toggleLeftRegion: new Ext.Button(this.actions.toggleLeftRegion)
-            ,toggleFilterPanel: new Ext.Button(this.actions.toggleFilterPanel)
-            ,toggleNotificationsView: new Ext.Button(this.actions.toggleNotificationsView)
+            toggleNotificationsView: new Ext.Button(this.actions.toggleNotificationsView)
             ,create: new Ext.Button({
                 qtip: L.New
                 ,itemId: 'create'
@@ -274,35 +247,34 @@ Ext.define('CB.ViewPort', {
             })
         };
 
-        this.buttons.toggleLeftRegion.on(
-            'afterrender'
-            ,function(b, e) {
-                b.toggle(App.mainLPanel.getCollapsed() === false);
-            }
-            ,this
-        );
-
         App.on('notificationsUpdated', this.updateNotificationsCount, this);
 
         return this.actions;
     }
 
-    ,toggleLeftRegion: function(b, e) {
-        if(b.pressed) {
+    ,toggleLeftRegion: function(cmp, el, e) {
+        el = Ext.get(el);
+        if(el.hasCls('fa-caret-right')) {
+            App.toggleLeftPanelRightArrow.hide();
             App.mainLPanel.expand();
         } else {
+            App.toggleLeftPanelRightArrow.show();
             App.mainLPanel.collapse();
         }
     }
 
     ,onToggleFilterPanelClick: function(b, e) {
-        this.buttons.toggleFilterPanel.setPressed(b.pressed);
+        var l = App.mainLPanel.getLayout();
 
-        App.mainLPanel.getLayout().setActiveItem(
-            b.pressed
-                ? 1
-                : 0
-        );
+        if(b && Ext.isDefined(b.pressed)) {
+            l.setActiveItem(b.pressed ? 1 : 0);
+        } else {
+            l.setActiveItem(
+                (l.activeItem == App.mainFilterPanel)
+                    ? 0
+                    : 1
+            );
+        }
     }
 
     ,updateNotificationsCount: function(counts) {
@@ -361,15 +333,15 @@ Ext.define('CB.ViewPort', {
             ,this
         );
 
-
         um.menu.add(
             {
                 text: L.Account
                 ,iconCls: 'fa fa-user'
                 ,handler: function(){
-                    App.windowManager.openWindow({
-                        xtype: 'CBAccount'
-                        ,id: 'accountWnd'
+                    App.windowManager.openObjectWindow({
+                        id: App.loginData.id
+                        ,template_id: CB.DB.templates.findRecord('type', 'user', 0, false, false, true).get('id')
+                        ,view: 'edit'
                     });
                 }
             }
@@ -460,7 +432,7 @@ Ext.define('CB.ViewPort', {
 
         if(!Ext.isEmpty(locateId)) {
             // App.locateObject(locateId);
-            App.controller.openObjectWindowById(locateId);
+            App.windowManager.openObjectWindowById(locateId);
         }
     }
 
@@ -522,15 +494,11 @@ Ext.define('CB.ViewPort', {
                     ,minHeight: 100
                     ,hidden: true
                     ,items: [
-                        {
-                            xtype: 'CBFavoritesPanel'
-                        }
+                        App.Favorites
                     ]
                 }
             ]
         }).items.getAt(0);
-
-        App.Favorites = App.mainLPanel.down('CBFavoritesPanel');
 
         App.mainLPanel.getLayout().setActiveItem(0);
 
@@ -546,10 +514,7 @@ Ext.define('CB.ViewPort', {
                     ,itemId: 'close'
                     ,scale: 'medium'
                     ,scope: this
-                    ,handler: function(b, e){
-                        this.buttons.toggleFilterPanel.toggle(false);
-                        this.onToggleFilterPanelClick(this.buttons.toggleFilterPanel, e);
-                    }
+                    ,handler: this.onToggleFilterPanelClick
                 }
             ]
         });
@@ -601,6 +566,10 @@ Ext.define('CB.ViewPort', {
                     rootId: rootId
                     ,data: {id: 'explorer' }
                     ,closable: false
+                    ,listeners: {
+                        scope: this
+                        ,filtertoggle: this.onToggleFilterPanelClick
+                    }
                 })
             );
         }

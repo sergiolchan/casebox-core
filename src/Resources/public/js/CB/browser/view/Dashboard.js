@@ -56,11 +56,10 @@ Ext.define('CB.browser.view.Dashboard',{
         this.refOwner.fireEvent(
             'settoolbaritems'
             ,[
-                '->'
+                'more'
+                ,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }
@@ -123,11 +122,10 @@ Ext.define('CB.browser.view.Dashboard',{
         this.fireEvent(
             'settoolbaritems'
             ,[
-                '->'
+                'more'
+                ,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }

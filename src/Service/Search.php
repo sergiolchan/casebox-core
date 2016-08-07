@@ -115,6 +115,23 @@ class Search extends Solr\Client
         // initial parameters
         $this->query = empty($p['query']) ? '' : $p['query'];
 
+        $qf = "name content^0.5";
+
+        if (!empty($p['searchIn'])) {
+            $fields = [];
+            if (in_array('name', $p['searchIn'])) {
+                $fields[] = 'name';
+            }
+
+            if (in_array('content', $p['searchIn'])) {
+                $fields[] = 'content^0.5';
+            }
+
+            if (!empty($fields)) {
+                $qf = implode(' ', $fields);
+            }
+        }
+
         $userService = Cache::get('symfony.container')->get('casebox_core.service.user');
 
         if (isset($p['rows'])) {
@@ -125,7 +142,6 @@ class Search extends Solr\Client
 
         if (empty($p['start'])) {
             $this->start = (empty($p['page']) ? 0 : $this->rows * (intval($p['page']) - 1));
-
         } else {
             $this->start = intval($p['start']);
         }
@@ -133,7 +149,7 @@ class Search extends Solr\Client
         $this->params = [
             'defType' => 'dismax',
             'q.alt' => '*:*',
-            'qf' => "name content^0.5",
+            'qf' => $qf,
             'tie' => '0.1',
             'fl' => $this->getFieldListParam($p),
             'fq' => $this->getFilterQueryParam($p),
@@ -195,7 +211,6 @@ class Search extends Solr\Client
                 if (!in_array('target_id', $rez)) {
                     $rez[] = 'target_id';
                 }
-
             }
 
             // add title field for current language
@@ -328,14 +343,12 @@ class Search extends Solr\Client
 
             if (!empty($sets)) {
                 $rez = 'security_set_id:('.implode(' OR ', $sets).') OR oid:'.User::getId();
-
             } else {
                 // for created users that doesnt belong to any group
                 // and dont have any security sets associated
                 // $rez = '!security_set_id:[* TO *]';
                 $rez = 'oid:'.User::getId();
             }
-
         }
 
         return $rez;
@@ -357,7 +370,6 @@ class Search extends Solr\Client
             // if strictSort specified in imput params then set it as is.
             // We'll probably remove this option in the future
             $rez = $p['strictSort'];
-
         } else {
             // sort by order by default
             $sort = ['order' => 'asc'];
@@ -469,7 +481,6 @@ class Search extends Solr\Client
                     $rez[$pn] = $p[$pn];
                 }
             }
-
         } else {
             foreach ($this->facets as $facet) {
                 $fp = $facet->getSolrParams();
@@ -561,7 +572,6 @@ class Search extends Solr\Client
                     $this->rows,
                     $this->params
                 );
-
             } catch (\Exception $e) {
                 //try to execute without sort param, could be multivalued
                 unset($this->params['sort']);
@@ -881,7 +891,6 @@ class Search extends Solr\Client
                             $rez[$d['id']] = $d;
                         }
                     }
-
                 }
             } catch (\Exception $e) {
                 throw new \Exception("An error occured in getObjects: \n\n {$e->__toString()}");

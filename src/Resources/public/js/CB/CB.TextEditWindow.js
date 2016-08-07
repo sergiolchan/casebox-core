@@ -67,13 +67,8 @@ Ext.define('CB.TextEditWindow', {
         this.setTitle(title);
         this.getHeader().setTitle(title);
 
-        var ed = this.editor.getAce
-            ? this.editor.getAce()
-            : this.editor;
+        this.setValue(Ext.valueFrom(this.data.value, ''));
 
-        ed.setValue(
-            Ext.valueFrom(this.data.value, '')
-        );
         var options = Ext.valueFrom(this.config.editorOptions, {});
         if(!Ext.isEmpty(this.config.highlighter)) {
             options.mode = this.config.highlighter;
@@ -89,19 +84,19 @@ Ext.define('CB.TextEditWindow', {
                 ,this
             );
         }
+
+        var ed = this.editor.getAce
+            ? this.editor.getAce()
+            : this.editor;
         ed.focus(false, 350);
     }
 
+    ,setValue: function(value) {
+        return this.editor.setValue(value);
+    }
+
     ,doSubmit: function(){
-        var ed = this.editor.getAce
-                ? this.editor.getAce()
-                : this.editor
-            ,session = ed.getSession
-                ? ed.getSession()
-                : null
-            ,value = session
-                ? session.getValue()
-                : ed.getValue()
+        var value = this.editor.getValue()
             ,f = Ext.Function.bind(
                 this.data.callback
                 ,Ext.valueFrom(this.data.scope, this)

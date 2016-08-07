@@ -42,7 +42,7 @@ Ext.define('CB.object.plugin.Comments', {
             ,'        <b class="user">{[ values.user.split("\\n")[0]]}</b>'
             ,'        {[ Ext.util.Format.nl2br(values.content)]}'
             ,'      </div>'
-            ,'      <div title="' + L.ShowAll + '" class="show-all click"><i class="fa fa-comment"></i></div>'
+            ,'      <div title="' + L.ShowAll + '" class="show-all click"><i class="fa fa-ellipsis-h"></i></div>'
             ,'      {[values.files ? "<div>" + values.files + "</div>" : "" ]}'
             ,'      <div class="gr" title="{[ displayDateTime(values.cdate) ]}">{cdate_text}</div>'
             ,'    </td>'

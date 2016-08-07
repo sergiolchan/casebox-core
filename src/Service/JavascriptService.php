@@ -77,6 +77,9 @@ class JavascriptService
                 'ace-editor' => [
                     'src' => '/js/jarvus-ace-master/resources/ace-builds-master/src-min-noconflict/ace.js ',
                 ],
+                'ace-modelist' => [
+                    'src' => '/js/jarvus-ace-master/resources/ace-builds-master/src-min-noconflict/ext-modelist.js',
+                ],
                 'jarvus-config0' => [
                     'src' => '/js/jarvus-ace-master/classic/src/ace/util/AbstractConfiguration.js',
                 ],
@@ -85,6 +88,9 @@ class JavascriptService
                 ],
                 'jarvus-wrapper' => [
                     'src' => '/js/jarvus-ace-master/src/ace/Editor.js',
+                ],
+                'jarvus-override' => [
+                    'src' => '/js/overrides/JarvusAceEditor.js',
                 ],
                 'l' => [
                     'inline' => "if (typeof(L) !== 'undefined') { LL = L; }",

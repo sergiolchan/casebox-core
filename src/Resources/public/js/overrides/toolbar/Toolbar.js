@@ -11,7 +11,7 @@ Ext.override(Ext.toolbar.Toolbar, {
         //collect all visible items
         this.items.each(
             function(i, idx, len){
-                if(i.isVisible()) {
+                if(i.xtype === 'tbseparator' || i.isVisible()) {
                     vi.push(i);
                 }
             }
@@ -22,13 +22,13 @@ Ext.override(Ext.toolbar.Toolbar, {
         //at the end, consecutive, before and after spacer.
         for (var i = 0; i < vi.length; i++) {
             if(vi[i].xtype === 'tbseparator') {
-                vi[i].setHidden(
-                    (i === 0) || // at the begining
+                var hidden = (i === 0) || // at the begining
                     (i == (vi.length-1)) || // at the end
                     (vi[i+1].xtype === 'tbfill') || // before tbfill
                     (vi[i-1].xtype === 'tbfill') || // after tbfill
                     (vi[i-1].xtype === 'tbseparator') // after another tbseparator
-                );
+                    ;
+                vi[i].setHidden(hidden);
             }
         }
     }

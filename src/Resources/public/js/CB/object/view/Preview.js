@@ -7,13 +7,14 @@ Ext.define('CB.object.view.Preview', {
     ,html: ''
     ,tbarCssClass: 'x-panel-white'
     ,loadMask: false
-    ,padding: 0
+    ,padding: 10
     ,width: 300
     ,layout: 'fit'
     ,fitImagePreview: true
     ,loader: {
         autoLoad: false
     }
+    ,data: {}
 
     ,initComponent: function(){
         Ext.apply(this, {
@@ -64,7 +65,6 @@ Ext.define('CB.object.view.Preview', {
     }
 
     ,doLoad: function(id, vId) {
-
         this.loader.load({
             url: '/c/' + App.config.coreName + '/view/'+ id +'_' + vId + '/?i=1'
             ,callback: this.processLoad
@@ -77,9 +77,10 @@ Ext.define('CB.object.view.Preview', {
     }
 
     ,processLoad: function(el, success, r, e){
-        this.data = {id: this.newId};
+        Ext.apply(Ext.valueFrom(this.data, {}), {id: this.newId});
         this.loadedVersionId = this.newVersionId;
         this.body.scrollTo('top', 0);
+
         switch(r.responseText){
             case '<authenticate />':
                 window.location.reload();
@@ -98,6 +99,8 @@ Ext.define('CB.object.view.Preview', {
                     'alt : <a href="' + url + '">' + this.data.name + '</a></object>'
                 );
                 break;
+            default:
+                this.update('<div class="zoomer">' + r.responseText + '</div>');
         }
         this.attachEvents();
         this.fireEvent('loaded', this);
@@ -309,7 +312,8 @@ Ext.define('CB.object.view.Preview', {
     }
 
     ,clear: function(){
-        delete this.data;
+        this.data = {};
+
         delete this.loadedVersionId;
 
         this.update('<div class="x-preview-mask">' + L.SelectPreviewItem + '</div>');

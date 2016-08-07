@@ -719,6 +719,30 @@ class CreateFieldsForTemplateFieldCommand extends ContainerAwareCommand
 
         $ids = DM\Templates::getIdsByType('field');
         $this->fieldTemplateId = array_shift($ids);
+        $fieldClass = new Objects\TemplateField();
+
+        //add IconColorCls for main templates template
+        $ids = DM\Templates::getIdsByType('template');
+        $templatesTemplateId = array_shift($ids);
+        $id = Objects::getChildId($templatesTemplateId, 'iconColorCls');
+        if (empty($id)) {
+            $id = $fieldClass->create(
+                [
+                    'id' => null,
+                    'pid' => $templatesTemplateId,
+                    'template_id' => $this->fieldTemplateId,
+                    'name' => 'iconColorCls',
+                    'data' => [
+                        '_title' => 'iconColorCls',
+                        'en' => 'IconColorCls',
+                        'type' => 'combo',
+                        'cfg' => '{"source": "templatesIconCls"}',
+                        'order' => 7,
+                    ]
+                ]
+            );
+        }
+
         if ($this->fieldTemplateId) {
             $output->writeln('<info>[x] Template field found.</info>');
         } else {

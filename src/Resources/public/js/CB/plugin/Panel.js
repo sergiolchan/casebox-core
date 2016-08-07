@@ -80,7 +80,7 @@ Ext.define('CB.plugin.Panel', {
 
         //check if object was found (success = true)
         if(!r || (r.success !== true)) {
-            this.update('<div class="x-preview-mask">' + L.RecordIdNotFound.replace('{id}', '#' + params.id) + '</div>');
+            this.update('<div class="p10 x-preview-mask">' + L.RecordIdNotFound.replace('{id}', '#' + params.id) + '</div>');
 
         } else {
             var commonInfo = r.common
@@ -133,14 +133,9 @@ Ext.define('CB.plugin.Panel', {
                 (params.from !== 'window') &&
                 !Ext.isEmpty(params.name)
             ){
-                var data = Ext.copyTo(
-                    {}
-                    ,params
-                    ,'id,pids,path,name,template_id,status,statusCls,cid,cdate_ago_text,uid,udate_ago_text'
-                );
-
                 var titleView = new CB.object.TitleView({
-                    data: data
+                    data: Ext.clone(params)
+                    ,style: 'margin:10px'
                     ,getContainerToolbarItems: function(){
                         return {};
                     }

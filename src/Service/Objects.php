@@ -211,6 +211,57 @@ class Objects
     }
 
     /**
+     * update config for a record in tree table
+     * @param  array $p
+     * @return array
+     */
+    public function updateRecordConfig($p)
+    {
+        $rez = [
+            'success' => false
+        ];
+
+        if (empty($p['id']) || !is_numeric($p['id'])) {
+            return $rez;
+        }
+
+        if (!Security::canWrite($p['id'])) {
+            $rez['msg'] = $this->trans('Access_denied');
+
+            return $rez;
+        }
+
+        $cfg = null;
+        if (!empty($p['cfg'])) {
+            $trimmed = trim($p['cfg']);
+            if (!empty($trimmed)) {
+                $trimmed = Util\toJSONArray($trimmed);
+                if (empty($trimmed)) {
+                    $rez['msg'] = 'Invalid JSON';
+
+                    return $rez;
+                }
+
+                if (is_scalar($p['cfg'])) {
+                    $cfg = $p['cfg'];
+                } else {
+                    $cfg = Util\jsonEncode($p['cfg']);
+                }
+            }
+        }
+
+        DM\Tree::update([
+            'id' => $p['id'],
+            'cfg' => $cfg
+        ]);
+
+        return [
+            'success' => true,
+            'cfg' => $cfg
+        ];
+    }
+
+    /**
      * Getting preview for an item
      *
      * @param int $id
@@ -287,7 +338,6 @@ class Objects
         } else {
             $template = new Objects\Template($p['template_id']);
             $template->load();
-
         }
 
         if (!empty($p['data']) && is_array($p['data'])) {
@@ -516,7 +566,6 @@ class Objects
                     //template fields require custom processing on load
                     if ($templateType == 'field') {
                         $o->load($objData['id']);
-
                     } else {
                         $o->setData($objData, false);
                     }
@@ -742,7 +791,6 @@ class Objects
             } else {
                 $pid = null;
             }
-
         } while (!empty($pid) && !empty($name));
 
         return $pid;
@@ -875,7 +923,6 @@ class Objects
             if (is_scalar($v)) {
                 $className = $v;
                 $v = [];
-
             } else {
                 $className = $k;
                 if (!empty($v['class'])) {
@@ -911,7 +958,7 @@ class Objects
 
         // Set system properties to common if SystemProperties plugin is not required
         if (empty($rez['data']['systemProperties'])) {
-            $class = new Plugins\SystemProperties($id);
+            $class = new Plugins\SystemProperties(['objectId' => $id]);
             $rez['common'] = $class->getData();
         }
 
@@ -1008,7 +1055,6 @@ class Objects
                 'success' => true,
                 'data' => $comments->loadComment($commentData['id']),
             ];
-
         }
 
         return $rez;

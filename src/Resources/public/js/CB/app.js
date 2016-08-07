@@ -195,8 +195,8 @@ function initApp() {
 
             if(!Ext.isEmpty(v) && !Ext.isEmpty(metaData.fieldConfig.source)) {
                 //special processing for template icons
-                if (metaData.fieldConfig.source === 'templatesIconSet') {
-                    rez = '<span class="'+v+'" /></span> '+v;
+                if (['templatesIconSet', 'templatesIconCls'].indexOf(metaData.fieldConfig.source) >= 0) {
+                    rez = '<span class="' + v + '"> ' + v + '</span>';
 
                 } else {
                     var st = CB.DB[metaData.fieldConfig.source];
@@ -792,8 +792,8 @@ function initApp() {
                     ,listeners: autoExpand
                 };
 
-                if(cfg.source === 'templatesIconSet') { //special tpl for templatesIconSet source
-                    fieldCfg.tpl ='<tpl for="."><div class="x-boundlist-item"><i class="{[values["name"]]}"></i> {[values["name"]]}<tpl if="xindex < xcount">, </tpl></div></tpl>';
+                if(['templatesIconSet', 'templatesIconCls'].indexOf(cfg.source) >=0) { //special tpl for templatesIconSet source
+                    fieldCfg.tpl ='<tpl for="."><div class="x-boundlist-item"><span class="{[values["name"]]}"> {[values["name"]]}</span></div></tpl>';
                 }
 
                 rez = new Ext.form.ComboBox(fieldCfg);
@@ -808,8 +808,8 @@ function initApp() {
                         e.cancel = true;
                         rez = new CB.TextEditWindow({
                             title: tr.get('title')
-                            ,editor: tr.get('cfg').editor
-                            ,editorOptions: tr.get('cfg').editorOptions
+                            ,editor: cfg.editor
+                            ,editorOptions: cfg.editorOptions
                             ,data: {
                                 value: e.record.get('value')
                                 ,scope: e
@@ -894,14 +894,14 @@ function initApp() {
                 break;
 
             case 'geoPoint':
-                if(tr && (tr.get('cfg').editor === 'form')) {
+                if(cfg.editor === 'form') {
                     e.cancel = true;
 
                     rez = Ext.create('CB.LeafletWindow', {
                         title: L.Map
                         ,data: {
                             value: e.record.get('value')
-                            ,cfg: tr.get('cfg')
+                            ,cfg: cfg
                             ,scope: e
                             ,callback: function(w, v){
                                 this.originalValue = this.record.get('value');

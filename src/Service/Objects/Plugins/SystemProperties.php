@@ -1,7 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
+use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Search;
@@ -27,6 +27,7 @@ class SystemProperties extends Base
             return $rez;
         }
 
+        $tpl = $obj->getTemplate();
         $data = $obj->getData();
 
         $rez['data'] = array_intersect_key(
@@ -35,6 +36,7 @@ class SystemProperties extends Base
                 'id' => 1,
                 'name' => 1,
                 'template_id' => 1,
+                'cfg' => 1,
                 'cid' => 1,
                 'cdate' => 1,
                 'uid' => 1,
@@ -54,7 +56,7 @@ class SystemProperties extends Base
         $arr = [&$d];
         Search::setPaths($arr);
 
-        $d['template_name'] = Objects::getName($d['template_id']);
+        $d['template_name'] = $tpl->getName();
 
         $sd = $obj->getSysData();
         $userId = User::getId();
@@ -67,18 +69,19 @@ class SystemProperties extends Base
             $d['subscription'] = 'watch';
         }
 
-        $d['cid_text'] = User::getDisplayName($d['cid']);
-
-        $d['cdate_ago_text'] = Util\formatAgoTime($d['cdate']);
         $d['cdate'] = Util\dateMysqlToISO($d['cdate']);
-        $d['udate'] = Util\dateMysqlToISO($d['udate']);
+        $d['cdate_ago_text'] = Util\formatAgoTime($d['cdate']);
 
-        $d['uid_text'] = User::getDisplayName($d['uid']);
+        $d['udate'] = Util\dateMysqlToISO($d['udate']);
         $d['udate_ago_text'] = Util\formatAgoTime($d['udate']);
 
         if (!empty($d['dstatus'])) {
             $d['did_text'] = User::getDisplayName($d['did']);
             $d['ddate_text'] = Util\formatAgoTime($d['ddate']);
+        }
+
+        if ($tpl->getType() == 'file') {
+            $d['versions'] = DM\FilesVersions::getCount($id);
         }
 
         return $rez;

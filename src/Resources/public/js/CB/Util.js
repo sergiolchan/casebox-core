@@ -118,7 +118,7 @@ function getItemIcon(d){
 
         switch(type){
             case 'file':
-                rez = getFileIcon(d['name']);
+                rez += getFileIcon(d['name']);
                 break;
 
             case 'task':
@@ -128,7 +128,7 @@ function getItemIcon(d){
         }
     }
 
-    return rez;
+    return Ext.valueFrom(App.config.defaultIconCls, '') + ' ' + rez;
 }
 
 /**
@@ -288,7 +288,7 @@ function getFileIcon(filename){
             break;
 
     }
-
+    rez += ' icon-color-' + ext;
     return rez;
 }
 

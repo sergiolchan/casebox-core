@@ -172,11 +172,11 @@ Ext.define('CB.browser.view.ActivityStream',{
                 ,'-'
                 ,'edit'
                 ,'delete'
+                ,'-'
+                ,'more'
                 ,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }
@@ -276,11 +276,11 @@ Ext.define('CB.browser.view.ActivityStream',{
         this.fireEvent(
             'settoolbaritems'
             ,[
+                'more'
                 ,'->'
                 ,'reload'
                 ,'apps'
                 ,'-'
-                ,'more'
             ]
         );
     }

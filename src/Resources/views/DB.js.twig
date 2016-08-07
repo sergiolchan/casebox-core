@@ -350,6 +350,24 @@ CB.DB.templatesIconSet = new Ext.data.ArrayStore({
     //,fields: ["id","name"]
     ,data: {{templatesIconSet|raw}}
 });
+CB.DB.templatesIconCls = new Ext.data.ArrayStore({
+    idIndex: 0
+    ,model: 'Generic2'
+    //,fields: ["id","name"]
+    ,data: [
+        ['cW', 'cW'],
+        ['cB', 'cB'],
+        ['cO', 'cO'],
+        ['cBl', 'cBl'],
+        ['cG', 'cG'],
+        ['cGR', 'cGR'],
+        ['cLG', 'cLG'],
+        ['cR', 'cR'],
+        ['cRequired', 'cRequired'],
+        ['cM', 'cM'],
+        ['cDB', 'cDB']
+    ]
+});
 CB.DB.languages = new Ext.data.ArrayStore({model: 'Language', data: {{languages|raw}}});
 
 CB.DB.securityQuestions = new Ext.data.ArrayStore({model: 'SecurityQuestion',data: {{securityQuestions|raw}}});
@@ -407,10 +425,10 @@ createDirectStores = function(){
         ,getName: getStoreTitles
 
         ,getIcon: function(id){
-            var idx = this.findExact('id', parseInt(id))
+            var rec = this.findRecord('id', parseInt(id, 10), 0, false, false, true)
 
-            var rez = (idx >= 0)
-                ? this.getAt(idx).get('iconCls')
+            var rez = rec
+                ? Ext.valueFrom(rec.get('iconColorCls'), '') + ' ' + rec.get('iconCls')
                 : '';
 
             return rez;
