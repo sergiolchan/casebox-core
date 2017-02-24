@@ -12,11 +12,11 @@
             </trans-unit>
             <trans-unit id="4">
                 <source>Login</source>
-                <target>Login</target>
+                <target>Iniciar sesión</target>
             </trans-unit>
             <trans-unit id="5">
                 <source>Reset</source>
-                <target>Reajustar</target>
+                <target>Resetear</target>
             </trans-unit>
             <trans-unit id="10">
                 <source>Error</source>
@@ -40,11 +40,11 @@
             </trans-unit>
             <trans-unit id="21">
                 <source>minutes</source>
-                <target>acta</target>
+                <target>minutos</target>
             </trans-unit>
             <trans-unit id="22">
                 <source>ofMinutes</source>
-                <target>acta</target>
+                <target>minutos</target>
             </trans-unit>
             <trans-unit id="23">
                 <source>yes</source>
@@ -60,7 +60,7 @@
             </trans-unit>
             <trans-unit id="37">
                 <source>Additionally</source>
-                <target>Además</target>
+                <target>Adicionalmente</target>
             </trans-unit>
             <trans-unit id="39">
                 <source>Files</source>
@@ -108,7 +108,7 @@
             </trans-unit>
             <trans-unit id="96">
                 <source>Deadline</source>
-                <target>Fecha tope</target>
+                <target>Fecha límite</target>
             </trans-unit>
             <trans-unit id="105">
                 <source>Case</source>
@@ -145,11 +145,11 @@
             </trans-unit>
             <trans-unit id="151">
                 <source>pagesAbr</source>
-                <target>p.</target>
+                <target>págs.</target>
             </trans-unit>
             <trans-unit id="152">
                 <source>Task_already_completed</source>
-                <target>Trabajo ya ha tenido lugar</target>
+                <target>Trabajo ya realizado anteriormente</target>
             </trans-unit>
             <trans-unit id="153">
                 <source>Pending</source>
@@ -189,19 +189,19 @@
             </trans-unit>
             <trans-unit id="658">
                 <source>AccessControlHistory</source>
-                <target>Eventos de la historia en caso de acceso</target>
+                <target>Historial de control de acceso</target>
             </trans-unit>
             <trans-unit id="659">
                 <source>Accomplishing</source>
-                <target>Lograr</target>
+                <target>Realizando</target>
             </trans-unit>
             <trans-unit id="660">
                 <source>AccomplishedDate</source>
-                <target>Cumplida la fecha</target>
+                <target>Fecha realizada</target>
             </trans-unit>
             <trans-unit id="661">
                 <source>Action</source>
-                <target>Acción</target>
+                <target>Oficio</target>
                     <note> from old Casebox (Action means a letter to court, a decision, i.e. any document) </note>
             </trans-unit>
             <trans-unit id="667">
@@ -210,7 +210,7 @@
             </trans-unit>
             <trans-unit id="668">
                 <source>ActiveWithDeadlines</source>
-                <target>Activo con plazos</target>
+                <target>Activo con fecha límite</target>
             </trans-unit>
             <trans-unit id="669">
                 <source>Activities</source>
@@ -222,7 +222,7 @@
             </trans-unit>
             <trans-unit id="671">
                 <source>AddCaseTask</source>
-                <target>Agregar tarea a caso</target>
+                <target>Agregar tarea al caso</target>
             </trans-unit>
             <trans-unit id="674">
                 <source>addedByUser</source>
@@ -231,15 +231,15 @@
             </trans-unit>
             <trans-unit id="675">
                 <source>AddedDate</source>
-                <target>Fecha Alta</target>
+                <target>Fecha de Alta</target>
             </trans-unit>
             <trans-unit id="676">
                 <source>addFile</source>
-                <target>añadir el archivo</target>
+                <target>Agregar archivo</target>
             </trans-unit>
             <trans-unit id="677">
                 <source>AddFolder</source>
-                <target>Añadir carpeta</target>
+                <target>Agregar carpeta</target>
             </trans-unit>
             <trans-unit id="680">
                 <source>addReminder</source>
@@ -251,15 +251,15 @@
             </trans-unit>
             <trans-unit id="682">
                 <source>AddRow</source>
-                <target>Añadir fila</target>
+                <target>Agregar fila</target>
             </trans-unit>
             <trans-unit id="683">
                 <source>AddTag</source>
-                <target>Añadir etiqueta</target>
+                <target>Agregar etiqueta</target>
             </trans-unit>
             <trans-unit id="684">
                 <source>AddTagGroup</source>
-                <target>Agregar grupo de variables</target>
+                <target>Agregar grupo de etiquetas</target>
             </trans-unit>
             <trans-unit id="685">
                 <source>AddTemplate</source>
@@ -267,23 +267,23 @@
             </trans-unit>
             <trans-unit id="686">
                 <source>AddTask</source>
-                <target>Añadir tarea</target>
+                <target>Agregar tarea</target>
             </trans-unit>
             <trans-unit id="687">
                 <source>AddToFavorites</source>
-                <target>Añadir a Favoritos</target>
+                <target>Agregar a Favoritos</target>
             </trans-unit>
             <trans-unit id="688">
                 <source>AddUser</source>
-                <target>Añadir usuario</target>
+                <target>Agregar usuario</target>
             </trans-unit>
             <trans-unit id="689">
                 <source>AddUserErrorMessage</source>
-                <target>Se produjo un error al crear una cuenta de usuario.</target>
+                <target>Se produjo un error al crear la cuenta de usuario.</target>
             </trans-unit>
             <trans-unit id="691">
                 <source>Adjudicated</source>
-                <target>Adjudica</target>
+                <target>Adjudicado</target>
             </trans-unit>
             <trans-unit id="692">
                 <source>Advanced</source>
@@ -325,7 +325,7 @@
             </trans-unit>
             <trans-unit id="707">
                 <source>AssociateContact</source>
-                <target>Póngase en contacto con la asociación</target>
+                <target>Asociar contacto</target>
             </trans-unit>
             <trans-unit id="711">
                 <source>Authorization</source>
@@ -337,7 +337,7 @@
             </trans-unit>
             <trans-unit id="713">
                 <source>Autoclose</source>
-                <target>AutoClose</target>
+                <target>Cerrar automáticamente</target>
             </trans-unit>
             <trans-unit id="714">
                 <source>AutoGenerated</source>
@@ -345,7 +345,7 @@
             </trans-unit>
             <trans-unit id="715">
                 <source>AvailableWhenDeadlineSpecified</source>
-                <target>Disponible cuando la fecha límite se especifica</target>
+                <target>Disponible cuando se especifique fecha límite</target>
             </trans-unit>
             <trans-unit id="716">
                 <source>Birthday</source>
@@ -374,19 +374,19 @@
             </trans-unit>
             <trans-unit id="724">
                 <source>CaseAccess</source>
-                <target>Caso acceso</target>
+                <target>Acceso al caso</target>
             </trans-unit>
             <trans-unit id="726">
                 <source>CaseBrowser</source>
-                <target>Caso navegador</target>
+                <target>Navegar caso</target>
             </trans-unit>
             <trans-unit id="727">
                 <source>CaseCard</source>
-                <target>Caso tarjeta</target>
+                <target>Tarjeta de caso</target>
             </trans-unit>
             <trans-unit id="728">
                 <source>CaseClosing</source>
-                <target>Cerrar el estuche</target>
+                <target>Cerrar el caso</target>
             </trans-unit>
             <trans-unit id="729">
                 <source>CaseClosingMessage</source>
@@ -406,7 +406,7 @@
             </trans-unit>
             <trans-unit id="733">
                 <source>CaseGraph</source>
-                <target>Caso gráfico</target>
+                <target>Gráfico de caso</target>
             </trans-unit>
             <trans-unit id="734">
                 <source>CaseInOfficeMessage</source>
@@ -414,11 +414,11 @@
             </trans-unit>
             <trans-unit id="735">
                 <source>CaseName</source>
-                <target>Caso nombre</target>
+                <target>Nombre del caso</target>
             </trans-unit>
             <trans-unit id="736">
                 <source>CaseNotFound</source>
-                <target>Caso que no se encuentra</target>
+                <target>El Caso no se encuentra</target>
             </trans-unit>
             <trans-unit id="737">
                 <source>CaseNumber</source>
@@ -426,27 +426,27 @@
             </trans-unit>
             <trans-unit id="739">
                 <source>CasesDatabase</source>
-                <target>Casos de base de datos</target>
+                <target>Base de datos de los casos</target>
             </trans-unit>
             <trans-unit id="740">
                 <source>CaseType</source>
-                <target>Caso tipo</target>
+                <target>Tipo de Caso</target>
             </trans-unit>
             <trans-unit id="741">
                 <source>ChangeCaseName</source>
-                <target>Cambiar nombre de caso</target>
+                <target>Cambiar nombre del Caso</target>
             </trans-unit>
             <trans-unit id="742">
                 <source>ChangeLog</source>
-                <target>Cambio de registro</target>
+                <target>Registro de camibos</target>
             </trans-unit>
             <trans-unit id="743">
                 <source>ChangePassword</source>
-                <target>Cambiar contraseña</target>
+                <target>Cambiar la contraseña</target>
             </trans-unit>
             <trans-unit id="744">
                 <source>ChangeUsername</source>
-                <target>Cambio de nombre de usuario</target>
+                <target>Cambiar de nombre de usuario</target>
             </trans-unit>
             <trans-unit id="745">
                 <source>ChangeUsernameMessage</source>
@@ -475,12 +475,12 @@
             </trans-unit>
             <trans-unit id="753">
                 <source>Closing</source>
-                <target>Cierre</target>
+                <target>Cerrando</target>
                     <note> Intermediary message while closing a task </note>
             </trans-unit>
             <trans-unit id="754">
                 <source>ClosingTask</source>
-                <target>Tarea Cerrar</target>
+                <target>Cerrando tarea</target>
                     <note> For Task management </note>
             </trans-unit>
             <trans-unit id="755">
@@ -509,11 +509,11 @@
             </trans-unit>
             <trans-unit id="764">
                 <source>CompletedWithDeadlines</source>
-                <target>Completado con plazos</target>
+                <target>Completado con fecha limite</target>
             </trans-unit>
             <trans-unit id="765">
                 <source>CompletingTask</source>
-                <target>Completar tarea</target>
+                <target>Terminado tarea</target>
             </trans-unit>
             <trans-unit id="767">
                 <source>Confidential</source>
@@ -570,7 +570,7 @@
             </trans-unit>
             <trans-unit id="783">
                 <source>CreatedDate</source>
-                <target>Creado fecha</target>
+                <target>Fecha creada</target>
             </trans-unit>
             <trans-unit id="784">
                 <source>CreateNewTag</source>
@@ -582,7 +582,7 @@
             </trans-unit>
             <trans-unit id="786">
                 <source>currentMonth</source>
-                <target>mes en curso</target>
+                <target>mes actual</target>
             </trans-unit>
             <trans-unit id="787">
                 <source>CurrentPassword</source>
@@ -598,7 +598,7 @@
             </trans-unit>
             <trans-unit id="796">
                 <source>DefaultStatusIconClass</source>
-                <target>Por defecto el icono de estado</target>
+                <target>Icono de estado por defecto</target>
             </trans-unit>
             <trans-unit id="797">
                 <source>del</source>
@@ -618,7 +618,7 @@
             </trans-unit>
             <trans-unit id="801">
                 <source>DeleteConfirmation</source>
-                <target>Eliminar confirmación</target>
+                <target>Confirma eliminación</target>
             </trans-unit>
             <trans-unit id="802">
                 <source>DeleteFolder</source>
@@ -638,11 +638,11 @@
             </trans-unit>
             <trans-unit id="806">
                 <source>DeleteSelectedActionsMessage</source>
-                <target>¿Está seguro que desea eliminar acciones seleccionadas?</target>
+                <target>¿Está seguro que desea eliminar las acciones seleccionadas?</target>
             </trans-unit>
             <trans-unit id="807">
                 <source>DeleteSelectedTasksMessage</source>
-                <target>¿Está seguro que desea eliminar tareas seleccionadas?</target>
+                <target>¿Está seguro que desea eliminar las tareas seleccionadas?</target>
             </trans-unit>
             <trans-unit id="808">
                 <source>DeleteTag</source>
@@ -650,7 +650,7 @@
             </trans-unit>
             <trans-unit id="809">
                 <source>DeleteTagsGroup</source>
-                <target>Eliminar grupo de variables</target>
+                <target>Eliminar grupo de etiquetas</target>
             </trans-unit>
             <trans-unit id="810">
                 <source>DeleteUser</source>
@@ -658,7 +658,7 @@
             </trans-unit>
             <trans-unit id="811">
                 <source>Deleting</source>
-                <target>Eliminación</target>
+                <target>Eliminando</target>
             </trans-unit>
             <trans-unit id="812">
                 <source>DeletingConfirmationMessage</source>
@@ -682,7 +682,7 @@
             </trans-unit>
             <trans-unit id="819">
                 <source>DownloadArchived</source>
-                <target>Descargar archivado</target>
+                <target>Descargar empaquetado de archivos</target>
                     <note> We had an option (will add it back), to download a bunch of files or folders as one archive </note>
             </trans-unit>
             <trans-unit id="820">
@@ -695,7 +695,7 @@
             </trans-unit>
             <trans-unit id="823">
                 <source>EditCaseTask</source>
-                <target>Editar tarea caso</target>
+                <target>Editar tarea del caso</target>
             </trans-unit>
             <trans-unit id="824">
                 <source>EditFolder</source>
@@ -703,7 +703,7 @@
             </trans-unit>
             <trans-unit id="825">
                 <source>EditingValue</source>
-                <target>Edición de valor</target>
+                <target>Editar valor</target>
             </trans-unit>
             <trans-unit id="826">
                 <source>EditProperties</source>
@@ -731,7 +731,7 @@
             </trans-unit>
             <trans-unit id="832">
                 <source>EmptyRequiredFields</source>
-                <target>No todos los campos obligatorios están llenos.</target>
+                <target>Rellene todos los campos obligatorios.</target>
             </trans-unit>
             <trans-unit id="833">
                 <source>erase</source>
@@ -752,7 +752,7 @@
             </trans-unit>
             <trans-unit id="838">
                 <source>ExitConfirmation</source>
-                <target>Salir de confirmación</target>
+                <target>Confirma salir</target>
             </trans-unit>
             <trans-unit id="839">
                 <source>ExitConfirmationMessage</source>
@@ -805,7 +805,7 @@
             </trans-unit>
             <trans-unit id="854">
                 <source>FileRemoveMessage</source>
-                <target>¿Está seguro que desea eliminar el archivo {nombre de archivo} de acción actual?</target>
+                <target>¿Está seguro que desea eliminar el archivo {nombre de archivo} del oficio actual?</target>
             </trans-unit>
             <trans-unit id="857">
                 <source>FilesDeleting</source>
@@ -813,11 +813,11 @@
             </trans-unit>
             <trans-unit id="858">
                 <source>FilesRemoving</source>
-                <target>Eliminación de archivos</target>
+                <target>Remover archivos</target>
             </trans-unit>
             <trans-unit id="859">
                 <source>fileUploadingMessage</source>
-                <target>Cargar el archivo, por favor espere ...</target>
+                <target>Cargando el archivo, espere un momento ...</target>
             </trans-unit>
             <trans-unit id="860">
                 <source>Filter</source>
@@ -873,7 +873,7 @@
             </trans-unit>
             <trans-unit id="875">
                 <source>HiddenTemplate</source>
-                <target>Plantilla Ocultos</target>
+                <target>Plantilla Oculta</target>
             </trans-unit>
             <trans-unit id="876">
                 <source>History</source>
@@ -910,7 +910,7 @@
             </trans-unit>
             <trans-unit id="894">
                 <source>InterfaceParamsChanged</source>
-                <target>Parámetros de interfaz cambiado</target>
+                <target>Parámetros de interfaz cambiados</target>
             </trans-unit>
             <trans-unit id="895">
                 <source>InterfaceParamsChangedMessage</source>
@@ -922,11 +922,11 @@
             </trans-unit>
             <trans-unit id="903">
                 <source>LanguageChange</source>
-                <target>Cambio de idioma</target>
+                <target>Cambiar idioma</target>
             </trans-unit>
             <trans-unit id="904">
                 <source>LanguageChangeMessage</source>
-                <target>Cambiar el idioma de la página volverá a cargar, guardar todos los cambios antes de continuar. ¿Desea continuar?</target>
+                <target>Al cambiar el idioma la página volverá a cargar, guardar todos los cambios antes de continuar. ¿Desea continuar?</target>
             </trans-unit>
             <trans-unit id="905">
                 <source>lastAction</source>
@@ -962,19 +962,19 @@
             </trans-unit>
             <trans-unit id="917">
                 <source>LogBrowser</source>
-                <target>Entrar navegador</target>
+                <target>Registro del navegador</target>
             </trans-unit>
             <trans-unit id="919">
                 <source>LogJournal</source>
-                <target>Iniciar revista</target>
+                <target>Diario de registros</target>
             </trans-unit>
             <trans-unit id="922">
                 <source>Management</source>
-                <target>Manejo</target>
+                <target>Administración</target>
             </trans-unit>
             <trans-unit id="924">
                 <source>MarkTaskAsClosed</source>
-                <target>Marcar la tarea como cerrado</target>
+                <target>Marcar la tarea como cerrada</target>
             </trans-unit>
             <trans-unit id="925">
                 <source>Message</source>
@@ -994,7 +994,7 @@
             </trans-unit>
             <trans-unit id="932">
                 <source>MultipleFilesRemoveMessage</source>
-                <target>¿Está seguro que desea eliminar los archivos seleccionados de la acción actual?</target>
+                <target>¿Está seguro que desea eliminar los archivos seleccionados del oficio actual?</target>
             </trans-unit>
             <trans-unit id="933">
                 <source>MyCases</source>
@@ -1018,7 +1018,7 @@
             </trans-unit>
             <trans-unit id="940">
                 <source>NewCaseName</source>
-                <target>Nombre del caso de Nueva</target>
+                <target>Nombre del nuevo caso</target>
             </trans-unit>
             <trans-unit id="943">
                 <source>NewF</source>
@@ -1054,7 +1054,7 @@
             </trans-unit>
             <trans-unit id="957">
                 <source>nextMonth</source>
-                <target>mes próximo</target>
+                <target>próximo mes</target>
             </trans-unit>
             <trans-unit id="959">
                 <source>noData</source>
@@ -1062,7 +1062,7 @@
             </trans-unit>
             <trans-unit id="960">
                 <source>noDeadline</source>
-                <target>ningún plazo</target>
+                <target>ninguna fecha límite</target>
             </trans-unit>
             <trans-unit id="962">
                 <source>NoHeading</source>
@@ -1074,7 +1074,7 @@
             </trans-unit>
             <trans-unit id="964">
                 <source>noStatus</source>
-                <target>sin estatus</target>
+                <target>sin estado</target>
             </trans-unit>
             <trans-unit id="966">
                 <source>Nr</source>
@@ -1090,7 +1090,7 @@
             </trans-unit>
             <trans-unit id="973">
                 <source>OfficeName</source>
-                <target>Oficina nombre</target>
+                <target>Nombre de la oficina</target>
             </trans-unit>
             <trans-unit id="975">
                 <source>ofHour</source>
@@ -1102,7 +1102,7 @@
             </trans-unit>
             <trans-unit id="985">
                 <source>ofWeeks</source>
-                <target>semana</target>
+                <target>semanas</target>
             </trans-unit>
             <trans-unit id="986">
                 <source>on</source>
@@ -1118,7 +1118,7 @@
             </trans-unit>
             <trans-unit id="989">
                 <source>OpenLogJournal</source>
-                <target>Abrir registro diario</target>
+                <target>Abrir diario de registros</target>
             </trans-unit>
             <trans-unit id="990">
                 <source>OpenTransactionLog</source>
@@ -1154,7 +1154,7 @@
             </trans-unit>
             <trans-unit id="998">
                 <source>OutgoingAction</source>
-                <target>Acción Outgoing</target>
+                <target>Acción saliente</target>
             </trans-unit>
             <trans-unit id="999">
                 <source>OutgoingActions</source>
@@ -1166,15 +1166,15 @@
             </trans-unit>
             <trans-unit id="1001">
                 <source>OwnedByMe</source>
-                <target>Propiedad de mí</target>
+                <target>Me pertenece</target>
             </trans-unit>
             <trans-unit id="1004">
                 <source>ParentTasks</source>
-                <target>Tareas de Padres</target>
+                <target>Tareas Superiores</target>
             </trans-unit>
             <trans-unit id="1007">
                 <source>PasswordConfirmation</source>
-                <target>Confirmación de la contraseña</target>
+                <target>Confirma la contraseña</target>
             </trans-unit>
             <trans-unit id="1008">
                 <source>PasswordMissmatch</source>
@@ -1206,7 +1206,7 @@
             </trans-unit>
             <trans-unit id="1015">
                 <source>PostalIndex</source>
-                <target>Postal índice</target>
+                <target>Índice de postal</target>
             </trans-unit>
             <trans-unit id="1016">
                 <source>print</source>
@@ -1242,7 +1242,7 @@
             </trans-unit>
             <trans-unit id="1026">
                 <source>ReadByAllWriteByManagers</source>
-                <target>Leer para todos los gestores de escritura</target>
+                <target>Leer por todos y escribir por los administradores</target>
             </trans-unit>
             <trans-unit id="1027">
                 <source>ReadForAll</source>
@@ -1266,11 +1266,11 @@
             </trans-unit>
             <trans-unit id="1033">
                 <source>RefreshTasksList</source>
-                <target>Refrescar lista de tareas</target>
+                <target>Refrescar la lista de tareas</target>
             </trans-unit>
             <trans-unit id="1034">
                 <source>RefreshTransactionLog</source>
-                <target>Actualizar registro de transacciones</target>
+                <target>Actualizar el registro de transacciones</target>
             </trans-unit>
             <trans-unit id="1035">
                 <source>Regions</source>
@@ -1286,15 +1286,15 @@
             </trans-unit>
             <trans-unit id="1039">
                 <source>Remove</source>
-                <target>Quitar</target>
+                <target>Remover</target>
             </trans-unit>
             <trans-unit id="1040">
                 <source>RemoveAccess</source>
-                <target>Quitar el acceso</target>
+                <target>Remover el acceso</target>
             </trans-unit>
             <trans-unit id="1041">
                 <source>RemoveFileHint</source>
-                <target>Quitar el archivo de esta acción de forma</target>
+                <target>Remover el archivo</target>
             </trans-unit>
             <trans-unit id="1042">
                 <source>RemoveFromFavorites</source>
@@ -1322,27 +1322,27 @@
             </trans-unit>
             <trans-unit id="1048">
                 <source>ResponsiblePerson</source>
-                <target>Responsable del usuario</target>
+                <target>Persona responsable</target>
             </trans-unit>
             <trans-unit id="1049">
                 <source>ResponsiblePersons</source>
-                <target>Un usuario responsable</target>
+                <target>Personas responsables</target>
             </trans-unit>
             <trans-unit id="1050">
                 <source>Result</source>
-                <target>Resultar</target>
+                <target>Resultado</target>
             </trans-unit>
             <trans-unit id="1051">
                 <source>Save</source>
-                <target>Ahorrar</target>
+                <target>Guardar</target>
             </trans-unit>
             <trans-unit id="1052">
                 <source>SaveChangesConfirmationMessage</source>
-                <target>Guardar cambios?</target>
+                <target>¿Desea guardar los cambios?</target>
             </trans-unit>
             <trans-unit id="1053">
                 <source>SavedSearches</source>
-                <target>Las búsquedas guardadas</target>
+                <target>Búsquedas guardadas</target>
             </trans-unit>
             <trans-unit id="1054">
                 <source>SaveQuery</source>
@@ -1358,7 +1358,7 @@
             </trans-unit>
             <trans-unit id="1057">
                 <source>SavingDataConfirmation</source>
-                <target>Ahorro de confirmación de datos</target>
+                <target>Datos guardados</target>
             </trans-unit>
             <trans-unit id="1058">
                 <source>Search</source>
@@ -1366,15 +1366,15 @@
             </trans-unit>
             <trans-unit id="1059">
                 <source>SearchByName</source>
-                <target>Búsqueda por nombre</target>
+                <target>Buscar por nombre</target>
             </trans-unit>
             <trans-unit id="1060">
                 <source>SearchCase</source>
-                <target>Buscar en el caso</target>
+                <target>Buscar por caso</target>
             </trans-unit>
             <trans-unit id="1061">
                 <source>SearchCaseBox</source>
-                <target>Buscar en CaseBox</target>
+                <target>Buscar...</target>
             </trans-unit>
             <trans-unit id="1062">
                 <source>SearchFiles</source>
@@ -1402,15 +1402,15 @@
             </trans-unit>
             <trans-unit id="1069">
                 <source>SetAsIncomplete</source>
-                <target>Establecer como incompleta</target>
+                <target>Establecer como incompleto</target>
             </trans-unit>
             <trans-unit id="1070">
                 <source>SetIncompleteStatusFor</source>
-                <target>Establecer el estado incompleto para</target>
+                <target>Establecer como estado incompleto para</target>
             </trans-unit>
             <trans-unit id="1071">
                 <source>SetCompleteStatusFor</source>
-                <target>Establecer el estado completo de</target>
+                <target>Establecer como estado completo para</target>
             </trans-unit>
             <trans-unit id="1072">
                 <source>Settings</source>
@@ -1434,7 +1434,7 @@
             </trans-unit>
             <trans-unit id="1077">
                 <source>ShowSnippets</source>
-                <target>Mostrar snippets</target>
+                <target>Mostrar fragmentos</target>
             </trans-unit>
             <trans-unit id="1078">
                 <source>ShowSnippetsHint</source>
@@ -1475,7 +1475,7 @@
             </trans-unit>
             <trans-unit id="1096">
                 <source>TaskBrowser</source>
-                <target>Tarea navegador</target>
+                <target>Navegador de tarea</target>
             </trans-unit>
             <trans-unit id="1097">
                 <source>TaskFor</source>
@@ -1503,11 +1503,11 @@
             </trans-unit>
             <trans-unit id="1105">
                 <source>Thesauri</source>
-                <target>Tesauros</target>
+                <target>Tesauro</target>
             </trans-unit>
             <trans-unit id="1106">
                 <source>Thesaurus</source>
-                <target>Tesauro</target>
+                <target>Tesauros</target>
             </trans-unit>
             <trans-unit id="1107">
                 <source>Till</source>
@@ -1535,11 +1535,11 @@
             </trans-unit>
             <trans-unit id="1114">
                 <source>TransferCase</source>
-                <target>Caja de transferencia</target>
+                <target>Transferir caso</target>
             </trans-unit>
             <trans-unit id="1115">
                 <source>TransferingTask</source>
-                <target>Traslado tarea</target>
+                <target>Trasladando tarea</target>
             </trans-unit>
             <trans-unit id="1116">
                 <source>TransferingTaskMessage</source>
@@ -1547,7 +1547,7 @@
             </trans-unit>
             <trans-unit id="1117">
                 <source>TransferTask</source>
-                <target>Traslado tarea</target>
+                <target>Traslado de tarea</target>
             </trans-unit>
             <trans-unit id="1118">
                 <source>Type</source>
@@ -1591,11 +1591,11 @@
             </trans-unit>
             <trans-unit id="1132">
                 <source>UsernameCannotBeEmpty</source>
-                <target>Login no puede estar vacío</target>
+                <target>El nombre de usuario no puede estar vacío</target>
             </trans-unit>
             <trans-unit id="1133">
                 <source>UsernameInvalid</source>
-                <target>Login incorrecto especificado. Por favor, use sólo caracteres alfanuméricos (az, 0-9,., _) Sin ningún tipo de espacio o una coma.</target>
+                <target>Nombre de usuario incorrecto especificado. Por favor, use sólo caracteres alfanuméricos (az, 0-9,., _) Sin ningún tipo de espacio o una coma.</target>
             </trans-unit>
             <trans-unit id="1134">
                 <source>Users</source>
@@ -1603,7 +1603,7 @@
             </trans-unit>
             <trans-unit id="1135">
                 <source>UserTags</source>
-                <target>Etiquetas personales</target>
+                <target>Etiquetas de usuario</target>
             </trans-unit>
             <trans-unit id="1137">
                 <source>View</source>
@@ -1619,7 +1619,7 @@
             </trans-unit>
             <trans-unit id="1143">
                 <source>WithDeadlines</source>
-                <target>Con los plazos</target>
+                <target>Con las fechas límite</target>
             </trans-unit>
             <trans-unit id="1145">
                 <source>WorkAddress</source>
@@ -1627,7 +1627,7 @@
             </trans-unit>
             <trans-unit id="1146">
                 <source>WorkMobile</source>
-                <target>El trabajo móvil</target>
+                <target>Celular del trabajo</target>
             </trans-unit>
             <trans-unit id="1147">
                 <source>WorkPhone</source>
@@ -1643,11 +1643,11 @@
             </trans-unit>
             <trans-unit id="1159">
                 <source>AssociateCase</source>
-                <target>Caso asociación</target>
+                <target>Asociar caso</target>
             </trans-unit>
             <trans-unit id="1161">
                 <source>PrivateArea</source>
-                <target>Espacio privado</target>
+                <target>Área privadada</target>
             </trans-unit>
             <trans-unit id="1162">
                 <source>MyCaseBox</source>
@@ -1683,7 +1683,7 @@
             </trans-unit>
             <trans-unit id="1171">
                 <source>Processing</source>
-                <target>Transformación</target>
+                <target>Procesando</target>
             </trans-unit>
             <trans-unit id="1172">
                 <source>DeleteConfirmationMessage</source>
@@ -1711,7 +1711,7 @@
             </trans-unit>
             <trans-unit id="1178">
                 <source>Rename</source>
-                <target>Rebautizar</target>
+                <target>Renombrar</target>
             </trans-unit>
             <trans-unit id="1179">
                 <source>Expand</source>
@@ -1719,11 +1719,11 @@
             </trans-unit>
             <trans-unit id="1180">
                 <source>Collapse</source>
-                <target>Colapso</target>
+                <target>Colapsar</target>
             </trans-unit>
             <trans-unit id="1181">
                 <source>Preview</source>
-                <target>Avance</target>
+                <target>Vista previa</target>
             </trans-unit>
             <trans-unit id="2649">
                 <source>Reload</source>
@@ -1735,7 +1735,7 @@
             </trans-unit>
             <trans-unit id="2653">
                 <source>Path</source>
-                <target>Camino</target>
+                <target>Ruta</target>
             </trans-unit>
             <trans-unit id="2659">
                 <source>Events</source>
@@ -1787,7 +1787,7 @@
             </trans-unit>
             <trans-unit id="2675">
                 <source>Dashboard</source>
-                <target>Salpicadero</target>
+                <target>Tablero</target>
             </trans-unit>
             <trans-unit id="2676">
                 <source>Projects</source>
@@ -1803,11 +1803,11 @@
             </trans-unit>
             <trans-unit id="2680">
                 <source>processing</source>
-                <target>transformación</target>
+                <target>procesando</target>
             </trans-unit>
             <trans-unit id="2681">
                 <source>NewWindow</source>
-                <target>New window</target>
+                <target>Nueva ventana</target>
             </trans-unit>
             <trans-unit id="2682">
                 <source>RevisionHistory</source>
@@ -1827,7 +1827,7 @@
             </trans-unit>
             <trans-unit id="2689">
                 <source>Missed</source>
-                <target>Perdidas</target>
+                <target>Falladas</target>
             </trans-unit>
             <trans-unit id="2692">
                 <source>CurrentVersion</source>
@@ -1945,7 +1945,7 @@
             </trans-unit>
             <trans-unit id="2723">
                 <source>waitingForAction</source>
-                <target>la espera de la acción</target>
+                <target>esperando una acción</target>
             </trans-unit>
             <trans-unit id="2724">
                 <source>completed</source>
@@ -2017,7 +2017,7 @@
             </trans-unit>
             <trans-unit id="2745">
                 <source>FileVersionsCount</source>
-                <target>Versiones de archivos contar</target>
+                <target>Conteo de versiones de archivos</target>
             </trans-unit>
             <trans-unit id="2746">
                 <source>Duplicates</source>
@@ -2025,7 +2025,7 @@
             </trans-unit>
             <trans-unit id="2747">
                 <source>OpenItemLocation</source>
-                <target>Abrir ubicación del artículo</target>
+                <target>Abrir ubicación del ítem</target>
             </trans-unit>
             <trans-unit id="2748">
                 <source>UploadNewVersion</source>
@@ -2057,7 +2057,7 @@
             </trans-unit>
             <trans-unit id="2755">
                 <source>fileDeleteConfirmation</source>
-                <target>¿Está seguro que desea eliminar este archivo y todas las versiones es todo?</target>
+                <target>¿Está seguro que desea eliminar este archivo con todas sus versiones?</target>
             </trans-unit>
             <trans-unit id="2756">
                 <source>versionDeleteConfirmation</source>
@@ -2101,7 +2101,7 @@
             </trans-unit>
             <trans-unit id="2784">
                 <source>ReopeningTask</source>
-                <target>Reapertura tarea</target>
+                <target>Reabriendo tarea</target>
             </trans-unit>
             <trans-unit id="2785">
                 <source>ReopenTaskConfirmationMsg</source>
@@ -2109,7 +2109,7 @@
             </trans-unit>
             <trans-unit id="2786">
                 <source>CompletedTasks</source>
-                <target>Las tareas terminadas</target>
+                <target>Tareas terminadas</target>
             </trans-unit>
             <trans-unit id="2787">
                 <source>ActiveTasksPerUser</source>
@@ -2117,7 +2117,7 @@
             </trans-unit>
             <trans-unit id="2788">
                 <source>assignedToMe</source>
-                <target>me asignó</target>
+                <target>asignado a mí</target>
             </trans-unit>
             <trans-unit id="2789">
                 <source>ownedByMe</source>
@@ -2129,15 +2129,15 @@
             </trans-unit>
             <trans-unit id="2791">
                 <source>modifiedByMe</source>
-                <target>modificado por mi</target>
+                <target>modificado por mí</target>
             </trans-unit>
             <trans-unit id="2792">
                 <source>modifiedByAnybody</source>
-                <target>modificadas por cualquier</target>
+                <target>modificadas por cualquiera</target>
             </trans-unit>
             <trans-unit id="2793">
                 <source>thatCreatedTasksForMe</source>
-                <target>que las tareas creadas por mí</target>
+                <target>tareas creadas por mí</target>
             </trans-unit>
             <trans-unit id="2794">
                 <source>assignedToTasksCreatedByMe</source>
@@ -2218,7 +2218,7 @@
             </trans-unit>
             <trans-unit id="2819">
                 <source>CaseTemplate</source>
-                <target>Caso plantilla</target>
+                <target>Plantilla de caso</target>
             </trans-unit>
             <trans-unit id="2820">
                 <source>Permissions</source>
@@ -2286,43 +2286,43 @@
             </trans-unit>
             <trans-unit id="2838">
                 <source>RemoveAll</source>
-                <target>Remove all</target>
+                <target>Remover todos</target>
             </trans-unit>
             <trans-unit id="2839">
                 <source>RemoveUploaded</source>
-                <target>Remove uploaded</target>
+                <target>Remover subidos</target>
             </trans-unit>
             <trans-unit id="2840">
                 <source>UploadQueue</source>
-                <target>Upload queue</target>
+                <target>Cola de subida</target>
             </trans-unit>
             <trans-unit id="2841">
                 <source>ReadyToUpload</source>
-                <target>Ready to upload</target>
+                <target>Listo para subir</target>
             </trans-unit>
             <trans-unit id="2842">
                 <source>fileUploadStatus1</source>
-                <target>uploading</target>
+                <target>subiendo</target>
             </trans-unit>
             <trans-unit id="2843">
                 <source>fileUploadStatus2</source>
-                <target>upload error</target>
+                <target>error de subida</target>
             </trans-unit>
             <trans-unit id="2844">
                 <source>fileUploadStatus3</source>
-                <target>pload timeout</target>
+                <target>Tiempo terminado para subida</target>
             </trans-unit>
             <trans-unit id="2845">
                 <source>fileUploadStatus4</source>
-                <target>upload abort</target>
+                <target>subida abortada</target>
             </trans-unit>
             <trans-unit id="2846">
                 <source>fileUploadStatus5</source>
-                <target>done</target>
+                <target>realizado</target>
             </trans-unit>
             <trans-unit id="2847">
                 <source>Stop</source>
-                <target>Deténgase</target>
+                <target>Alto</target>
             </trans-unit>
             <trans-unit id="2848">
                 <source>CancelAll</source>
@@ -2330,7 +2330,7 @@
             </trans-unit>
             <trans-unit id="2849">
                 <source>Clear</source>
-                <target>Borrar</target>
+                <target>Limpiar</target>
             </trans-unit>
             <trans-unit id="2853">
                 <source>AllCompleted</source>
@@ -2338,7 +2338,7 @@
             </trans-unit>
             <trans-unit id="2854">
                 <source>AutoshowUpload</source>
-                <target>Automáticamente para mostrar la ventana de descarga</target>
+                <target>Mostrar la ventana de descarga automáticamente</target>
             </trans-unit>
             <trans-unit id="2855">
                 <source>UploadAutoStart</source>
@@ -2354,11 +2354,11 @@
             </trans-unit>
             <trans-unit id="2858">
                 <source>UploadComplete</source>
-                <target>Sube completar</target>
+                <target>Subido exitosamente</target>
             </trans-unit>
             <trans-unit id="2859">
                 <source>Uploading</source>
-                <target>Carga</target>
+                <target>Subiendo</target>
             </trans-unit>
             <trans-unit id="2860">
                 <source>AddGroup</source>
@@ -2430,7 +2430,7 @@
             </trans-unit>
             <trans-unit id="2895">
                 <source>Emails</source>
-                <target>Emails</target>
+                <target>Correos electrónicos</target>
             </trans-unit>
             <trans-unit id="2896">
                 <source>Milestones</source>
@@ -2466,7 +2466,7 @@
             </trans-unit>
             <trans-unit id="2912">
                 <source>PrimaryEmail</source>
-                <target>Email primaria</target>
+                <target>Correo electrónico principal</target>
             </trans-unit>
             <trans-unit id="2913">
                 <source>Country</source>
@@ -2542,7 +2542,7 @@
             </trans-unit>
             <trans-unit id="2939">
                 <source>SpecifyPhoneMsg</source>
-                <target>Nous vous enverrons un code numérique de votre téléphone lorsque vous vous connectez</target>
+                <target>Le enviaremos un mensaje a su celular con el código para que se conecte</target>
             </trans-unit>
             <trans-unit id="2940">
                 <source>SendCode</source>
@@ -2566,7 +2566,7 @@
             </trans-unit>
             <trans-unit id="2946">
                 <source>RemoveChildPermissions</source>
-                <target>Quitar los permisos de niño</target>
+                <target>Quitar los permisos secundarios</target>
             </trans-unit>
             <trans-unit id="2947">
                 <source>DDActionMsg_copy</source>
@@ -2586,7 +2586,7 @@
             </trans-unit>
             <trans-unit id="2951">
                 <source>Export</source>
-                <target>Export</target>
+                <target>Exportar</target>
             </trans-unit>
             <trans-unit id="2954">
                 <source>Charts</source>
@@ -2594,11 +2594,11 @@
             </trans-unit>
             <trans-unit id="2955">
                 <source>Views</source>
-                <target>Views</target>
+                <target>Vistas</target>
             </trans-unit>
             <trans-unit id="2956">
                 <source>More</source>
-                <target>More</target>
+                <target>Más</target>
             </trans-unit>
             <trans-unit id="2957">
                 <source>Home</source>
@@ -2606,11 +2606,11 @@
             </trans-unit>
             <trans-unit id="2958">
                 <source>Saving</source>
-                <target>Ahorrar</target>
+                <target>Guardando</target>
             </trans-unit>
             <trans-unit id="2961">
                 <source>Contents</source>
-                <target>Contenido</target>
+                <target>Contenidos</target>
             </trans-unit>
             <trans-unit id="2962">
                 <source>Comments</source>
@@ -2626,119 +2626,119 @@
             </trans-unit>
             <trans-unit id="2969">
                 <source>Pivot</source>
-                <target>Pivot table</target>
+                <target>tabla dinámica</target>
             </trans-unit>
             <trans-unit id="2970">
                 <source>HBars</source>
-                <target>H Bars</target>
+                <target>Barras H</target>
             </trans-unit>
             <trans-unit id="2971">
                 <source>VBars</source>
-                <target>V Bars</target>
+                <target>Barras V</target>
             </trans-unit>
             <trans-unit id="2972">
                 <source>Rows</source>
-                <target>Rows</target>
+                <target>Filas</target>
             </trans-unit>
             <trans-unit id="2973">
                 <source>Columns</source>
-                <target>Columns</target>
+                <target>Columnas</target>
             </trans-unit>
             <trans-unit id="2975">
                 <source>Condition</source>
-                <target>Condition</target>
+                <target>Condición</target>
             </trans-unit>
             <trans-unit id="2976">
                 <source>Metadata</source>
-                <target>Metadata</target>
+                <target>Metadatos</target>
             </trans-unit>
             <trans-unit id="2977">
                 <source>condNumEq</source>
-                <target>equal</target>
+                <target>igual</target>
             </trans-unit>
             <trans-unit id="2978">
                 <source>condNumLt</source>
-                <target>less or equal</target>
+                <target>menor o igual</target>
             </trans-unit>
             <trans-unit id="2979">
                 <source>condNumGt</source>
-                <target>greater or equal</target>
+                <target>mayor o igual</target>
             </trans-unit>
             <trans-unit id="2980">
                 <source>condNumNe</source>
-                <target>not equal</target>
+                <target>no igual</target>
             </trans-unit>
             <trans-unit id="2981">
                 <source>condSetLt</source>
-                <target>contains any</target>
+                <target>contiene cualquiera</target>
             </trans-unit>
             <trans-unit id="2982">
                 <source>condSetGt</source>
-                <target>containsAll</target>
+                <target>Contiene todo</target>
             </trans-unit>
             <trans-unit id="2983">
                 <source>condSetEq</source>
-                <target>equal</target>
+                <target>igual</target>
             </trans-unit>
             <trans-unit id="2984">
                 <source>condSetNe</source>
-                <target>not equal</target>
+                <target>no igual</target>
             </trans-unit>
             <trans-unit id="2985">
                 <source>condTxtContain</source>
-                <target>contain</target>
+                <target>contiene</target>
             </trans-unit>
             <trans-unit id="2986">
                 <source>condTxtBegin</source>
-                <target>start with</target>
+                <target>sempieza con</target>
             </trans-unit>
             <trans-unit id="2987">
                 <source>condTxtEnd</source>
-                <target>end with</target>
+                <target>termina con</target>
             </trans-unit>
             <trans-unit id="2988">
                 <source>condTxtNc</source>
-                <target>does not contain</target>
+                <target>no contiene</target>
             </trans-unit>
             <trans-unit id="2989">
                 <source>condTxtEq</source>
-                <target>equal</target>
+                <target>igual</target>
             </trans-unit>
             <trans-unit id="2990">
                 <source>condTxtNe</source>
-                <target>not equal</target>
+                <target>no igual</target>
             </trans-unit>
             <trans-unit id="2991">
                 <source>condCbEq</source>
-                <target>is</target>
+                <target>es</target>
             </trans-unit>
             <trans-unit id="2992">
                 <source>condCbNe</source>
-                <target>is not</target>
+                <target>no es</target>
             </trans-unit>
             <trans-unit id="3016">
                 <source>VersionsHistory</source>
-                <target>Versions history</target>
+                <target>Historial de versiones</target>
             </trans-unit>
             <trans-unit id="3017">
                 <source>DirectEditLink</source>
-                <target>Direct edit link</target>
+                <target>Enlace de edicion directa</target>
             </trans-unit>
             <trans-unit id="3019">
                 <source>Deleted</source>
-                <target>Deleted</target>
+                <target>Borrado</target>
             </trans-unit>
             <trans-unit id="3022">
                 <source>Subscribe</source>
-                <target>Subscribe</target>
+                <target>Suscribir</target>
             </trans-unit>
             <trans-unit id="3023">
                 <source>SubscribeRecursive</source>
-                <target>Recursive subscribe</target>
+                <target>Suscribir recursivo</target>
             </trans-unit>
             <trans-unit id="3024">
                 <source>SubscribeMsg</source>
-                <target>Do you want to subscribe only to this item or to all its children as well?</target>
+                <target>¿Deseas suscribite sólo a este ítem y a todos sus hijos también?</target>
             </trans-unit>
             <trans-unit id="3025">
                 <source>Unsubscribe</source>
@@ -2750,55 +2750,55 @@
             </trans-unit>
             <trans-unit id="3028">
                 <source>Theme</source>
-                <target>Тема</target>
+                <target>Tema</target>
             </trans-unit>
             <trans-unit id="3029">
                 <source>ThemeChangeMessage</source>
-                <target>Changing the theme will reload the page, save all changes before contine. Do you want to continue?</target>
+                <target>Camibar el tema provoca un recargo de pantalla, guarda todos los cambios antes de continuar. ¿Deseas continuar?</target>
             </trans-unit>
             <trans-unit id="3030">
                 <source>ShowSelection</source>
-                <target>Show selection</target>
+                <target>Muestra selección</target>
             </trans-unit>
             <trans-unit id="3031">
                 <source>Commented</source>
-                <target>Commented</target>
+                <target>Comentado</target>
             </trans-unit>
             <trans-unit id="3033">
                 <source>Added</source>
-                <target>Added</target>
+                <target>Agregado</target>
             </trans-unit>
             <trans-unit id="3034">
                 <source>CommentedBy</source>
-                <target>Commented by</target>
+                <target>Comentado por</target>
             </trans-unit>
             <trans-unit id="3035">
                 <source>CommentedDate</source>
-                <target>Commented date</target>
+                <target>Fecha comentada</target>
             </trans-unit>
             <trans-unit id="3039">
                 <source>DisableTSVConfirmation</source>
-                <target>Are you sure you want to disable 2-step authentication?</target>
+                <target>¿Estás seguro que deseas desactivar la autentificación de 2 pasos?</target>
             </trans-unit>
             <trans-unit id="3040">
                 <source>SelectPreviewItem</source>
-                <target>Select an item for preview</target>
+                <target>Selecciona un ítem para vista preliminar</target>
             </trans-unit>
             <trans-unit id="3041">
                 <source>GridDDMsg</source>
-                <target><![CDATA[Drop files here to upload to current folder<br />or drop over a row to upload into that element]]></target>
+                <target><![CDATA[Arrastra los archivos para subir a la carpeta actual<br />o arrastra encima sobre una fila para subir a ese elemento]]></target>
             </trans-unit>
             <trans-unit id="3042">
                 <source>NoData</source>
-                <target>No Data</target>
+                <target>Sin datos</target>
             </trans-unit>
             <trans-unit id="3043">
                 <source>Bar</source>
-                <target>Bar</target>
+                <target>Barra</target>
             </trans-unit>
             <trans-unit id="3044">
                 <source>Column</source>
-                <target>Column</target>
+                <target>Columna</target>
             </trans-unit>
             <trans-unit id="3045">
                 <source>WebDAVLink</source>
@@ -2810,7 +2810,7 @@
             </trans-unit>
             <trans-unit id="3047">
                 <source>NameRequired</source>
-                <target>A name is required</target>
+                <target>Un nombre es requerido</target>
             </trans-unit>
             <trans-unit id="3048">
                 <source>Pie</source>
@@ -2818,119 +2818,119 @@
             </trans-unit>
             <trans-unit id="3049">
                 <source>VerifyAndSave</source>
-                <target>Verify and Save</target>
+                <target>Verificar y guardar</target>
             </trans-unit>
             <trans-unit id="3050">
                 <source>InheritPermissionsMsg</source>
-                <target>Include inheritable permissions from this object's parent</target>
+                <target>Incluir los permisos heredables de los padres de este objeto</target>
             </trans-unit>
             <trans-unit id="3051">
                 <source>UploadWindow</source>
-                <target>Upload window</target>
+                <target>Ventanda de subida</target>
             </trans-unit>
             <trans-unit id="3052">
                 <source>WriteComment</source>
-                <target>Write a comment</target>
+                <target>Escribbe un comentario</target>
             </trans-unit>
             <trans-unit id="3053">
                 <source>Reply</source>
-                <target>Reply</target>
+                <target>Responder</target>
             </trans-unit>
             <trans-unit id="3054">
                 <source>DropFilesHere</source>
-                <target>Drop files here</target>
+                <target>Arrastra los archivos aquí</target>
             </trans-unit>
             <trans-unit id="3055">
                 <source>Minimize</source>
-                <target>Minimize</target>
+                <target>Minimizar</target>
             </trans-unit>
             <trans-unit id="3056">
                 <source>Maximize</source>
-                <target>Maximize</target>
+                <target>Maximizar</target>
             </trans-unit>
             <trans-unit id="3057">
                 <source>EndDate</source>
-                <target>End date</target>
+                <target>Fecha de término</target>
             </trans-unit>
             <trans-unit id="3058">
                 <source>SearchResultsTitleTemplate</source>
-                <target>Search results: {name} ({count})</target>
+                <target>Resultados de búsqueda: {name} ({count})</target>
             </trans-unit>
             <trans-unit id="3059">
                 <source>GridDDMgs</source>
-                <target><![CDATA[Drop files here to upload to current folder<br />or drop over a row to upload into that element]]></target>
+                <target><![CDATA[Arrastra los archivos aqui para subir a la carpeta actual<br />o arrastrar sobre una fila para subir dentro de ese elemento]]></target>
             </trans-unit>
             <trans-unit id="3060">
                 <source>GridEmptyText</source>
-                <target><![CDATA[<h3>Drop files here</h3> or use "New" button]]></target>
+                <target><![CDATA[<h3>Arrastra los archivos aquí</h3>o usa el botón "Nuevo"]]></target>
             </trans-unit>
             <trans-unit id="3061">
                 <source>NoResultsFound</source>
-                <target>No results found</target>
+                <target>No se han encontrado resultados</target>
             </trans-unit>
             <trans-unit id="3062">
                 <source>Clipboard</source>
-                <target>Clipboard</target>
+                <target>Portapapeles</target>
             </trans-unit>
             <trans-unit id="3063">
                 <source>RecordIdNotFound</source>
-                <target>Record {id} not found.</target>
+                <target>El registro {id} no ha sido encontrado.</target>
             </trans-unit>
             <trans-unit id="3064">
                 <source>ClosedDate</source>
-                <target>Closed date</target>
+                <target>Fecha cerrada</target>
             </trans-unit>
             <trans-unit id="3065">
                 <source>DeletedDate</source>
-                <target>Deleted date</target>
+                <target>Fecha borrada</target>
             </trans-unit>
             <trans-unit id="3069">
                 <source>AddCommentError</source>
-                <target>An error has occured on trying to add comment.</target>
+                <target>Un error ha ocurrido al tratar de añadir un comentario.</target>
             </trans-unit>
             <trans-unit id="3070">
                 <source>CloseWithChangesConfirmation</source>
-                <target>You have changes. Are you sure you want to close?</target>
+                <target>Tienes cambios. ¿Estás seguro que deseas cerrar?</target>
             </trans-unit>
             <trans-unit id="3071">
                 <source>SortByName</source>
-                <target>Sort by name</target>
+                <target>Ordenar por nombre</target>
             </trans-unit>
             <trans-unit id="3072">
                 <source>SortByCount</source>
-                <target>Sort by count</target>
+                <target>ORdenar por cuenta</target>
             </trans-unit>
             <trans-unit id="3073">
                 <source>DropZoneMsg</source>
-                <target><![CDATA[Drag files here, or <a class="click upload">Upload</a>]]></target>
+                <target><![CDATA[Arrastra los archivos aquí, o <a class="click upload">Subir</a>]]></target>
             </trans-unit>
             <trans-unit id="3074">
                 <source>DiscardCommentConfirmation</source>
-                <target>You haven't finished your comment yet. Do you want to leave without finishing?</target>
+                <target>No has terminado de comentar todavia, ¿Deseas salir sin haber terminado?</target>
             </trans-unit>
             <trans-unit id="3075">
                 <source>SortByNameAsc</source>
-                <target>Sort by name ascending</target>
+                <target>Ordenar por nombre ascendente</target>
             </trans-unit>
             <trans-unit id="3076">
                 <source>SortByNameDesc</source>
-                <target>Sort by name descending</target>
+                <target>Ordenar por nombre descendiente</target>
             </trans-unit>
             <trans-unit id="3077">
                 <source>SortByCountAsc</source>
-                <target>Sort by count ascending</target>
+                <target>Ordenar por cuenta ascentente</target>
             </trans-unit>
             <trans-unit id="3078">
                 <source>SortByCountDesc</source>
-                <target>Sort by count descending</target>
+                <target>Ordenar por cuenta descendiente</target>
             </trans-unit>
             <trans-unit id="3079">
                 <source>ViewMore</source>
-                <target>View more</target>
+                <target>Ver más</target>
             </trans-unit>
             <trans-unit id="3080">
                 <source>SendEmailInvite</source>
-                <target>Enviar email invitar</target>
+                <target>Enviar correo electrónico de invitación</target>
             </trans-unit>
             <trans-unit id="3081">
                 <source>SendResetPassMail</source>
@@ -2938,19 +2938,19 @@
             </trans-unit>
             <trans-unit id="3082">
                 <source>EmailSent</source>
-                <target>Email sent</target>
+                <target>Correo enviado</target>
             </trans-unit>
             <trans-unit id="3083">
                 <source>BrowserNoDDUpload</source>
-                <target>This browser does not support file uploading from desktop</target>
+                <target>Este navegador no soporta subir archivos desde el escritorio</target>
             </trans-unit>
             <trans-unit id="3084">
                 <source>BrowserNoFolderUpload</source>
-                <target>This browser does not support folder uploading from desktop</target>
+                <target>Este navegador no soporta subir carpeta desde el escritorio</target>
             </trans-unit>
             <trans-unit id="3086">
                 <source>EnableUser</source>
-                <target>Enable user</target>
+                <target>Activar user</target>
             </trans-unit>
             <trans-unit id="3087">
                 <source>DisableUser</source>
@@ -2958,27 +2958,27 @@
             </trans-unit>
             <trans-unit id="3088">
                 <source>SessionExpired</source>
-                <target>Session expired please reload.</target>
+                <target>Sesión expirada por favor recargue.</target>
             </trans-unit>
             <trans-unit id="3091">
                 <source>FollowText</source>
-                <target><![CDATA[<b>Follow</b> <span class="cG">get notified in app & email</span>]]></target>
+                <target><![CDATA[<b>Follow</b> <span class="cG">ser notificado en aplicacion y email</span>]]></target>
             </trans-unit>
             <trans-unit id="3092">
                 <source>WatchText</source>
-                <target><![CDATA[<b>Watch</b> <span class="cG">see in activity stream</span>]]></target>
+                <target><![CDATA[<b>Watch</b> <span class="cG">ver en actividad de stream</span>]]></target>
             </trans-unit>
             <trans-unit id="3093">
                 <source>IgnoreText</source>
-                <target><![CDATA[<b>Ignore</b>]]></target>
+                <target><![CDATA[<b>Ignorar</b>]]></target>
             </trans-unit>
             <trans-unit id="3094">
                 <source>MarkAllAsRead</source>
-                <target>Mark all as read</target>
+                <target>Marcar todo como leído</target>
             </trans-unit>
             <trans-unit id="3095">
                 <source>NNOthers</source>
-                <target>{count} others</target>
+                <target>{count} otros</target>
                     <note> used for Notification display records (user1, user2 and 2 others) </note>
             </trans-unit>
             <trans-unit id="3096">
@@ -2991,7 +2991,7 @@
             </trans-unit>
             <trans-unit id="3098">
                 <source>deleted</source>
-                <target>deleted</target>
+                <target>borrado</target>
             </trans-unit>
             <trans-unit id="3099">
                 <source>closed</source>
@@ -2999,23 +2999,23 @@
             </trans-unit>
             <trans-unit id="3100">
                 <source>renamed</source>
-                <target>rebautizar</target>
+                <target>renombrar</target>
             </trans-unit>
             <trans-unit id="3103">
                 <source>moved</source>
-                <target>moved</target>
+                <target>movido</target>
             </trans-unit>
             <trans-unit id="3104">
                 <source>reopened</source>
-                <target>reopened</target>
+                <target>reabierto</target>
             </trans-unit>
             <trans-unit id="3105">
                 <source>commented</source>
-                <target>commented</target>
+                <target>comentado</target>
             </trans-unit>
             <trans-unit id="3107">
                 <source>commentedOn</source>
-                <target>commented on</target>
+                <target>comentado en</target>
             </trans-unit>
             <trans-unit id="3108">
                 <source>none</source>
@@ -3023,39 +3023,39 @@
             </trans-unit>
             <trans-unit id="3109">
                 <source>file_uploaded_to</source>
-                <target>uploaded a file to</target>
+                <target>subido un archivo a</target>
             </trans-unit>
             <trans-unit id="3110">
                 <source>file_updated_in</source>
-                <target>updated a file in</target>
+                <target>actualizado un archivo en</target>
             </trans-unit>
             <trans-unit id="3111">
                 <source>Notifications</source>
-                <target>Notifications</target>
+                <target>Notificaciones</target>
             </trans-unit>
             <trans-unit id="3112">
                 <source>ErrorUploadingFile</source>
-                <target>Error uploading file "{name}"</target>
+                <target>Error subiendo el archivo "{name}"</target>
             </trans-unit>
             <trans-unit id="3113">
                 <source>SortValue</source>
-                <target>Sort value</target>
+                <target>Organizar valor</target>
             </trans-unit>
             <trans-unit id="3114">
                 <source>ReorderItemsMsg</source>
-                <target>To reorder items you can use Drag and Drop, click on arrows from right side of selected record or use keyboard combinations Ctrl + Up / Down</target>
+                <target>Para reordenar los items puedes usar Drag and Drop, da click en las flechas del lado derecho del registro seleccionado o usa las combinaciones de teclado Ctrl + Flecha Arriab / Flecha Abajo</target>
             </trans-unit>
             <trans-unit id="3115">
                 <source>ReorderDDText</source>
-                <target>Drag and drop to reorganize</target>
+                <target>Drag and drop para reorganizar</target>
             </trans-unit>
             <trans-unit id="3116">
                 <source>ActivityStream</source>
-                <target>Activity stream</target>
+                <target>Actividad de stream</target>
             </trans-unit>
             <trans-unit id="3119">
                 <source>Next</source>
-                <target>Next</target>
+                <target>Siguiente</target>
             </trans-unit>
             <trans-unit id="3120">
                 <source>PasswordSetup</source>
@@ -3063,7 +3063,7 @@
             </trans-unit>
             <trans-unit id="3121">
                 <source>EmailInvite</source>
-                <target>Email invite</target>
+                <target>Email de invitación</target>
             </trans-unit>
             <trans-unit id="3122">
                 <source>Manual</source>
@@ -3071,39 +3071,39 @@
             </trans-unit>
             <trans-unit id="3123">
                 <source>Customize</source>
-                <target>Customize</target>
+                <target>Personalizar</target>
             </trans-unit>
             <trans-unit id="3124">
                 <source>NotificationsSettings</source>
-                <target>Notifications settings</target>
+                <target>Configuración de notificaciones</target>
             </trans-unit>
             <trans-unit id="3126">
                 <source>Unstar</source>
-                <target>Unstar</target>
+                <target>No destacar</target>
             </trans-unit>
             <trans-unit id="3128">
                 <source>Star</source>
-                <target>Star</target>
+                <target>Destacar</target>
             </trans-unit>
             <trans-unit id="3129">
                 <source>SetStarNameMsg</source>
-                <target>Set name to be displayed in starred list</target>
+                <target>Establecer el nombre para ser visto en la lista de destacados</target>
             </trans-unit>
             <trans-unit id="3130">
                 <source>AlreadyStarred</source>
-                <target>Item already starred</target>
+                <target>Item anteriormente destacado</target>
             </trans-unit>
             <trans-unit id="3131">
                 <source>NotifySettings</source>
-                <target>Notifications settings</target>
+                <target>Configuración de las notificaciones</target>
             </trans-unit>
             <trans-unit id="3132">
                 <source>NotifyOn</source>
-                <target>Turn notifications on</target>
+                <target>Activar las notificaciones</target>
             </trans-unit>
             <trans-unit id="3133">
                 <source>NotifyOff</source>
-                <target>Turn notifications off</target>
+                <target>Apagar las notificaciones</target>
             </trans-unit>
             <trans-unit id="3134">
                 <source>Calendars</source>
@@ -3111,35 +3111,35 @@
             </trans-unit>
             <trans-unit id="3135">
                 <source>ColoringBy</source>
-                <target>Coloring by</target>
+                <target>Colorear por</target>
             </trans-unit>
             <trans-unit id="3136">
                 <source>MoreCommentsHint</source>
-                <target>View previous comments</target>
+                <target>Ver comentarios anteriores</target>
             </trans-unit>
             <trans-unit id="3137">
                 <source>of</source>
-                <target>of</target>
+                <target>de</target>
             </trans-unit>
             <trans-unit id="3138">
                 <source>SetOwner</source>
-                <target>Set owner</target>
+                <target>Establecer propietario</target>
             </trans-unit>
             <trans-unit id="3139">
                 <source>FillFieldMsg</source>
-                <target>Please fill out the '{fieldName}' field</target>
+                <target>Por favor rellena el campo '{fieldName}'</target>
             </trans-unit>
             <trans-unit id="3141">
                 <source>Map</source>
-                <target>Map</target>
+                <target>Mapa</target>
             </trans-unit>
             <trans-unit id="3142">
                 <source>selectedCoordinates</source>
-                <target>Selected coordinates</target>
+                <target>Corrdinadas seleccionadas</target>
             </trans-unit>
             <trans-unit id="3143">
                 <source>AddComment</source>
-                <target>Comentario</target>
+                <target>Agregar comentario</target>
             </trans-unit>
             <trans-unit id="3144">
                 <source>MyTasks</source>
@@ -3147,71 +3147,71 @@
             </trans-unit>
             <trans-unit id="3145">
                 <source>CreatedByMe</source>
-                <target>Creado</target>
+                <target>Creado por mí</target>
             </trans-unit>
             <trans-unit id="3146">
                 <source>ExportAllCases</source>
-                <target>Export all cases</target>
+                <target>Exporar todos los casos</target>
             </trans-unit>
             <trans-unit id="3147">
                 <source>DeletedBy</source>
-                <target>Deleted by</target>
+                <target>Borrado por</target>
             </trans-unit>
             <trans-unit id="3148">
                 <source>Set</source>
-                <target>Set</target>
+                <target>Establecer</target>
             </trans-unit>
             <trans-unit id="3149">
                 <source>Latitude</source>
-                <target>Latitude</target>
+                <target>Latitud</target>
             </trans-unit>
             <trans-unit id="3150">
                 <source>Longitude</source>
-                <target>Longitude</target>
+                <target>Longitud</target>
             </trans-unit>
             <trans-unit id="3152">
                 <source>Cancel</source>
-                <target>Cancel</target>
+                <target>Cancelar</target>
             </trans-unit>
             <trans-unit id="3153">
                 <source>ReloadTemplates</source>
-                <target>Reload templates</target>
+                <target>Recargar plantillas</target>
             </trans-unit>
             <trans-unit id="3154">
                 <source>SpecifyComment</source>
-                <target>Please specify a comment.</target>
+                <target>Por favor, especifica un comentario.</target>
             </trans-unit>
             <trans-unit id="3155">
                 <source>TimeSpent</source>
-                <target>Time spent</target>
+                <target>Tiempo consumido</target>
             </trans-unit>
             <trans-unit id="3156">
                 <source>MarkAsUnread</source>
-                <target>Mark as unread</target>
+                <target>Marcar como no leído</target>
             </trans-unit>
             <trans-unit id="3157">
                 <source>ShowUnread</source>
-                <target>Show unread</target>
+                <target>Muestra no leídos</target>
             </trans-unit>
             <trans-unit id="3158">
                 <source>ShowLegend</source>
-                <target>Show legend</target>
+                <target>Muestra leyenda</target>
             </trans-unit>
             <trans-unit id="3159">
                 <source>TotalCharsHint</source>
-                <target>Field is limited to maximum {total} chars</target>
+                <target>El campo esta limitado a un total de {total} caracteres</target>
             </trans-unit>
             <trans-unit id="3160">
                 <source>RemainingCharsHint</source>
-                <target>{left} remaining chars</target>
+                <target>{left} caraceteres faltantes</target>
             </trans-unit>
             <trans-unit id="3161">
                 <source>copied</source>
-                <target>copied</target>
+                <target>copiado</target>
             </trans-unit>
             <trans-unit id="3162">
                 <source>Print</source>
-                <target>Print</target>
+                <target>Imprimir</target>
             </trans-unit>
         </body>
     </file>
