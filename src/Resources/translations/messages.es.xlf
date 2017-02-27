@@ -588,19 +588,19 @@
             </trans-unit>
             <trans-unit id="2861">
                 <source>monthNamesShort</source>
-                <target>Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec</target>
+                <target>Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic</target>
             </trans-unit>
             <trans-unit id="2862">
                 <source>monthNames</source>
-                <target>January,February,March,April,May,June,July,August,September,October,November,December</target>
+                <target>Enero,Febrero,Marzo,Abril,Mayo,Junio,Agosto,Septiembre,Octubre,Noviembre,Diciembre</target>
             </trans-unit>
             <trans-unit id="2863">
                 <source>dayNamesShort</source>
-                <target>Mon,Tue,Wed,Thu,Fri,Sat,Sun</target>
+                <target>Lun,Mar,Mie,Jue,Vie,Sab,Dom</target>
             </trans-unit>
             <trans-unit id="2867">
                 <source>dayNames</source>
-                <target>Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday</target>
+                <target>Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo</target>
             </trans-unit>
             <trans-unit id="2870">
                 <source>FolderExists</source>
@@ -728,7 +728,7 @@
             </trans-unit>
             <trans-unit id="2994">
                 <source>ftAutoTitle</source>
-                <target>Auto title (uses title_template)</target>
+                <target>Auto-título (usa title_template)</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="2995">
@@ -758,7 +758,7 @@
             </trans-unit>
             <trans-unit id="3000">
                 <source>ftGroup</source>
-                <target>Group</target>
+                <target>Grupo</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3001">
@@ -783,7 +783,7 @@
             </trans-unit>
             <trans-unit id="3005">
                 <source>ftLanguage</source>
-                <target>Language</target>
+                <target>Idioma</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3006">
@@ -793,12 +793,12 @@
             </trans-unit>
             <trans-unit id="3007">
                 <source>ftObjects</source>
-                <target>Objects</target>
+                <target>Objetos</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3008">
                 <source>ftSex</source>
-                <target>Sex</target>
+                <target>Sexo</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3009">
@@ -818,17 +818,17 @@
             </trans-unit>
             <trans-unit id="3012">
                 <source>ftText</source>
-                <target>Text</target>
+                <target>Texto</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3013">
                 <source>ftTime</source>
-                <target>Time</target>
+                <target>Tiempo</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3014">
                 <source>ftTimeunits</source>
-                <target>Time units</target>
+                <target>Unidades de tiempo</target>
                     <note> object field type </note>
             </trans-unit>
             <trans-unit id="3015">
@@ -838,19 +838,19 @@
             </trans-unit>
             <trans-unit id="3018">
                 <source>OpenInCasebox</source>
-                <target>Open in CaseBox</target>
+                <target>Abrir en CaseBox</target>
             </trans-unit>
             <trans-unit id="3020">
                 <source>ActionLog</source>
-                <target>Action log</target>
+                <target>Log de acción</target>
             </trans-unit>
             <trans-unit id="3021">
                 <source>CurrentMonth</source>
-                <target>Current month</target>
+                <target>Mes actual</target>
             </trans-unit>
             <trans-unit id="3026">
                 <source>SubscriptionNotification</source>
-                <target>Subscription notification</target>
+                <target>Notificación de suscripción</target>
             </trans-unit>
             <trans-unit id="3036">
                 <source>TSV_ybk</source>
@@ -862,47 +862,47 @@
             </trans-unit>
             <trans-unit id="3038">
                 <source>TSV_ga</source>
-                <target>Google Authenticator</target>
+                <target>Autenticación de Google</target>
             </trans-unit>
             <trans-unit id="3066">
                 <source>Blocker</source>
-                <target>Blocker</target>
+                <target>Bloqueador</target>
             </trans-unit>
             <trans-unit id="3067">
                 <source>StartedBy</source>
-                <target>Started by</target>
+                <target>Empezado por</target>
             </trans-unit>
             <trans-unit id="3068">
                 <source>DoneBy</source>
-                <target>Done by</target>
+                <target>Realizado por</target>
             </trans-unit>
             <trans-unit id="3085">
                 <source>UserEmailExists</source>
-                <target>User with such email already exists.</target>
+                <target>Un usuario con ese correo electrónico ya existe.</target>
             </trans-unit>
             <trans-unit id="3089">
                 <source>ErrorCreatingPreview</source>
-                <target>Preview not available at this moment, please download the file</target>
+                <target>Vista preliminar no disponible por el momento, por favor, descargue el archivo</target>
             </trans-unit>
             <trans-unit id="3090">
                 <source>MailInviteSubject</source>
-                <target>[Casebox] {creatorFullName} ({creatorEmail}) ivited you to {projectTitle}</target>
+                <target>[Casebox] {creatorFullName} ({creatorEmail}) te invitó a {projectTitle}</target>
             </trans-unit>
             <trans-unit id="3101">
                 <source>status_changed</source>
-                <target>changed status</target>
+                <target>estado cambiado</target>
             </trans-unit>
             <trans-unit id="3102">
                 <source>comment_updated</source>
-                <target>updated comment</target>
+                <target>actualizar comentario</target>
             </trans-unit>
             <trans-unit id="3117">
                 <source>completionDeclinedFor</source>
-                <target>declined completion for</target>
+                <target>declinó la terminación para</target>
             </trans-unit>
             <trans-unit id="3118">
                 <source>completedOnBehalf</source>
-                <target>completed on behalf</target>
+                <target>completado en nombre de</target>
             </trans-unit>
             <trans-unit id="3140">
                 <source>ftGeoPoint</source>
@@ -911,7 +911,7 @@
             </trans-unit>
             <trans-unit id="3151">
                 <source>UpdateSolrData</source>
-                <target>Update Solr data</target>
+                <target>Actualizar datos de Solr</target>
             </trans-unit>
         </body>
     </file>
